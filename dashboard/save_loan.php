@@ -13,7 +13,7 @@
 		$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $date_created);
 		
 		// header("location: loan.php");
-		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/ls/loan.php"){
+		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/append/loan.php"){
 			header("location: ../loan.php");
 		}else{
 			header("location: loan.php?");

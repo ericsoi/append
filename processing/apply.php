@@ -1,5 +1,5 @@
 <?php
-require_once '..\connection\config.php'; // Include your database configuration file
+require_once '../connection/config.php'; // Include your database configuration file
 
 if (isset($_GET['phone_number'])) {
     $phone_number = $_GET['phone_number'];
