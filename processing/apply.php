@@ -20,10 +20,9 @@ if (isset($_GET['phone_number'])) {
 
         if ($user) {
             // User found
-                echo 'User  found';
+                header("Location:../loan.php?contact_no=" . $phone_number);
         } else {
             // User not found
-            echo "User with phone number '$phone_number' not found.";
             header("Location:../register.php?phone_number=" . $phone_number);
         }
     } catch (PDOException $e) {

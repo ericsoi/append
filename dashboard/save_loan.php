@@ -9,12 +9,11 @@
 		$loan_amount=$_POST['loan_amount'];
 		$purpose=$_POST['purpose'];
 		$date_created=date("Y-m-d H:i:s");
+		$contact_no=$_POST["contact_no"];
 		
-		$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $date_created);
-		
-		// header("location: loan.php");
+		$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $date_created);		
 		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/append/loan.php"){
-			header("location: ../loan.php");
+			header("location: ../loan.php?status=applied&contact_no=".$contact_no);
 		}else{
 			header("location: loan.php?");
 		}

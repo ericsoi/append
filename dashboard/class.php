@@ -255,7 +255,13 @@
 				return $result;
 			}
 		}
-		
+		public function get_loans($borrower_id){
+			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE loan.borrower_id='$borrower_id'") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function delete_loan($loan_id){
 			$query=$this->conn->prepare("DELETE FROM `loan` WHERE `loan_id` = '$loan_id'") or die($this->conn->error);
 			if($query->execute()){
@@ -284,6 +290,13 @@
 				return $result;
 			}
 		}
+		// public function get_loans($borrower_id){
+		// 	$query=$this->conn->prepare("SELECT * FROM `loan` WHERE `borrower_id`='$borrower_id'") or die($this->conn->error);
+		// 	if($query->execute()){
+		// 		$result = $query->get_result();
+		// 		return $result;
+		// 	}
+		// }
 		
 		public function check_lplan($lplan){
 			$query=$this->conn->prepare("SELECT * FROM `loan_plan` WHERE `lplan_id`='$lplan'") or die($this->conn->error);
