@@ -163,6 +163,7 @@ if (isset($_GET['status'])){
                           <?php
                             $tbl_lplan=$db->display_lplan();
                             while($fetch=$tbl_lplan->fetch_array()){
+                              print_r($fetch);
                           ?>
                             <option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></option>
                           <?php
@@ -174,7 +175,6 @@ if (isset($_GET['status'])){
                     <div class="col-md-6 form-group">
                       <label>Loan Amount</label>
                       <input type="number" name="loan_amount" class="form-control" id="amount" required="required"/>
-                      <input type="hidden" value="<?php echo $fetch['loan_id']?>" name="loan_id"/>
 
                     </div>
                   </div>
