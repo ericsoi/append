@@ -20,9 +20,7 @@ if (isset($_GET['phone_number'])) {
 
         if ($user) {
             // User found
-            echo "User ID: " . $user['id'] . "<br>";
-            echo "Username: " . $user['username'] . "<br>";
-            echo "Phone Number: " . $user['phone_number'] . "<br>";
+                echo 'User  found';
         } else {
             // User not found
             echo "User with phone number '$phone_number' not found.";
