@@ -126,7 +126,6 @@ if (isset($_GET['status'])){
                     <div class="col-md-6 form-group">
                     <label>Borrower</label>
                     <br/>
-                    <input type="hidden" value="<?php echo $fetch['loan_id']?>" name="loan_id"/>
                     <input type="hidden" value="<?php echo $contact_no?>" name="contact_no"/>
                     <select name="borrower" class="form-control borrow" required="required" style="width:100%;">
                         <?php
@@ -175,6 +174,8 @@ if (isset($_GET['status'])){
                     <div class="col-md-6 form-group">
                       <label>Loan Amount</label>
                       <input type="number" name="loan_amount" class="form-control" id="amount" required="required"/>
+                      <input type="hidden" value="<?php echo $fetch['loan_id']?>" name="loan_id"/>
+
                     </div>
                   </div>
                   <div class="row">
