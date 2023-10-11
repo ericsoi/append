@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Loan Management System</title>
+    <title>Matrick Credit</title>
 
     <link href="css/all.css" rel="stylesheet" type="text/css">
   
@@ -19,7 +19,7 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="">Loan Management System</a>
+		<a class="navbar-brand" href="">Matrick Credit</a>
 	</nav>
     <div class="container">
 		<div class="row justify-content-center">
@@ -57,7 +57,7 @@
         </div>
     </div>
 	<nav class="navbar fixed-bottom navbar-dark bg-dark">
-		<label style="color:#ffffff;">&copy; Copyright Loan Management System</label>
+		<label style="color:#ffffff;">&copy; Copyright Matrick Credit</label>
 		<label style="color:#ffffff;">All Rights Reserved <?php echo date("Y")?> </label>
 	</nav>
 </body>

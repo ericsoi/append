@@ -74,7 +74,7 @@ if (isset($_GET['status'])){
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>Loan Sasa</h1>
+        <h1>Matrick Credit</h1>
         <span>.</span>
       </a>
 
@@ -165,12 +165,14 @@ if (isset($_GET['status'])){
                             while($fetch=$tbl_lplan->fetch_array()){
                               print_r($fetch);
                           ?>
-                            <option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></option>
-                          <?php
+                            <option value="<?php echo $fetch['lplan_id']?>" name="<?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%,".$fetch['lplan_penalty']."%]"?>"><?php echo $fetch['lplan_month']." Days"?></option>
+							<!-- <option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." Days"?></option> -->
+ 
+						  <?php
                             }
                           ?>
                         </select>
-                        <label>Months[Interest%, Penalty%]</label>
+                        <label>Days</label>
                       </div>
                     <div class="col-md-6 form-group">
                       <label>Loan Amount</label>
@@ -353,7 +355,7 @@ if (isset($_GET['status'])){
 																			}
 																		?>
 																	</select>
-																	<label>Months[Interest%, Penalty%]</label>
+																	<label>Days</label>
 																</div>
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Loan Amount</label>
@@ -534,10 +536,10 @@ if (isset($_GET['status'])){
   <div class="row gy-4">
     <div class="col-lg-5 col-md-12 footer-about">
       <a href="index.html" class="logo d-flex align-items-center">
-        <span>Loan Sasa</span>
+        <span>Matrick Credit</span>
       </a>
       <p>
-        Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Loan Sasa. Discover a partner you can trust, and let us help you achieve your financial goals.
+        Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Matrick Credit. Discover a partner you can trust, and let us help you achieve your financial goals.
       </p>
       <div class="social-links d-flex mt-4">
         <a href=""><i class="bi bi-twitter"></i></a>
@@ -573,7 +575,7 @@ if (isset($_GET['status'])){
 </div>
 
 <div class="container copyright text-center mt-4">
-  <p>&copy; <span>Copyright</span> <strong class="px-1">Loan Sasa</strong> <span>All Rights Reserved</span></p>
+  <p>&copy; <span>Copyright</span> <strong class="px-1">Matrick Credit</strong> <span>All Rights Reserved</span></p>
   <div class="credits">
     <!-- All the links in the footer should remain intact. -->
     <!-- You can delete the links only if you've purchased the pro version. -->
@@ -630,7 +632,7 @@ if (isset($_GET['status'])){
 				if($("#lplan").val() == "" || $("#amount").val() == ""){
 					alert("Please enter a Loan Plan or Amount to Calculate")
 				}else{
-					var lplan=$("#lplan option:selected").text();
+					var lplan=$("#lplan option:selected").attr("name");
 					var months=parseFloat(lplan.split('months')[0]);
 					var splitter=lplan.split('months')[1];
 					var findinterest=splitter.split('%')[0];

@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Loan Management System</title>
+    <title>Matrick Credit</title>
 
     <link href="fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   
@@ -35,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="home.php">
                 <div class="sidebar-brand-text mx-3">ADMIN PANEL</div>
             </a>
 
@@ -250,7 +250,7 @@
             <footer class="stocky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Loan Management System <?php echo date("Y")?></span>
+                        <span>Copyright &copy; Matrick Credit <?php echo date("Y")?></span>
                     </div>
                 </div>
             </footer>
