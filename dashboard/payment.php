@@ -149,12 +149,27 @@
                                             <th>Loan Reference No.</th>
                                             <th>Payee</th>
                                             <th>Amount</th>
-                                            <th>Penalty</th>
+                                            <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<?php
-											$tbl_payment=$db->conn->query("SELECT * FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id");
+										<?php 
+                                            $tbl_payment=$db->conn->query("SELECT * FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id");
+                                            if(isset($_GET["ref_no"])){
+                                                $ref_no = $_GET["ref_no"];
+                                                $tbl_payment=$db->conn->query("SELECT * FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                                                $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                                                $sum_fetch=$sum_payment->fetch_array();
+                                                // $myfetch=$tbl_payment->fetch_array();
+                                                // $totalAmount=$fetch['lplan_interest'] / 100 *$fetch['amount'] +$fetch['amount'];
+                                                echo "<hr /><div>Payable Amount: <b>".$_GET["total"]."</b></div>";
+                                                echo "<div>Amount Paid: <b>". $sum_fetch[0]."</b></div>";
+                                                echo "<div>Deficit Amount: <b>".$_GET["total"] -  $sum_fetch[0]."</b></div><hr />";
+
+                                                // print_r($tbl_payment);
+
+
+                                            }
 											$i=1;
 											while($fetch=$tbl_payment->fetch_array()){
 										?>
@@ -163,7 +178,9 @@
 												<td><?php echo $fetch['ref_no']?></td>
 												<td><?php echo $fetch['payee']?></td>
 												<td><?php echo "&#8369; ".number_format($fetch['pay_amount'], 2)?></td>
-												<td><?php echo "&#8369; ".number_format($fetch['penalty'], 2)?></td>
+												<td><?php echo $fetch['date_created']?></td>
+                                                <!-- <td><?php print_r($fetch)?></td> -->
+
 											</tr>
 										
 										<?php
@@ -217,6 +234,14 @@
 								<label>Reference no</label>
 								<br />
 								<select name="loan_id" class="ref_no" id="ref_no" required="required" style="width:100%;">
+                                    <?php if(isset($_GET["ref_no"])){ 
+                                        $tbl_loan=$db->get_loan($_GET["ref_no"]);
+                                        $fetch=$tbl_loan->fetch_array()
+                                        
+                                         ?>
+                                        <option value=""></option>
+										<option value="<?php echo $fetch['loan_id']?>"><?php echo $fetch['ref_no']?></option>
+                                        <?php } else {?>
 									<option value=""></option>
 									<?php
 										$tbl_loan=$db->display_loan();
@@ -227,6 +252,7 @@
 									<?php
 											}
 										}
+                                    }
 									?>
 								</select>
 							</div>

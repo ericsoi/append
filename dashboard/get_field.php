@@ -14,6 +14,7 @@
 	$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 	$penalty=$monthly * ($fetch['lplan_penalty']/100);
 	$totalAmount=$fetch['amount']+$monthly;
+	$totalAmount=$fetch['lplan_interest'] / 100 *$fetch['amount'] +$fetch['amount'];
 	$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'") or die($db->conn->error);
 	$paid = $payment->num_rows;
 	$offset = $paid > 0 ? " offset $paid ": "";
@@ -35,9 +36,12 @@
 
 <div class="form-row">
 	<div class="form-group col-xl-6 col-md-6">
-		<p>Montly Amount: <strong>&#8369; <?php echo number_format($monthly, 2)?></strong></p>
+		<p>Daily Amount: <strong>&#8369; <?php echo number_format($monthly, 2)?></strong></p>
 		<p>Penalty: <strong>&#8369; <?php echo number_format($add, 2)?></strong></p>
-		<p>Payable Amount: <strong>&#8369; <?php echo number_format($monthly+$add, 2)?></strong></p>
+		<!-- <p>Payable Amount: <strong>&#8369; <?php echo number_format($monthly+$add, 2)?></strong></p> -->
+
+		<p>Payable Amount: <strong>&#8369; <?php echo $totalAmount?></strong></p>
+		
 	</div>
 	<div class="form-group col-xl-6 col-md-6">
 		<label>Amount<label>

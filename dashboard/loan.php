@@ -156,6 +156,9 @@
 											$tbl_loan=$db->display_loan();
 											$i=1;
 											while($fetch=$tbl_loan->fetch_array()){
+												$ref_no = $fetch['ref_no'];
+												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                                                $sum_fetch=$sum_payment->fetch_array();
 										?>
 										
                                         <tr>
@@ -163,6 +166,8 @@
 											<td>
 												<p><small>Name: <strong><?php echo $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1)."."?></strong></small></p>
 												<p><small>Contact: <strong><?php echo $fetch['contact_no']?></strong></small></p>
+												<p><small>Contact2: <strong><?php echo $fetch['email']?></strong></small></p>
+
 												<p><small>Address: <strong><?php echo $fetch['address']?></strong></small></p>
 											</td>
 											<td>
@@ -173,6 +178,7 @@
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
 													$totalAmount=$fetch['amount']+$monthly;
+													$totalAmount = $fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"];
 												?>
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
@@ -193,12 +199,12 @@
 													
 													
 													if($fetch['status'] == 2){
-														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) ASC limit 1 $offset ")->fetch_assoc()['due_date'];
+														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) DESC limit 1 $offset ")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
-														echo "<p><small>Next Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
+														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
 														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
-														echo "<p><small>Penalty: <br /><strong>&#8369; ".$add."</strong></small></p>";
-														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".number_format($monthly+$add, 2)."</strong></small></p>";
+														echo "<p><small>Amount Paid: <br /><strong>&#8369; ".$sum_fetch[0]."</strong></small></p>";
+														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
 													}
 												?>
 											</td>
@@ -209,7 +215,14 @@
 													}else if($fetch['status']==1){
 														echo '<span class="badge badge-info">Approved</span>';
 													}else if($fetch['status']==2){
-														echo '<span class="badge badge-primary">Released</span>';
+														echo '<div><span class="badge badge-primary">Released</span></div>';
+														// print_r($fetch);
+														if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) {
+															echo '<div><span class="badge badge-success">Complete</span></div>';
+														} else {
+															echo '<div><span class="badge badge-danger">Active</span></div>';
+														}
+														
 													}else if($fetch['status']==3){
 														echo '<span class="badge badge-success">Completed</span>';
 													}else if($fetch['status']==4){
@@ -222,7 +235,9 @@
 												<?php 
 													if($fetch['status']==2){
 												?>
-													<button class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#viewSchedule<?php echo $fetch['loan_id']?>">View Payment Schedule</button>
+													<div><button class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#viewSchedule<?php echo $fetch['loan_id']?>">View Payment Schedule</button></div>
+													<br/>
+													<div><a href="payment.php?ref_no=<?php echo $fetch['ref_no']?>&total=<?php echo $totalAmount?>"> <button class="btn btn-sm btn-primary">View loan payments</button></a></div>
 												<?php
 													}else if($fetch['status']==3){
 												?>
@@ -342,7 +357,7 @@
 																			if($fetch['status']==4){
 																		?>
 																			<option value="0" <?php echo ($fetch['status']==0)?'selected':''?>>For Approval</option>
-																			<option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option>
+																			<!-- <option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option> -->
 																			<option value="4" <?php echo ($fetch['status']==4)?'selected':''?>>Denied</option>
 																		<?php
 																			}else if($fetch['status']==2){
@@ -352,7 +367,7 @@
 																			}else{
 																		?>
 																			<option value="0" <?php echo ($fetch['status']==0)?'selected':''?>>For Approval</option>
-																			<option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option>
+																			<!-- <option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option> -->
 																			<option value="2" <?php echo ($fetch['status']==2)?'selected':''?>>Released</option>
 																			<option value="4" <?php echo ($fetch['status']==4)?'selected':''?>>Denied</option>
 																		<?php

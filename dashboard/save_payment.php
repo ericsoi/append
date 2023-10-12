@@ -18,10 +18,11 @@
 		
 		
 	
-		if($payable != $payment){
-			echo "<script>alert('Please enter a correct amount to pay!')</script>";
-			echo "<script>window.location='payment.php'</script>";	
-		}else{
+		// if($payable != $payment){
+		// 	$i=1;
+			// echo "<script>alert('Please enter a correct amount to pay!')</script>";
+			// echo "<script>window.location='payment.php'</script>";	
+	
 			$db->save_payment($loan_id, $payee, $payment, $penalty, $overdue);
 			$count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows;
 			
@@ -30,8 +31,8 @@
 			}
 			
 			
-			header("location: payment.php");
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}
-		
-	}
+	
+	
 ?>

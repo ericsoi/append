@@ -255,6 +255,13 @@
 				return $result;
 			}
 		}
+		public function get_loan($ref_no){
+			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE `ref_no`=$ref_no") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function get_loans($borrower_id){
 			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE loan.borrower_id='$borrower_id'") or die($this->conn->error);
 			if($query->execute()){
@@ -332,8 +339,8 @@
 			$query->bind_param("isssi", $loan_id, $payee, $payment, $penalty, $overdue);
 			
 			if($query->execute()){
-				$query->close();
-				$this->conn->close();
+				// $query->close();
+				// $this->conn->close();
 				return true;
 			}
 		}

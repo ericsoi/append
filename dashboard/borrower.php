@@ -146,8 +146,8 @@
                                             <th>Middlename</th>
                                             <th>Lastname</th>
                                             <th>Contact No</th>
+											<th>Contact No2</th>
                                             <th>Address</th>
-                                            <th>Email</th>
                                             <th>Tax ID</th>
                                             <th>Action</th>
                                         </tr>
@@ -164,8 +164,8 @@
                                             <td><?php echo $fetch['middlename']?></td>
                                             <td><?php echo $fetch['lastname']?></td>
                                             <td><?php echo $fetch['contact_no']?></td>
+											<td><?php echo $fetch['email']?></td>
                                             <td><?php echo $fetch['address']?></td>
-                                            <td><?php echo $fetch['email']?></td>
                                             <td><?php echo $fetch['tax_id']?></td>
                                             <td>
 												<div class="dropdown">
@@ -208,16 +208,17 @@
 															</div>
 															<div class="form-group">
 																<label>Contact no</label>
-																<input type="tel" name="contact_no" value="<?php echo $fetch['contact_no']?>" class="form-control" placeholder="Eg.[0965 567 6544]" pattern="[0-9]{4} [0-9]{3} [0-9]{4}"  required="required" />
+																<input type="text" name="contact_no" value="<?php echo $fetch['contact_no']?>" class="form-control" placeholder="Eg.[0712345678]" required="required" />
+															</div>
+															<div class="form-group">
+																<label>Contact no2</label>
+																<input type="text" name="email" value="<?php echo $fetch['email']?>" class="form-control"  maxlength="30"/>
 															</div>
 															<div class="form-group">
 																<label>Address</label>
 																<input type="text" name="address" value="<?php echo $fetch['address']?>" class="form-control" required="required" />
 															</div>
-															<div class="form-group">
-																<label>Email</label>
-																<input type="email" name="email" value="<?php echo $fetch['email']?>" class="form-control" required="required" maxlength="30"/>
-															</div>
+															
 															<div class="form-group">
 																<label>Tax ID(must be valid)</label>
 																<input type="number" name="tax_id" min="0" value="<?php echo $fetch['tax_id']?>" class="form-control" required="required" />
@@ -317,16 +318,17 @@
 						</div>
 						<div class="form-group">
 							<label>Contact no</label>
-							<input type="tel" name="contact_no" class="form-control" placeholder="Eg.[0965 567 6544]" pattern="[0-9]{4} [0-9]{3} [0-9]{4}"  required="required" />
+							<input type="text" name="contact_no" class="form-control" placeholder="Eg.[0712345678]" required="required" />
+						</div>
+						<div class="form-group">
+							<label>Contact2</label>
+							<input type="text" name="email" class="form-control" maxlength="30"/>
 						</div>
 						<div class="form-group">
 							<label>Address</label>
 							<input type="text" name="address" class="form-control" required="required" />
 						</div>
-						<div class="form-group">
-							<label>Email</label>
-							<input type="email" name="email" class="form-control" required="required" maxlength="30"/>
-						</div>
+						
 						<div class="form-group">
 							<label>Tax ID(must be valid)</label>
 							<input type="number" name="tax_id" min="0" class="form-control" required="required" />

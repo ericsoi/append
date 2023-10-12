@@ -17,14 +17,13 @@
 		$tbl_lplan=$db->check_lplan($lplan);
 		$fetch1=$tbl_lplan->fetch_array();
 		$month=$fetch1['lplan_month'];
-		
 		if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 			$date_released=$fetch['date_released'];
 		}else{
 			if($status==2){
 				$date_released=date("Y-m-d H:i:s");
 				for($i=1; $i<=$month; $i++){
-					$date_schedule=date("Y-m-d", strtotime("+".$i."month"));
+					$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
 					$db->save_date_sched($loan_id, $date_schedule);
 				}
 			}else{
