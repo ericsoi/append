@@ -124,7 +124,7 @@ if (isset($_GET['status'])){
                   </div>
                   <div class="row">
                    <div class="col-md-6 form-group">
-                      <input name="address" type="text" class="form-control" placeholder="Plot Name - House No*" required>
+                      <input name="address" type="text" class="form-control" placeholder="Plot Name - Floor No - House No*" required>
                     </div>
                     <div class="col-md-6 form-group">
                       <input name="tax_id" type="text" class="form-control" placeholder="Id Number*" required>
