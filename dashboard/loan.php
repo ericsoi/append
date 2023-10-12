@@ -176,7 +176,7 @@
 												?>
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
-												<p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p>
+												<!-- <p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
 												<p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
@@ -196,7 +196,7 @@
 														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) ASC limit 1 $offset ")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Next Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
-														echo "<p><small>Montly Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
+														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
 														echo "<p><small>Penalty: <br /><strong>&#8369; ".$add."</strong></small></p>";
 														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".number_format($monthly+$add, 2)."</strong></small></p>";
 													}
@@ -297,12 +297,12 @@
 																			$tbl_lplan=$db->display_lplan();
 																			while($row=$tbl_lplan->fetch_array()){
 																		?>
-																			<option value="<?php echo $row['lplan_id']?>" <?php echo ($fetch['lplan_id']==$row['lplan_id'])?'selected':''?>><?php echo $row['lplan_month']." months[".$row['lplan_interest']."%, ".$row['lplan_penalty']."%]"?></option>
+																			<option value="<?php echo $row['lplan_id']?>" <?php echo ($fetch['lplan_id']==$row['lplan_id'])?'selected':''?>><?php echo $row['lplan_month']." Days[".$row['lplan_interest']."%, ".$row['lplan_penalty']."%]"?></option>
 																		<?php
 																			}
 																		?>
 																	</select>
-																	<label>Months[Interest%, Penalty%]</label>
+																	<label>Days[Interest%, Penalty%]</label>
 																</div>
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Loan Amount</label>
@@ -320,15 +320,15 @@
 															</div>
 															<hr>
 															<div class="row">
-																<div class="col-xl-4 col-md-4">
+																<div class="col-xl-6 col-md-6">
 																	<center><span>Total Payable Amount</span></center>
 																	<center><span id="utpa"><?php echo "&#8369; ".number_format($totalAmount, 2)?></span></center>
 																</div>
-																<div class="col-xl-4 col-md-4">
+																<!-- <div class="col-xl-6 col-md-6">
 																	<center><span>Monthly Payable Amount</span></center>
 																	<center><span id="umpa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
-																</div>
-																<div class="col-xl-4 col-md-4">
+																</div> -->
+																<div class="col-xl-6 col-md-6">
 																	<center><span>Penalty Amount</span></center>
 																	<center><span id="upa"><?php echo "&#8369; ".number_format($penalty, 2)?></span></center>
 																</div>
@@ -418,8 +418,8 @@
 														
 														<div class="container">
 															<div class="row">
-																<div class="col-sm-6"><center>Months</center></div>
-																<div class="col-sm-6"><center>Monthly Payment</center></div>
+																<div class="col-sm-6"><center>Days</center></div>
+																<div class="col-sm-6"><center>Daily Payment</center></div>
 															</div>
 															<hr />
 															<?php 
@@ -533,13 +533,17 @@
 									<?php
 										$tbl_lplan=$db->display_lplan();
 										while($fetch=$tbl_lplan->fetch_array()){
+											$plan = $fetch['lplan_month'];
+											$fetch['lplan_month'] =1;
 									?>
-										<option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></option>
+										<option value="<?php echo $fetch['lplan_id']?>" name="<?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%,".$fetch['lplan_penalty']."%]"?>"><?php echo $plan." Days"?></option>
+
+										<!-- <option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></option> -->
 									<?php
 										}
 									?>
 								</select>
-								<label>Months[Interest%, Penalty%]</label>
+								<label>Days[Interest%, Penalty%]</label>
 							</div>
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Loan Amount</label>
@@ -557,15 +561,15 @@
 						</div>
 						<hr>
 						<div class="row" id="calcTable">
-							<div class="col-xl-4 col-md-4">
+							<div class="col-xl-6 col-md-6">
 								<center><span>Total Payable Amount</span></center>
 								<center><span id="tpa"></span></center>
 							</div>
-							<div class="col-xl-4 col-md-4">
+							<!-- <div class="col-xl-4 col-md-4">
 								<center><span>Monthly Payable Amount</span></center>
 								<center><span id="mpa"></span></center>
-							</div>
-							<div class="col-xl-4 col-md-4">
+							</div> -->
+							<div class="col-xl-6 col-md-6">
 								<center><span>Penalty Amount</span></center>
 								<center><span id="pa"></span></center>
 							</div>
@@ -637,7 +641,8 @@
 				if($("#lplan").val() == "" || $("#amount").val() == ""){
 					alert("Please enter a Loan Plan or Amount to Calculate")
 				}else{
-					var lplan=$("#lplan option:selected").text();
+					// var lplan=$("#lplan option:selected").text();
+					var lplan=$("#lplan option:selected").attr("name");
 					var months=parseFloat(lplan.split('months')[0]);
 					var splitter=lplan.split('months')[1];
 					var findinterest=splitter.split('%')[0];

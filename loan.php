@@ -164,8 +164,12 @@ if (isset($_GET['status'])){
                             $tbl_lplan=$db->display_lplan();
                             while($fetch=$tbl_lplan->fetch_array()){
                               print_r($fetch);
+							  $plan = $fetch['lplan_month'];
+							  $fetch['lplan_month'] =1;
                           ?>
-                            <option value="<?php echo $fetch['lplan_id']?>" name="<?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%,".$fetch['lplan_penalty']."%]"?>"><?php echo $fetch['lplan_month']." Days"?></option>
+							<option value="<?php echo $fetch['lplan_id']?>" name="<?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%,".$fetch['lplan_penalty']."%]"?>"><?php echo $plan." Days"?></option>
+
+                            <!-- <option value="<?php echo $fetch['lplan_id'] - 26?>" name="<?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%,".$fetch['lplan_penalty']."%]"?>"><?php echo $fetch['lplan_month']." Days"?></option> -->
 							<!-- <option value="<?php echo $fetch['lplan_id']?>"><?php echo $fetch['lplan_month']." Days"?></option> -->
  
 						  <?php
@@ -192,15 +196,15 @@ if (isset($_GET['status'])){
                   </div>
                   <hr>
                   <div class="row" id="calcTable">
-                    <div class="col-xl-4 col-md-4">
+                    <!-- <div class="col-xl-4 col-md-4"> -->
+                      <!-- <center><span>Total Payable Amount</span></center> -->
+                      <!-- <center><span id="tpa"></span></center> -->
+                    <!-- </div> -->
+                    <div class="col-xl-6 col-md-6">
                       <center><span>Total Payable Amount</span></center>
-                      <center><span id="tpa"></span></center>
-                    </div>
-                    <div class="col-xl-4 col-md-4">
-                      <center><span>Monthly Payable Amount</span></center>
                       <center><span id="mpa"></span></center>
                     </div>
-                    <div class="col-xl-4 col-md-4">
+                    <div class="col-xl-6 col-md-6">
                       <center><span>Penalty Amount</span></center>
                       <center><span id="pa"></span></center>
                     </div>
@@ -245,16 +249,18 @@ if (isset($_GET['status'])){
 											<td>
 												<p><small>Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
 												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
-												<p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p>
+												<!-- <p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p> -->
+												<p><small>Loan Plan: <strong>27 Days</strong></small></p>
+
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
 													$totalAmount=$fetch['amount']+$monthly;
 												?>
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
-												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
-												<p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p>
-												<p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
+												<p><small>Total Payable: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
+												<!-- <p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
+												<p><small>Overdue Payable: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 														echo '<p><small>Date Released: <strong>'.date("M d, Y", strtotime($fetch['date_released'])).'</strong></small></p>';
@@ -300,151 +306,12 @@ if (isset($_GET['status'])){
 										
 										
 										<!-- Update User Modal -->
-										<div class="modal fade" id="updateloan<?php echo $fetch['loan_id']?>" aria-hidden="true">
-											<div class="modal-dialog modal-lg">
-												<form method="POST" action="updateLoan.php">
-													<div class="modal-content">
-														<div class="modal-header bg-warning">
-															<h5 class="modal-title text-white">Edit Loan</h5>
-															<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-																<span aria-hidden="true">×</span>
-															</button>
-														</div>
-														<div class="modal-body">
-															<div class="form-row">
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Borrower</label>
-																	<br />
-																	<input type="hidden" value="<?php echo $fetch['loan_id']?>" name="loan_id"/>
-																	<select name="borrower" class="borrow" required="required" style="width:100%;">
-																		<?php
-																			$tbl_borrower=$db->display_borrower();
-																			while($row=$tbl_borrower->fetch_array()){
-																		?>
-																			<option value="<?php echo $row['borrower_id']?>" <?php echo ($fetch['borrower_id']==$row['borrower_id'])?'selected':''?>><?php echo $row['lastname'].", ".$row['firstname']." ".substr($row['middlename'], 0, 1)?>.</option>
-																		<?php
-																			}
-																		?>
-																	</select>
-																</div>
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Loan type</label>
-																	<br />
-																	<select name="ltype" class="loan" required="required" style="width:100%;">
-																		<?php
-																			$tbl_ltype=$db->display_ltype();
-																			while($row=$tbl_ltype->fetch_array()){
-																		?>
-																			<option value="<?php echo $row['ltype_id']?>" <?php echo ($fetch['ltype_id']==$row['ltype_id'])?'selected':''?>><?php echo $row['ltype_name']?></option>
-																		<?php
-																			}
-																		?>
-																	</select>
-																</div>
-															</div>
-															<div class="form-row">
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Loan Plan</label>
-																	<select name="lplan" class="form-control" required="required" id="ulplan">
-																		<?php
-																			$tbl_lplan=$db->display_lplan();
-																			while($row=$tbl_lplan->fetch_array()){
-																		?>
-																			<option value="<?php echo $row['lplan_id']?>" <?php echo ($fetch['lplan_id']==$row['lplan_id'])?'selected':''?>><?php echo $row['lplan_month']." months[".$row['lplan_interest']."%, ".$row['lplan_penalty']."%]"?></option>
-																		<?php
-																			}
-																		?>
-																	</select>
-																	<label>Days</label>
-																</div>
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Loan Amount</label>
-																	<input type="number" name="loan_amount" class="form-control" id="uamount" value="<?php echo $fetch['amount']?>" required="required"/>
-																</div>
-															</div>
-															<div class="form-row">
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Purpose</label>
-																	<textarea name="purpose" class="form-control" style="resize:none; height:200px;" required="required"><?php echo $fetch['purpose']?></textarea>
-																</div>
-																<div class="form-group col-xl-6 col-md-6">
-																	<button type="button" class="btn btn-primary btn-block" id="updateCalculate">Calculate Amount</button>
-																</div>
-															</div>
-															<hr>
-															<div class="row">
-																<div class="col-xl-4 col-md-4">
-																	<center><span>Total Payable Amount</span></center>
-																	<center><span id="utpa"><?php echo "&#8369; ".number_format($totalAmount, 2)?></span></center>
-																</div>
-																<div class="col-xl-4 col-md-4">
-																	<center><span>Monthly Payable Amount</span></center>
-																	<center><span id="umpa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
-																</div>
-																<div class="col-xl-4 col-md-4">
-																	<center><span>Penalty Amount</span></center>
-																	<center><span id="upa"><?php echo "&#8369; ".number_format($penalty, 2)?></span></center>
-																</div>
-															</div>
-															<hr>
-															<div class="form-row">
-																<div class="form-group col-xl-6 col-md-6">
-																	<label>Status</label>
-																	<select class="form-control" name="status">
-																		<?php
-																			if($fetch['status']==4){
-																		?>
-																			<option value="0" <?php echo ($fetch['status']==0)?'selected':''?>>For Approval</option>
-																			<option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option>
-																			<option value="4" <?php echo ($fetch['status']==4)?'selected':''?>>Denied</option>
-																		<?php
-																			}else if($fetch['status']==2){
-																		?>
-																			<option value="2" readonly="readonly">Released</option>
-																		<?php
-																			}else{
-																		?>
-																			<option value="0" <?php echo ($fetch['status']==0)?'selected':''?>>For Approval</option>
-																			<option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option>
-																			<option value="2" <?php echo ($fetch['status']==2)?'selected':''?>>Released</option>
-																			<option value="4" <?php echo ($fetch['status']==4)?'selected':''?>>Denied</option>
-																		<?php
-																			}
-																		?>
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-															<button type="submit" name="update" class="btn btn-warning">Update</a>
-														</div>
-													</div>
-												</form>
-											</div>
-										</div>
-										
+																			
 										
 										
 										<!-- Delete Loan Modal -->
 										
-										<div class="modal fade" id="deleteborrower<?php echo $fetch['loan_id']?>" tabindex="-1" aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header bg-danger">
-														<h5 class="modal-title text-white">System Information</h5>
-														<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-															<span aria-hidden="true">×</span>
-														</button>
-													</div>
-													<div class="modal-body">Are you sure you want to delete this record?</div>
-													<div class="modal-footer">
-														<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-														<a class="btn btn-danger" href="deleteLoan.php?loan_id=<?php echo $fetch['loan_id']?>">Delete</a>
-													</div>
-												</div>
-											</div>
-										</div>
+										
 										
 										<!-- View Payment Schedule -->
 										<div class="modal fade" id="viewSchedule<?php echo $fetch['loan_id']?>" tabindex="-1" aria-hidden="true">
