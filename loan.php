@@ -121,7 +121,7 @@ if (isset($_GET['status'])){
             <div class="comments">
               <div class="reply-form">
                 <h4>Loan Application</h4>
-                <form action=".\dashboard\save_loan.php" method="POST">
+                <form action=".\dashboard\save_loan.php" method="POST"  enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-6 form-group">
                     <label>Borrower</label>
@@ -185,6 +185,12 @@ if (isset($_GET['status'])){
                     </div>
                   </div>
                   <div class="row">
+                    <div class="form-group col-xl-12 col-md-12">
+                      <label>Upload Loan Form</label>
+                      <input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form"/>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="form-group col-xl-6 col-md-6">
                       <label>Purpose</label>
                       <textarea name="purpose" class="form-control" style="resize:none; height:100px;" required="required"></textarea>
@@ -194,6 +200,7 @@ if (isset($_GET['status'])){
                       <button type="button" class="btn btn-primary btn-block" id="calculate">Calculate Amount</button>
                     </div>
                   </div>
+                  
                   <hr>
                   <div class="row" id="calcTable">
                     <!-- <div class="col-xl-4 col-md-4"> -->

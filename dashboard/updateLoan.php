@@ -38,4 +38,24 @@
 		echo"<script>alert('Update Loan successfully')</script>";
 		echo"<script>window.location='loan.php'</script>";
 	}
+	if(ISSET($_POST['update_form'])){
+		$db=new db_class();
+		$contact_no = $_POST['Contact_no'];
+		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/Append/uploads/loan_form/" . $contact_no . "/" . date("Y-m-d") . "/" . rand(0, 999999) . "/";
+		$loan_id = $_POST['Loan_id'];
+		if(isset($_FILES['loan_form'])){
+			if( is_dir($target_dir) === false ){
+				mkdir($target_dir, 0777, true);
+			}
+			$loan_form = $target_dir . basename($_FILES['loan_form']["name"]);
+			move_uploaded_file($_FILES['loan_form']['tmp_name'], $loan_form);
+		}else{
+			$loan_form = $target_dir."loan_form.png";
+		}
+		$db->update_form($loan_id, $loan_form);
+		echo"<script>alert('Update Form successfully')</script>";
+		echo"<script>window.location='loan.php'</script>";
+	}
+
+	
 ?>

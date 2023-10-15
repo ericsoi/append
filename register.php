@@ -104,8 +104,8 @@ if (isset($_GET['status'])){
             <div class="comments">
               <div class="reply-form">
                 <h4>Registration</h4>
-                <p>Your email address will not be published. Required fields are marked * </p>
-                <form action=".\processing\register.php" method="POST">
+                <p>Your Contact information will not be published. Required fields are marked * </p>
+                <form action=".\processing\register.php" method="POST" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-6 form-group">
                       <input name="firstname" type="text" class="form-control" placeholder="First Name*" required>
@@ -119,7 +119,7 @@ if (isset($_GET['status'])){
                       <input name="lastname" type="text" class="form-control" placeholder="Last Name*" required>
                     </div>
                     <div class="col-md-6 form-group">
-                      <input name="email" type="email" class="form-control" placeholder="Email Address">
+                      <input name="email" type="text" class="form-control" placeholder="Second Number">
                     </div>
                   </div>
                   <div class="row">
@@ -128,6 +128,20 @@ if (isset($_GET['status'])){
                     </div>
                     <div class="col-md-6 form-group">
                       <input name="tax_id" type="text" class="form-control" placeholder="Id Number*" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 form-group">
+                    <label>Upload Front Id</label>
+                      <input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                    <label>Upload Back Id</label>
+                      <input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+                    </div>
+                    <div class="col-md-4 form-group">
+                      <label>Upload Signature</label>
+                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
                     </div>
                   </div>
                   <div class="row">

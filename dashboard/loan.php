@@ -182,7 +182,7 @@
 												?>
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
-												<!-- <p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
+												<!-- <p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
 												<p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
@@ -238,6 +238,9 @@
 													<div><button class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#viewSchedule<?php echo $fetch['loan_id']?>">View Payment Schedule</button></div>
 													<br/>
 													<div><a href="payment.php?ref_no=<?php echo $fetch['ref_no']?>&total=<?php echo $totalAmount?>"> <button class="btn btn-sm btn-primary">View loan payments</button></a></div>
+													<br/>
+													<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#loanform<?php echo $fetch['loan_id']?>">View Form</a>
+
 												<?php
 													}else if($fetch['status']==3){
 												?>
@@ -251,6 +254,7 @@
 														</button>
 														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 															<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateloan<?php echo $fetch['loan_id']?>">Edit</a>
+															<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#loanform<?php echo $fetch['loan_id']?>">View Form</a>
 															<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['loan_id']?>">Delete</a>
 														</div>
 													</div>
@@ -259,7 +263,31 @@
 												?>
 											</td>
                                         </tr>
-										
+										<!-- View Form Modal -->
+										<div class="modal fade" id="loanform<?php echo $fetch['loan_id']?>" aria-hidden="true">
+											<div class="modal-dialog modal-lg">
+												<div class="modal-content">
+													<div class="modal-header bg-warning">
+														<h5 class="modal-title text-white">Row Form</h5>
+													</div>
+													<div class="modal-body">
+														<?php $pos = strpos($fetch['loan_form'], 'Append'); ?>
+														<img src='<?php echo '../' . substr($fetch['loan_form'], $pos + strlen('Append'));?>' class="card-img-top" alt="Form not found"/>
+													</div>
+													<div class="modal-footer">
+														<form action="updateLoan.php" method="POST" enctype="multipart/form-data">
+															<label>Update Form</label>
+															<input class="btn btn-warning d-flex flex-row" type="file" name="loan_form" />
+															<input class="btn btn-warning d-flex flex-row" type="hidden" name="Contact_no" value="<?php echo $fetch['contact_no']?>"/>
+															<input class="btn btn-warning d-flex flex-row" type="hidden" name="Loan_id" value="<?php echo $fetch['loan_id']?>" />
+															<input class="btn btn-warning" type="submit" name="update_form"/>
+														</form>
+														<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+
+													</div>
+												</div>
+											</div>
+										</div>
 										
 										<!-- Update User Modal -->
 										<div class="modal fade" id="updateloan<?php echo $fetch['loan_id']?>" aria-hidden="true">
@@ -324,6 +352,13 @@
 																	<input type="number" name="loan_amount" class="form-control" id="uamount" value="<?php echo $fetch['amount']?>" required="required"/>
 																</div>
 															</div>
+															<div class="form-row">
+																<div class="form-group col-xl-12 col-md-12">
+																	<label>Upload Loan Form</label>
+																	<input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form"/>
+																</div>
+															</div>
+															
 															<div class="form-row">
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Purpose</label>
@@ -406,7 +441,8 @@
 													</div>
 												</div>
 											</div>
-										</div>
+										</div>									
+
 										
 										<!-- View Payment Schedule -->
 										<div class="modal fade" id="viewSchedule<?php echo $fetch['loan_id']?>" tabindex="-1" aria-hidden="true">
@@ -499,7 +535,7 @@
 	<!-- Add Loan Modal-->
 	<div class="modal fade" id="addModal" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
-			<form method="POST" action="save_loan.php">
+			<form method="POST" action="save_loan.php"  enctype="multipart/form-data" >
 				<div class="modal-content">
 					<div class="modal-header bg-primary">
 						<h5 class="modal-title text-white">Loan Application</h5>
@@ -563,6 +599,12 @@
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Loan Amount</label>
 								<input type="number" name="loan_amount" class="form-control" id="amount" required="required"/>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-xl-12 col-md-12">
+								<label>Upload Loan Form</label>
+								<input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form"/>
 							</div>
 						</div>
 						<div class="form-row">
@@ -666,7 +708,7 @@
 					var penalty=parseFloat(findpenalty.replace(/[^0-9.]/g, ""));
 					
 					var amount=parseFloat($("#amount").val());
-					
+					console.log(amount);
 					var monthly =(amount + (amount * (interest/100))) / months;
 					var penalty=monthly * (penalty/100);
 					var totalAmount=amount+monthly;

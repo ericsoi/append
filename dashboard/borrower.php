@@ -174,17 +174,52 @@
 													</button>
 													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 														<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateborrower<?php echo $fetch['borrower_id']?>">Edit</a>
+														<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#docsmodal<?php echo $fetch['borrower_id']?>">View Docs</a>
 														<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['borrower_id']?>">Delete</a>
 													</div>
 												</div>
 											</td>
                                         </tr>
 										
-										
+										<!-- View Docs Modal -->
+										<div class="modal fade" id="docsmodal<?php echo $fetch['borrower_id']?>" aria-hidden="true">
+											<div class="modal-dialog modal-lg">
+												<div class="modal-content">
+													<div class="modal-header bg-warning">
+														<h5 class="modal-title text-white">Legal Doccuments</h5>
+													</div>
+													<div class="modal-body">
+															<?php $pos = strpos($fetch['signature_doc'], 'Append'); 
+															// echo $fetch["id_doc"];
+															$front_id = explode('_Splitter_', $fetch["id_doc"])[0];
+															$back_id = explode('_Splitter_', $fetch["id_doc"])[1];
+															$pos1 = strpos($front_id, 'Append');
+															$pos2 = strpos($back_id, 'Append');
+															?>
+														<div class="row">
+															<div class="col-md-4">
+																<label> Front ID </label>
+																<img src='<?php echo '../' . substr($fetch['signature_doc'], $pos + strlen('Append'));?>' class="card-img-top" alt="Form not found"/>
+															</div>
+															<div class="col-md-4">
+																<label> Back ID </label>
+																<img src='<?php echo '../' . substr($front_id, $pos1 + strlen('Append'));?>' class="card-img-top" alt="file not found"/>															</div>
+															<div class="col-md-4">
+																<label> Signature</label>
+																<img src='<?php echo '../' . substr($back_id, $pos2 + strlen('Append'));?>' class="card-img-top" alt="file not found"/>															</div>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 										<!-- Update User Modal -->
 										<div class="modal fade" id="updateborrower<?php echo $fetch['borrower_id']?>" tabindex="-1" aria-hidden="true">
 											<div class="modal-dialog">
-												<form method="POST" action="updateBorrower.php">
+												<form method="POST" action="updateBorrower.php" enctype="multipart/form-data">
 													<div class="modal-content">
 														<div class="modal-header bg-warning">
 															<h5 class="modal-title text-white">Edit Borrower</h5>
@@ -222,6 +257,18 @@
 															<div class="form-group">
 																<label>Tax ID(must be valid)</label>
 																<input type="number" name="tax_id" min="0" value="<?php echo $fetch['tax_id']?>" class="form-control" required="required" />
+															</div>
+															<div class="col-md-6 form-group">
+																<label>Upload Id</label>
+																<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+															</div>
+															<div class="col-md-6 form-group">
+																<label>Upload Back Id</label>
+																<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+															</div>
+															<div class="col-md-6 form-group">
+																<label>Upload Signature</label>
+																<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
 															</div>
 														</div>
 														<div class="modal-footer">
@@ -295,7 +342,7 @@
 	<!-- Add User Modal-->
 	<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
-			<form method="POST" action="save_borrower.php">
+			<form method="POST" action="save_borrower.php" enctype="multipart/form-data">
 				<div class="modal-content">
 					<div class="modal-header bg-primary">
 						<h5 class="modal-title text-white">Add Borrower</h5>
@@ -332,6 +379,18 @@
 						<div class="form-group">
 							<label>Tax ID(must be valid)</label>
 							<input type="number" name="tax_id" min="0" class="form-control" required="required" />
+						</div>
+						<div class="col-md-6 form-group">
+							<label>Upload Id</label>
+							<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+						</div>
+						<div class="col-md-6 form-group">
+							<label>Upload Back Id</label>
+							<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+						</div>
+						<div class="col-md-6 form-group">
+							<label>Upload Signature</label>
+							<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
 						</div>
 					</div>
 					<div class="modal-footer">

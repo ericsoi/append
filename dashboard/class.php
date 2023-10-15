@@ -173,9 +173,9 @@
 		
 		/* Borrower Function */
 		
-		public function save_borrower($firstname,$middlename,$lastname,$contact_no,$address,$email,$tax_id){
-			$query=$this->conn->prepare("INSERT INTO `borrower` (`firstname`, `middlename`, `lastname`, `contact_no`, `address`, `email`, `tax_id`) VALUES(?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
-			$query->bind_param("ssssssi", $firstname, $middlename, $lastname, $contact_no, $address, $email, $tax_id);
+		public function save_borrower($firstname,$middlename,$lastname,$contact_no,$address,$email,$id_doc,$signature_doc,$tax_id){
+			$query=$this->conn->prepare("INSERT INTO `borrower` (`firstname`, `middlename`, `lastname`, `contact_no`, `address`, `email`, `id_doc`, `signature_doc`, `tax_id`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
+			$query->bind_param("ssssssssi", $firstname, $middlename, $lastname, $contact_no, $address, $email, $id_doc, $signature_doc, $tax_id);
 			
 			if($query->execute()){
 				$query->close();
@@ -221,7 +221,7 @@
 		
 		/* Loan Function */
 		
-		public function save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $date_created){
+		public function save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $loan_form, $date_created){
 			$ref_no = mt_rand(1,99999999);
 			
 			$i=1;
@@ -238,8 +238,8 @@
 				
 			}
 			
-			$query=$this->conn->prepare("INSERT INTO `loan` (`ref_no`, `ltype_id`, `borrower_id`, `purpose`, `amount`, `lplan_id`, `date_created`) VALUES(?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
-			$query->bind_param("siisiis", $ref_no, $ltype, $borrower, $purpose, $loan_amount, $lplan, $date_created);
+			$query=$this->conn->prepare("INSERT INTO `loan` (`ref_no`, `ltype_id`, `borrower_id`, `purpose`, `amount`, `lplan_id`, `loan_form`, `date_created`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
+			$query->bind_param("siisiiss", $ref_no, $ltype, $borrower, $purpose, $loan_amount, $lplan,$loan_form, $date_created);
 			
 			if($query->execute()){
 				$query->close();
@@ -283,6 +283,15 @@
 			$query=$this->conn->prepare("UPDATE `loan` SET `ltype_id`=?, `borrower_id`=?, `purpose`=?, `amount`=?, `lplan_id`=?, `status`=?, `date_released`=? WHERE `loan_id`=?") or die($this->conn->error);
 			$query->bind_param("iisiiisi", $ltype, $borrower, $purpose, $loan_amount, $lplan, $status, $date_released, $loan_id);
 			
+			if($query->execute()){
+				$query->close();
+				$this->conn->close();
+				return true;
+			}
+		}
+		public function update_form($loan_id, $loan_form){
+			$query=$this->conn->prepare("UPDATE `loan` SET `loan_form`=? WHERE `loan_id`=?") or die($this->conn->error);
+			$query->bind_param("si", $loan_form, $loan_id);
 			if($query->execute()){
 				$query->close();
 				$this->conn->close();
