@@ -10,7 +10,7 @@
 		$purpose=$_POST['purpose'];
 		$date_created=date("Y-m-d H:i:s");
 		$contact_no=$_POST["contact_no"];
-		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/Append/uploads/loan_form/" . $contact_no . "/" . date("Y-m-d") . "/" . rand(0, 999999) . "/";
+		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/append/uploads/loan_form/" . $contact_no . "/" . date("Y-m-d") . "/" . rand(0, 999999) . "/";
 		if(isset($_FILES['loan_form'])){
 			if( is_dir($target_dir) === false ){
 				mkdir($target_dir, 0777, true);
