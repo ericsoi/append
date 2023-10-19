@@ -61,12 +61,12 @@
                     <i class="fas fa-fw fas fa-book"></i>
                     <span>Borrowers</span></a>
             </li>
-			<li class="nav-item">
+			<li class="nav-item active">
                 <a class="nav-link" href="loan_plan.php">
                     <i class="fas fa-fw fa-piggy-bank"></i>
                     <span>Loan Plans</span></a>
             </li>
-			<li class="nav-item active">
+			<li class="nav-item">
                 <a class="nav-link" href="loan_type.php">
                     <i class="fas fa-fw fa-money-check"></i>
                     <span>Loan Types</span></a>
@@ -76,7 +76,7 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
-            <li class="nav-item">
+			<li class="nav-item">
                 <a class="nav-link" href="reports.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Report</span></a>
@@ -130,7 +130,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Loan Type</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Reports</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -139,16 +139,24 @@
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card">
                                 <div class="card-body">
-									<form method="POST" action="save_ltype.php">
+									<form method="POST" action="calculate_reports.php">
 										<div class="form-group">
-											<label>Loan Name</label>
-											<input type="text" class="form-control" name="ltype_name" required="required"/>
+											<label>From </label>
+											<input type="date" class="form-control" name="from" required="required" value="<?php echo date('Y-m-d'); ?>"/>
 										</div>
-										<div class="form-group">
-											<label>Loan Description</label>
-											<textarea style="resize:none;" class="form-control" name="ltype_desc" required="required"></textarea>
+										<div class="i-group">
+											<label>To</label>
+											<input type="date" class="form-control" name="to" required="required" value="<?php echo date('Y-m-d'); ?>"/>
 										</div>
-										<button type="submit" class="btn btn-primary btn-block" name="save">Save</button>
+										<div class="i-group">
+                                        <label>Select an option to continue</label>
+
+                                            <select class="form-control" name="status">
+                                                <option class="form-control" >Complete Loans</option>
+                                                <option class="form-control" >Active Loans</option>
+                                            </select>
+										</div>
+										<button type="submit" class="btn btn-primary btn-block" name="save">Check</button>
 									</form>
                                 </div>
                             </div>
@@ -158,91 +166,70 @@
                                 <div class="card-body">
 									 <div class="table-responsive">
 										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-										<thead>
-											<tr>
-												<th>Loan Name</th>
-												<th>Loan Description</th>
-												<th>Action</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php
-												$tbl_ltype=$db->display_ltype();
-												while($fetch=$tbl_ltype->fetch_array()){
-											?>
-											<tr>
-												<td><?php echo $fetch['ltype_name']?></td>
-												<td><?php echo $fetch['ltype_desc']?></td>
-												<td>
-													<div class="dropdown">
-														<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-															Action
-														</button>
-														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-															<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateltype<?php echo $fetch['ltype_id']?>">Edit</a>
-															<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteltype<?php echo $fetch['ltype_id']?>">Delete</a>
-														</div>
-													</div>
-												</td>
-											</tr>
-											
-											
-											<!-- Delete Loan Type Modal -->
-										
-											<div class="modal fade" id="deleteltype<?php echo $fetch['ltype_id']?>" tabindex="-1" aria-hidden="true">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header bg-danger">
-															<h5 class="modal-title text-white">System Information</h5>
-															<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-																<span aria-hidden="true">×</span>
-															</button>
-														</div>
-														<div class="modal-body">Are you sure you want to delete this record?</div>
-														<div class="modal-footer">
-															<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-															<a class="btn btn-danger" href="delete_ltype.php?ltype_id=<?php echo $fetch['ltype_id']?>">Delete</a>
-														</div>
-													</div>
-												</div>
-											</div>
-											
-											<!-- Update Loan Type Modal -->
-											
-											<div class="modal fade" id="updateltype<?php echo $fetch['ltype_id']?>" tabindex="-1" aria-hidden="true">
-												<div class="modal-dialog">
-													<form method="POST" action="update_ltype.php">
-														<div class="modal-content">
-															<div class="modal-header bg-warning">
-																<h5 class="modal-title text-white">Edit Loan Type</h5>
-																<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-																	<span aria-hidden="true">×</span>
-																</button>
-															</div>
-															<div class="modal-body">
-																<div class="form-group">
-																	<label>Loan Name</label>
-																	<input type="text" class="form-control" value="<?php echo $fetch['ltype_name']?>" name="ltype_name" required="required"/>
-																	<input type="hidden" class="form-control" value="<?php echo $fetch['ltype_id']?>" name="ltype_id"/>
-																</div>
-																<div class="form-group">
-																	<label>Loan Description</label>
-																	<textarea style="resize:none;" class="form-control" name="ltype_desc" required="required"><?php echo $fetch['ltype_desc']?></textarea>
-																</div>
-															</div>
-															<div class="modal-footer">
-																<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-																<button type="submit" name="update" class="btn btn-warning">Update</a>
-															</div>
-														</div>
-													</form>
-												</div>
-											</div>
-											
-											<?php
-												}
-											?>
-										</tbody>
+                                            <?php if(ISSET($_GET["startDate"])){?>
+                                                <div><b> <?php echo $_GET["startDate"] . " to " .date("Y-m-d", strtotime($_GET["endDate"] . ' -1 day')) ?></b></div>
+                                                <?php
+                                                }?>
+                                            <tbody>
+                                            <?php if(ISSET($_GET['status'])){?>
+                                                <div><b> <?php echo $_GET["status"] ?></b></div>
+
+                                                
+                                                <?php
+                                            }
+                                            ?>
+                                                <?php if(ISSET($_GET['sum_totalAmount_out'])){?>
+                                                <tr>
+                                                    <td>Total money lend </td>
+                                                    <td><?php echo $_GET["sum_amount_out"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total Money expected</td>
+                                                    <td><?php echo $_GET["sum_totalAmount_out"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Paid Amount</td>
+                                                    <td><?php echo $_GET["sum_paid_amount"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Deficit Amount</td>
+                                                    <td><?php echo $_GET["sum_totalAmount_out"] - $_GET["sum_paid_amount"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Profit Out</td>
+                                                    <td><?php echo $_GET["sum_totalAmount_out"] - $_GET["sum_amount_out"] - $_GET["sum_paid_amount"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Profit Expected</td>
+                                                    <td><?php echo $_GET["sum_totalAmount_out"] - $_GET["sum_amount_out"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Active Loans</td>
+                                                    <td><?php echo $_GET["total_loans"]?></td>
+                                                </tr>
+                                                <?php
+                                                } elseif(!ISSET($_GET['sum_totalAmount_out']) && (ISSET($_GET["total_loans"]))){?>
+                                                                                                <tr>
+                                                    <td>Total money lend </td>
+                                                    <td><?php echo $_GET["sum_amount_out"]?></td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>Paid Amount</td>
+                                                    <td><?php echo $_GET["sum_paid_amount"]?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total Profit</td>
+                                                    <td><?php echo $_GET["sum_paid_amount"] - $_GET["sum_amount_out"]?></td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>Paid Active Loans</td>
+                                                    <td><?php echo $_GET["total_loans"]?></td>
+                                                </tr>
+                                                <?php
+                                                }?>
+                                            </tbody>
 										</table>
 									</div>
                             </div>
@@ -308,9 +295,8 @@
 	<script>
 		$(document).ready(function() {
 			$('#dataTable').DataTable({
-				"order": [[ 1, "asc" ]]
+				"order": [[1 , "asc" ]]
 			});
-			
 		});
 	</script>
 

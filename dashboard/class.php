@@ -218,10 +218,21 @@
 				return true;
 			}
 		}
+		/* Update Borower Files */
+		public function update_borrower_files($borrower_id,$id_doc,$signature_doc){
+			$query=$this->conn->prepare("UPDATE `borrower` SET `id_doc`=?, `signature_doc`=? WHERE `borrower_id`=?") or die($this->conn->error);
+			$query->bind_param("ssi", $id_doc, $signature_doc, $borrower_id); 
+
+			if($query->execute()){
+				$query->close();
+				$this->conn->close();
+				return true;
+			}
+		}
 		
 		/* Loan Function */
 		
-		public function save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $loan_form, $date_created){
+		public function save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $loan_form, $paid_amount,$totalAmount, $date_created){
 			$ref_no = mt_rand(1,99999999);
 			
 			$i=1;
@@ -235,11 +246,10 @@
 				}else{
 					$i=0;
 				}
-				
 			}
 			
-			$query=$this->conn->prepare("INSERT INTO `loan` (`ref_no`, `ltype_id`, `borrower_id`, `purpose`, `amount`, `lplan_id`, `loan_form`, `date_created`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
-			$query->bind_param("siisiiss", $ref_no, $ltype, $borrower, $purpose, $loan_amount, $lplan,$loan_form, $date_created);
+			$query=$this->conn->prepare("INSERT INTO `loan` (`ref_no`, `ltype_id`, `borrower_id`, `purpose`, `amount`, `lplan_id`, `loan_form`, `paid_amount`, `totalAmount`, `date_created`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") or die($this->conn->error);
+			$query->bind_param("siisiissss", $ref_no, $ltype, $borrower, $purpose, $loan_amount, $lplan,$loan_form, $paid_amount, $totalAmount, $date_created);
 			
 			if($query->execute()){
 				$query->close();
@@ -342,7 +352,10 @@
 				return $result;
 			}
 		}
-		
+
+		public function display_range($from_date, $to_date){
+			$query = $this->conn->prepare("SELECT * FROM your_table WHERE date_column BETWEEN '$startDate' AND '$endDate'");
+		}
 		public function save_payment($loan_id, $payee, $payment, $penalty, $overdue){
 			$query=$this->conn->prepare("INSERT INTO `payment` (`loan_id`, `payee`, `pay_amount`, `penalty`, `overdue`) VALUES(?, ?, ?, ?, ?)") or die($this->conn->error);
 			$query->bind_param("isssi", $loan_id, $payee, $payment, $penalty, $overdue);
@@ -355,3 +368,8 @@
 		}
 	}
 ?>
+
+
+
+
+

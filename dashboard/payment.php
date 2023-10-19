@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
@@ -84,6 +84,11 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="reports.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Report</span></a>
+            </li>
         </ul>
         <!-- End of Sidebar -->
 
@@ -154,10 +159,10 @@
                                     </thead>
                                     <tbody>
 										<?php 
-                                            $tbl_payment=$db->conn->query("SELECT * FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id");
+                                            $tbl_payment=$db->conn->query("SELECT *, e.date_created as d_c FROM `payment` as e INNER JOIN `loan` ON e.loan_id=loan.loan_id;");
                                             if(isset($_GET["ref_no"])){
                                                 $ref_no = $_GET["ref_no"];
-                                                $tbl_payment=$db->conn->query("SELECT * FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                                                $tbl_payment=$db->conn->query("SELECT *, e.date_created as d_c FROM `payment` as e INNER JOIN `loan` ON e.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_fetch=$sum_payment->fetch_array();
                                                 // $myfetch=$tbl_payment->fetch_array();
@@ -178,7 +183,7 @@
 												<td><?php echo $fetch['ref_no']?></td>
 												<td><?php echo $fetch['payee']?></td>
 												<td><?php echo "&#8369; ".number_format($fetch['pay_amount'], 2)?></td>
-												<td><?php echo $fetch['date_created']?></td>
+												<td><?php echo $fetch['d_c']?></td>
                                                 <!-- <td><?php print_r($fetch)?></td> -->
 
 											</tr>

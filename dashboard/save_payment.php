@@ -23,13 +23,19 @@
 			// echo "<script>alert('Please enter a correct amount to pay!')</script>";
 			// echo "<script>window.location='payment.php'</script>";	
 	
+
+
+
 			$db->save_payment($loan_id, $payee, $payment, $penalty, $overdue);
 			$count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows;
 			
 			if($count_pay===$month){
 				$db->conn->query("UPDATE `loan` SET `status`='3' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
 			}
-			
+			 $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.loan_id = $loan_id");
+			 $sum_fetch=$sum_payment->fetch_array();
+			 $db->conn->query("UPDATE `loan` SET `paid_amount`='$sum_fetch[0]' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
+
 			
 			header('Location: ' . $_SERVER['HTTP_REFERER']);
 		}

@@ -12,9 +12,9 @@ if(ISSET($_POST['save'])){
     $address=$_POST['address'];
     $email=$_POST['email'];
     $tax_id=$_POST['tax_id'];
-    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/append/uploads/" . $contact_no . "/";
+    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/docs/" . $contact_no . "/";
     if( is_dir($target_dir) === false ){
-        mkdir($target_dir);
+        mkdir($target_dir, 0777, true);
     }
     if(isset($_FILES['id_doc'])){
         $id_doc = $target_dir . "id_doc_" . basename($_FILES['id_doc']["name"]);

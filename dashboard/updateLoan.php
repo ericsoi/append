@@ -41,7 +41,7 @@
 	if(ISSET($_POST['update_form'])){
 		$db=new db_class();
 		$contact_no = $_POST['Contact_no'];
-		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/append/uploads/loan_form/" . $contact_no . "/" . date("Y-m-d") . "/" . rand(0, 999999) . "/";
+		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/loan_form/" . $contact_no . "/" . date("Y-m-d") . "/" . rand(0, 999999) . "/";
 		$loan_id = $_POST['Loan_id'];
 		if(isset($_FILES['loan_form'])){
 			if( is_dir($target_dir) === false ){

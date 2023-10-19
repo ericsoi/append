@@ -2,8 +2,8 @@
 // Database credentials
 $host = "localhost"; // Change this to your database host (e.g., "localhost" or IP address)
 $database = "db_lms"; // Change this to your database name
-$username = "root"; // Change this to your database username
-$password = ""; // Change this to your database password
+$username = "eric"; // Change this to your database username
+$password = "eric"; // Change this to your database password
 
 // PDO connection
 try {

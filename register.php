@@ -140,8 +140,8 @@ if (isset($_GET['status'])){
                       <input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
                     </div>
                     <div class="col-md-4 form-group">
-                      <label>Upload Signature</label>
-                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
+                      <label>Upload KRA Doc</label>
+                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload KRA">
                     </div>
                   </div>
                   <div class="row">

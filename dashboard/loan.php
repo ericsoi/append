@@ -84,6 +84,11 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
+			<li class="nav-item">
+                <a class="nav-link" href="reports.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Report</span></a>
+            </li>
         </ul>
         <!-- End of Sidebar -->
 
@@ -269,10 +274,12 @@
 												<div class="modal-content">
 													<div class="modal-header bg-warning">
 														<h5 class="modal-title text-white">Row Form</h5>
+
+														<?php $new_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $fetch['loan_form']);?>
 													</div>
 													<div class="modal-body">
-														<?php $pos = strpos($fetch['loan_form'], 'Append'); ?>
-														<img src='<?php echo '../' . substr($fetch['loan_form'], $pos + strlen('Append'));?>' class="card-img-top" alt="Form not found"/>
+														<?php $pos = strpos($fetch['loan_form'], 'dashboard'); ?>
+														<img src='<?php echo '..' . $new_path;?>' class="card-img-top" alt="Form not found"/>
 													</div>
 													<div class="modal-footer">
 														<form action="updateLoan.php" method="POST" enctype="multipart/form-data">
@@ -709,7 +716,7 @@
 					
 					var amount=parseFloat($("#amount").val());
 					console.log(amount);
-					var monthly =(amount + (amount * (interest/100))) / months;
+					var monthly =(amount + (amount * (interest/100))) / 1;
 					var penalty=monthly * (penalty/100);
 					var totalAmount=amount+monthly;
 					

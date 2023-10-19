@@ -262,7 +262,7 @@ if (isset($_GET['status'])){
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
-													$totalAmount=$fetch['amount']+$monthly;
+													$totalAmount=$fetch['totalAmount'];
 												?>
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>

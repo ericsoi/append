@@ -83,6 +83,11 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
+			<li class="nav-item">
+                <a class="nav-link" href="reports.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Report</span></a>
+            </li>
         </ul>
         <!-- End of Sidebar -->
 
@@ -188,31 +193,42 @@
 													<div class="modal-header bg-warning">
 														<h5 class="modal-title text-white">Legal Doccuments</h5>
 													</div>
-													<div class="modal-body">
 															<?php $pos = strpos($fetch['signature_doc'], 'Append'); 
-															// echo $fetch["id_doc"];
-															$front_id = explode('_Splitter_', $fetch["id_doc"])[0];
-															$back_id = explode('_Splitter_', $fetch["id_doc"])[1];
-															$pos1 = strpos($front_id, 'Append');
-															$pos2 = strpos($back_id, 'Append');
+																$front_id = explode('_Splitter_', $fetch["id_doc"])[0];
+																$back_id = explode('_Splitter_', $fetch["id_doc"])[1];
+																$signature_doc = $fetch['signature_doc'];
+																$front_id = str_replace($_SERVER['DOCUMENT_ROOT'], '', $front_id);
+																$back_id = str_replace($_SERVER['DOCUMENT_ROOT'], '', $back_id);
+																$signature_doc = str_replace($_SERVER['DOCUMENT_ROOT'], '', $signature_doc);
+
 															?>
-														<div class="row">
-															<div class="col-md-4">
-																<label> Front ID </label>
-																<img src='<?php echo '../' . substr($fetch['signature_doc'], $pos + strlen('Append'));?>' class="card-img-top" alt="Form not found"/>
+														<form action="updateBorrower.php" method="POST" enctype="multipart/form-data">
+															<div class="modal-body">
+																<div class="row">
+																	<div class="col-md-4">
+																		<label for="front_id">Front ID</label>
+																		<img src='<?php echo '..' . $front_id;?>' class="card-img-top" alt="Form not found"/>
+																		<input type="file" name="id_doc" id="id_doc">
+																	</div>
+																	<div class="col-md-4">
+																		<label for="back_id">Back ID</label>
+																		<img src='<?php echo '..' . $back_id;?>' class="card-img-top" alt="File not found"/>
+																		<input type="file" name="id_doc_back" id="id_doc_back">
+																	</div>
+																	<div class="col-md-4">
+																		<label for="kra">KRA</label>
+																		<img src='<?php echo '..' . $signature_doc;?>' class="card-img-top" alt="File not found"/>
+																		<input type="file" name="signature_doc" id="signature_doc">
+																		<input type="hidden" name ='contact_no' value="<?php echo $fetch['contact_no']?>"/>
+																		<input type="hidden" name ='borrower_id' value="<?php echo $fetch['borrower_id']?>"/>
+																	</div>
+																</div>
+																<div class="modal-footer">
+																	<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+																	<button class="btn btn-primary" type="submit" name="update_docs">Update</button>
+																</div>
 															</div>
-															<div class="col-md-4">
-																<label> Back ID </label>
-																<img src='<?php echo '../' . substr($front_id, $pos1 + strlen('Append'));?>' class="card-img-top" alt="file not found"/>															</div>
-															<div class="col-md-4">
-																<label> Signature</label>
-																<img src='<?php echo '../' . substr($back_id, $pos2 + strlen('Append'));?>' class="card-img-top" alt="file not found"/>															</div>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-														</div>
-													</div>
+														</form>
 												</div>
 											</div>
 										</div>
