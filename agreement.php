@@ -88,4 +88,4 @@ $pdf->Ln(10);
 $pdf->Image($front_id, 10, $pdf->GetY(), 80, 50);
 $pdf->Image($back_id, 100, $pdf->GetY(), 80, 50);
 
-$pdf->Output();
+$pdf->Output('LoanAgreement.pdf', 'D');
