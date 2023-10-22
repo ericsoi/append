@@ -327,7 +327,7 @@ if (isset($_GET['status'])){
                             $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
                             $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal; 
 												?>  
-                              <br/><br/><a href="agreement.php<?php echo $search_string?>" target="_blank"><button class="badge badge-success" type="button">print loan agreement</button></a>
+                              <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print loan agreement</button></a>
                             <?php
                           }  
                           ?>
