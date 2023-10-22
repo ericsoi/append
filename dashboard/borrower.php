@@ -194,6 +194,7 @@
 														<h5 class="modal-title text-white">Legal Doccuments</h5>
 													</div>
 															<?php $pos = strpos($fetch['signature_doc'], 'Append'); 
+																echo $fetch['signature_doc'];
 																$front_id = explode('_Splitter_', $fetch["id_doc"])[0];
 																$back_id = explode('_Splitter_', $fetch["id_doc"])[1];
 																$signature_doc = $fetch['signature_doc'];

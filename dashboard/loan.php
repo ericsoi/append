@@ -267,6 +267,7 @@
 													}
 												?>
 											</td>
+											
                                         </tr>
 										<!-- View Form Modal -->
 										<div class="modal fade" id="loanform<?php echo $fetch['loan_id']?>" aria-hidden="true">

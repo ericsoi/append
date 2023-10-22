@@ -159,7 +159,7 @@ if (isset($_GET['status'])){
                     <div class="col-md-6 form-group">
                         <label>Loan Plan</label>
                         <select name="lplan" class="form-control" required="required" id="lplan">
-                            <option value="">Please select an option</option>
+                            <!-- <option value="">Please select an option</option> -->
                           <?php
                             $tbl_lplan=$db->display_lplan();
                             while($fetch=$tbl_lplan->fetch_array()){
@@ -244,6 +244,9 @@ if (isset($_GET['status'])){
                       $tbl_loan=$db->get_loans($borrower_id);
 											$i=1;
 											while($fetch=$tbl_loan->fetch_array()){
+                        $ref_no = $fetch['ref_no'];
+												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                        $sum_fetch=$sum_payment->fetch_array();
 										?>
 										
                                         <tr>
@@ -276,19 +279,19 @@ if (isset($_GET['status'])){
 												
 											</td>
 											<td>
-												<?php
+                      <?php
 													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$fetch[loan_id]'") or die($this->conn->error);
 													$paid = $payment->num_rows;
 													$offset = $paid > 0 ? " offset $paid ": "";
 													
 													
 													if($fetch['status'] == 2){
-														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) ASC limit 1 $offset ")->fetch_assoc()['due_date'];
+														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) DESC limit 1 $offset ")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
-														echo "<p><small>Next Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
-														echo "<p><small>Montly Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
-														echo "<p><small>Penalty: <br /><strong>&#8369; ".$add."</strong></small></p>";
-														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".number_format($monthly+$add, 2)."</strong></small></p>";
+														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
+														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
+														echo "<p><small>Amount Paid: <br /><strong>&#8369; ".$sum_fetch[0]."</strong></small></p>";
+														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
 													}
 												?>
 											</td>
@@ -306,8 +309,30 @@ if (isset($_GET['status'])){
 														echo '<span class="badge badge-danger">Denied</span>';
 													}
 													
-												?>
+                          if($fetch['status'] == 2){
+                            // print_r($fetch);
+                            $names= $fetch['firstname'] . ' ' . $fetch['middlename'] . ' ' .$fetch['lastname'];
+                            $idno= $fetch['tax_id'];
+                            $plot_name= $fetch['address'];
+                            $phone_no= $fetch['contact_no'];
+                            $date= date("M d, Y", strtotime($fetch['date_released']));
+                            $due=date('F d, Y',strtotime($next));
+                            $agreement= number_format($totalAmount, 2);
+                            $daily= number_format($monthly, 2);
+                            $principal= number_format($fetch['amount'], 2);
+                            $id_front = explode('_Splitter_', $fetch["id_doc"])[0];
+                            $id_back = explode('_Splitter_', $fetch["id_doc"])[1];
+                            $signature_doc = $fetch['signature_doc'];
+                            $front_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_front);
+                            $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
+                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal; 
+												?>  
+                              <br/><br/><a href="agreement.php<?php echo $search_string?>" target="_blank"><button class="badge badge-success" type="button">print loan agreement</button></a>
+                            <?php
+                          }  
+                          ?>
 											</td>
+                      
                                            
                     </tr>
 										
