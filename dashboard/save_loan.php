@@ -14,8 +14,13 @@
 		$loan_plan=$db->check_lplan($lplan);
 		$fetch=$loan_plan->fetch_array();
 		$totalAmount = $fetch['lplan_interest']/100 * $loan_amount+ $loan_amount;
-		echo $totalAmount;
-
+		// echo $totalAmount;
+		// print_r($_POST);
+		$tbl_borrowe=$db->get_borrower_id($borrower);
+		$fetch_borrower=$tbl_borrowe->fetch_array();
+		$names = $fetch_borrower['firstname'] . ' ' . $fetch_borrower['middlename'];
+		$contact_no = $fetch_borrower['contact_no'];
+ 
 		if(isset($_FILES['loan_form'])){
 			if( is_dir($target_dir) === false ){
 				mkdir($target_dir, 0777, true);
@@ -26,6 +31,7 @@
 			$loan_form = $target_dir."loan_form.png";
 		}
 		$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose,$loan_form,$paid_amount,$totalAmount,$date_created);		
+		include '../mail.php';
 		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/loan.php"){
 			$contact_no=$_POST["contact_no"];
 			header("location: ../loan.php?status=applied&contact_no=".$contact_no);

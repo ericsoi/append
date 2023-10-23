@@ -199,6 +199,13 @@
 			}
 		}
 		
+		public function get_borrower_id($borrower_id){
+			$query=$this->conn->prepare("SELECT * FROM `borrower` where `borrower_id`='$borrower_id'") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function delete_borrower($borrower_id){
 			$query=$this->conn->prepare("DELETE FROM `borrower` WHERE `borrower_id` = '$borrower_id'") or die($this->conn->error);
 			if($query->execute()){
