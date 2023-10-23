@@ -6,7 +6,8 @@ if (isset($_GET['phone_number'])){
 }
 if (isset($_GET['status'])){
   $status = $_GET['status'];
-  echo "<script type='text/javascript'>alert('Registration '+'$status');</script>";
+  $message =  $_GET['message'];
+  echo "<script type='text/javascript'>alert('Registration '+'$status $message');</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -108,40 +109,40 @@ if (isset($_GET['status'])){
                 <form action=".\processing\register.php" method="POST" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-6 form-group">
-                      <input name="firstname" type="text" class="form-control" placeholder="First Name*" required>
+                    <input name="firstname" type="text" class="form-control" <?php if(isset($_GET['firstname'])) { echo 'value="' . $_GET['firstname'] . '"'; } ?> placeholder="First Name*" required/>
                     </div>
                     <div class="col-md-6 form-group">
-                      <input name="middlename" type="text" class="form-control" placeholder="Middle Name*" required>
+                      <input name="middlename" type="text" class="form-control" <?php if(isset($_GET['middlename'])) { echo 'value="' . $_GET['middlename'] . '"'; } ?>  placeholder="Middle Name*" required/>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 form-group">
-                      <input name="lastname" type="text" class="form-control" placeholder="Last Name*" required>
+                      <input name="lastname" type="text" class="form-control" <?php if(isset($_GET['lastname'])) { echo 'value="' . $_GET['lastname'] . '"'; } ?>  placeholder="Last Name*" required/>
                     </div>
                     <div class="col-md-6 form-group">
-                      <input name="email" type="text" class="form-control" placeholder="Second Number">
+                      <input name="email" type="text" class="form-control"<?php if(isset($_GET['second_number'])) { echo 'value="' . $_GET['second_number'] . '"'; } ?>  placeholder="Second Number"/>
                     </div>
                   </div>
                   <div class="row">
                    <div class="col-md-6 form-group">
-                      <input name="address" type="text" class="form-control" placeholder="Plot Name - Floor No - House No*" required>
+                      <input name="address" type="text" class="form-control" <?php if(isset($_GET['address'])) { echo 'value="' . $_GET['address'] . '"'; } ?> placeholder="Plot Name - Floor No - House No*" required/>
                     </div>
                     <div class="col-md-6 form-group">
-                      <input name="tax_id" type="text" class="form-control" placeholder="Id Number*" required>
+                      <input name="tax_id" type="text" class="form-control" <?php if(isset($_GET['tax_id'])) { echo 'value="' . $_GET['tax_id'] . '"'; } ?> placeholder="Id Number*" required/>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-4 form-group">
                     <label>Upload Front Id</label>
-                      <input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+                      <input name="id_doc" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required/>
                     </div>
                     <div class="col-md-4 form-group">
                     <label>Upload Back Id</label>
-                      <input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+                      <input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required/>
                     </div>
                     <div class="col-md-4 form-group">
                       <label>Upload KRA Doc</label>
-                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload KRA">
+                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload KRA" accept="image/*"/>
                     </div>
                   </div>
                   <div class="row">

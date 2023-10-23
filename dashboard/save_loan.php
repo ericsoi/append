@@ -15,18 +15,30 @@
 		$fetch=$loan_plan->fetch_array();
 		$totalAmount = $fetch['lplan_interest']/100 * $loan_amount+ $loan_amount;
 		// echo $totalAmount;
-		// print_r($_POST);
 		$tbl_borrowe=$db->get_borrower_id($borrower);
 		$fetch_borrower=$tbl_borrowe->fetch_array();
 		$names = $fetch_borrower['firstname'] . ' ' . $fetch_borrower['middlename'];
 		$contact_no = $fetch_borrower['contact_no'];
- 
+		
 		if(isset($_FILES['loan_form'])){
-			if( is_dir($target_dir) === false ){
-				mkdir($target_dir, 0777, true);
+			$file_type=explode("/",$_FILES['loan_form']['type'])[0];
+			if( $file_type=="image"){
+				if( is_dir($target_dir) === false ){
+					mkdir($target_dir, 0777, true);
+				}
+				$loan_form = $target_dir . basename($_FILES['loan_form']["name"]);
+				move_uploaded_file($_FILES['loan_form']['tmp_name'], $loan_form);
+			}else{
+				if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/loan.php"){
+					$contact_no=$_POST["contact_no"];
+					header("location: ../loan.php?status=error&message=Upload image files&contact_no=".$contact_no);
+				}else{
+					header("location: loan.php?status=error&message=Upload an image file");
+					return;
+				}
+				exit;
 			}
-			$loan_form = $target_dir . basename($_FILES['loan_form']["name"]);
-			move_uploaded_file($_FILES['loan_form']['tmp_name'], $loan_form);
+			
 		}else{
 			$loan_form = $target_dir."loan_form.png";
 		}

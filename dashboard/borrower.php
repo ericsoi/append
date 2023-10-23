@@ -3,6 +3,11 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
+	if (isset($_GET['status'])){
+		$status = $_GET['status'];
+		$message =  $_GET['message'];
+		echo "<script type='text/javascript'>alert('Registration '+'$status $message');</script>";
+	  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -199,8 +204,7 @@
 													<div class="modal-header bg-warning">
 														<h5 class="modal-title text-white">Legal Doccuments</h5>
 													</div>
-															<?php $pos = strpos($fetch['signature_doc'], 'Append'); 
-																echo $fetch['signature_doc'];
+															<?php 
 																$front_id = explode('_Splitter_', $fetch["id_doc"])[0];
 																$back_id = explode('_Splitter_', $fetch["id_doc"])[1];
 																$signature_doc = $fetch['signature_doc'];
@@ -215,19 +219,19 @@
 																	<div class="col-md-4">
 																		<label for="front_id">Front ID</label>
 																		<img src='<?php echo '..' . $front_id;?>' class="card-img-top" alt="Form not found"/>
-																		<input type="file" name="id_doc" id="id_doc">
+																		<input type="file" name="id_doc" id="id_doc" accept="image/*">
 																	</div>
 																	<div class="col-md-4">
 																		<label for="back_id">Back ID</label>
 																		<img src='<?php echo '..' . $back_id;?>' class="card-img-top" alt="File not found"/>
-																		<input type="file" name="id_doc_back" id="id_doc_back">
+																		<input type="file" name="id_doc_back" id="id_doc_back" accept="image/*">
 																	</div>
 																	<div class="col-md-4">
 																		<label for="kra">KRA</label>
 																		<img src='<?php echo '..' . $signature_doc;?>' class="card-img-top" alt="File not found"/>
-																		<input type="file" name="signature_doc" id="signature_doc">
+																		<input type="file" name="signature_doc" id="signature_doc" accept="image/*">
 																		<input type="hidden" name ='contact_no' value="<?php echo $fetch['contact_no']?>"/>
-																		<input type="hidden" name ='borrower_id' value="<?php echo $fetch['borrower_id']?>"/>
+																		<input type="hidden" name ='borrower_id' value="<?php echo $fetch['borrower_id']?>" />
 																	</div>
 																</div>
 																<div class="modal-footer">
@@ -281,18 +285,18 @@
 																<label>Tax ID(must be valid)</label>
 																<input type="number" name="tax_id" min="0" value="<?php echo $fetch['tax_id']?>" class="form-control" required="required" />
 															</div>
-															<div class="col-md-6 form-group">
+															<!-- <div class="col-md-6 form-group">
 																<label>Upload Id</label>
-																<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+																<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
 															</div>
 															<div class="col-md-6 form-group">
 																<label>Upload Back Id</label>
-																<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+																<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
 															</div>
 															<div class="col-md-6 form-group">
-																<label>Upload Signature</label>
-																<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
-															</div>
+																<label>Upload KRA</label>
+																<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" accept="image/*">
+															</div> -->
 														</div>
 														<div class="modal-footer">
 															<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -376,44 +380,51 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label>Firstname</label>
-							<input type="text" name="firstname" class="form-control" required="required" />
+							<input name="firstname" type="text" class="form-control" <?php if(isset($_GET['firstname'])) { echo 'value="' . $_GET['firstname'] . '"'; } ?> placeholder="First Name*" required/>
+
 						</div>
 						<div class="form-group">
 							<label>Middlename</label>
-							<input type="text" name="middlename" class="form-control" required="required" />
+							<input name="middlename" type="text" class="form-control" <?php if(isset($_GET['middlename'])) { echo 'value="' . $_GET['middlename'] . '"'; } ?> placeholder="Middle Name*" required/>
+
 						</div>
 						<div class="form-group">
 							<label>Lastname</label>
-							<input type="text" name="lastname" class="form-control" required="required" />
+							<input name="lastname" type="text" class="form-control" <?php if(isset($_GET['lastname'])) { echo 'value="' . $_GET['lastname'] . '"'; } ?> placeholder="Last Name*" required/>
+
 						</div>
 						<div class="form-group">
 							<label>Contact no</label>
-							<input type="text" name="contact_no" class="form-control" placeholder="Eg.[0712345678]" required="required" />
+							<input name="contact_no" type="text" class="form-control" <?php if(isset($_GET['phone_number'])) { echo 'value="' . $_GET['phone_number'] . '"'; } ?> placeholder="Eg.[0712345678]*" required/>
+
 						</div>
 						<div class="form-group">
 							<label>Contact2</label>
-							<input type="text" name="email" class="form-control" maxlength="30"/>
+							<input name="email" type="text" class="form-control" <?php if(isset($_GET['second_number'])) { echo 'value="' . $_GET['second_number'] . '"'; } ?> placeholder="Eg.[0712345678]*" required/>
+
 						</div>
 						<div class="form-group">
 							<label>Address</label>
-							<input type="text" name="address" class="form-control" required="required" />
+							<input name="address" type="text" class="form-control" <?php if(isset($_GET['address'])) { echo 'value="' . $_GET['address'] . '"'; } ?> placeholder="Enter Plot Name" required/>
+
 						</div>
 						
 						<div class="form-group">
 							<label>Tax ID(must be valid)</label>
-							<input type="number" name="tax_id" min="0" class="form-control" required="required" />
+							<input name="tax_id" type="number" class="form-control" <?php if(isset($_GET['tax_id'])) { echo 'value="' . $_GET['tax_id'] . '"'; } ?> placeholder="ID number" required/>
+
 						</div>
 						<div class="col-md-6 form-group">
 							<label>Upload Id</label>
-							<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" required>
+							<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
 						</div>
 						<div class="col-md-6 form-group">
 							<label>Upload Back Id</label>
-							<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" required>
+							<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
 						</div>
 						<div class="col-md-6 form-group">
-							<label>Upload Signature</label>
-							<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" required>
+							<label>Upload KRA</label>
+							<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" accept="image/*">
 						</div>
 					</div>
 					<div class="modal-footer">

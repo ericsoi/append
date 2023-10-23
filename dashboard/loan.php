@@ -3,7 +3,14 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
-?>
+	if (isset($_GET['status'])){
+		$status = $_GET['status'];
+		if ($status == 'error'){
+			$message = $_GET["message"];
+			echo "<script type='text/javascript'>alert('Error '+'$message');</script>";
+		}
+	}
+	?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,7 +191,7 @@
 											<td>
 												<p><small>Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
 												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
-												<p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p>
+												<p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%]"?></strong> interest</small></p>
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
@@ -194,7 +201,7 @@
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
 												<!-- <p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
-												<p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
+												<!-- <p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p> -->
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 														echo '<p><small>Date Released: <strong>'.date("M d, Y", strtotime($fetch['date_released'])).'</strong></small></p>';
@@ -354,12 +361,12 @@
 																			$tbl_lplan=$db->display_lplan();
 																			while($row=$tbl_lplan->fetch_array()){
 																		?>
-																			<option value="<?php echo $row['lplan_id']?>" <?php echo ($fetch['lplan_id']==$row['lplan_id'])?'selected':''?>><?php echo $row['lplan_month']." Days[".$row['lplan_interest']."%, ".$row['lplan_penalty']."%]"?></option>
+																			<option value="<?php echo $row['lplan_id']?>" <?php echo ($fetch['lplan_id']==$row['lplan_id'])?'selected':''?>><?php echo $row['lplan_month']." Days[".$row['lplan_interest']."%]"?></option>
 																		<?php
 																			}
 																		?>
 																	</select>
-																	<label>Days[Interest%, Penalty%]</label>
+																	<!-- <label>Days[Interest%, Penalty%]</label> -->
 																</div>
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Loan Amount</label>
@@ -376,7 +383,7 @@
 															<div class="form-row">
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Purpose</label>
-																	<textarea name="purpose" class="form-control" style="resize:none; height:200px;" required="required"><?php echo $fetch['purpose']?></textarea>
+																	<input name="purpose" class="form-control" style="resize:none; height:200px;" value="<?php echo $fetch['purpose']?>" required="required"/>
 																</div>
 																<div class="form-group col-xl-6 col-md-6">
 																	<button type="button" class="btn btn-primary btn-block" id="updateCalculate">Calculate Amount</button>
@@ -393,8 +400,8 @@
 																	<center><span id="umpa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
 																</div> -->
 																<div class="col-xl-6 col-md-6">
-																	<center><span>Penalty Amount</span></center>
-																	<center><span id="upa"><?php echo "&#8369; ".number_format($penalty, 2)?></span></center>
+																	<center><span>Daily Amount</span></center>
+																	<center><span id="upa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
 																</div>
 															</div>
 															<hr>
@@ -578,7 +585,7 @@
 								<label>Loan type</label>
 								<br />
 								<select name="ltype" class="loan" required="required" style="width:100%;">
-										<option value=""></option>
+										<!-- <option value=""></option> -->
 									<?php
 										$tbl_ltype=$db->display_ltype();
 										while($fetch=$tbl_ltype->fetch_array()){
@@ -594,7 +601,7 @@
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Loan Plan</label>
 								<select name="lplan" class="form-control" required="required" id="lplan">
-										<option value="">Please select an option</option>
+										<!-- <option value="">Please select an option</option> -->
 									<?php
 										$tbl_lplan=$db->display_lplan();
 										while($fetch=$tbl_lplan->fetch_array()){
@@ -608,7 +615,7 @@
 										}
 									?>
 								</select>
-								<label>Days[Interest%, Penalty%]</label>
+								<!-- <label>Days[Interest%, Penalty%]</label> -->
 							</div>
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Loan Amount</label>
@@ -618,13 +625,13 @@
 						<div class="form-row">
 							<div class="form-group col-xl-12 col-md-12">
 								<label>Upload Loan Form</label>
-								<input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form"/>
+								<input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form" accept="image/*"/>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Purpose</label>
-								<textarea name="purpose" class="form-control" style="resize:none; height:200px;" required="required"></textarea>
+								<input name="purpose" class="form-control" style="resize:none; height:200px;" value="Business Loan" required="required"/>
 							</div>
 							<div class="form-group col-xl-6 col-md-6">
 								<button type="button" class="btn btn-primary btn-block" id="calculate">Calculate Amount</button>
@@ -641,7 +648,7 @@
 								<center><span id="mpa"></span></center>
 							</div> -->
 							<div class="col-xl-6 col-md-6">
-								<center><span>Penalty Amount</span></center>
+								<center><span>Daily Amount</span></center>
 								<center><span id="pa"></span></center>
 							</div>
 						</div>
@@ -722,16 +729,22 @@
 					var penalty=parseFloat(findpenalty.replace(/[^0-9.]/g, ""));
 					
 					var amount=parseFloat($("#amount").val());
-					console.log(amount);
+					
+
+					var l_plan=$("#lplan option:selected").text();
+					var l_days=parseFloat(l_plan.replace(/[^0-9.]/g, ""));
+					console.log(l_days);
+					
 					var monthly =(amount + (amount * (interest/100))) / 1;
 					var penalty=monthly * (penalty/100);
-					var totalAmount=amount+monthly;
-					
-					
+
+					var totalAmount=interest/100*amount + amount;
+					var monthly = totalAmount / l_days;
+					console.log(monthly);
 					
 					$("#tpa").text("\u20B1 "+totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					$("#mpa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#pa").text("\u20B1 "+penalty.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#pa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					
 					$("#calcTable").show();
 				}

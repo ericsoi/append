@@ -20,7 +20,7 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="">Matrick Credit</a>
+		<a class="navbar-brand" href="../">Matrick Credit</a>
 	</nav>
     <div class="container">
 		<div class="row justify-content-center">

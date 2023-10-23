@@ -19,6 +19,10 @@ if (isset($_GET['status'])){
   if ($status == 'applied'){
     echo "<script type='text/javascript'>alert('Loan '+'$status' + '. Pending approval and disbursment');</script>";
   }
+  if ($status == 'error'){
+    $message = $_GET["message"];
+    echo "<script type='text/javascript'>alert('Error '+'$message');</script>";
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -57,7 +61,6 @@ if (isset($_GET['status'])){
       <link href="dashboard/css/select2.css" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: Append
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
   * Template URL: https://bootstrapmade.com/append-bootstrap-website-template/
   * Author: BootstrapMade.com
@@ -187,13 +190,13 @@ if (isset($_GET['status'])){
                   <div class="row">
                     <div class="form-group col-xl-12 col-md-12">
                       <label>Upload Loan Form</label>
-                      <input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form"/>
+                      <input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form" accept="image/*"/>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-xl-6 col-md-6">
                       <label>Purpose</label>
-                      <textarea name="purpose" class="form-control" style="resize:none; height:100px;" required="required"></textarea>
+                      <input name="purpose" class="form-control" style="resize:none; height:100px;" value="Business Loan" required="required"/>
                     </div>
                     <div class="form-group col-xl-6 col-md-6">
                       <label>.</label>
@@ -257,7 +260,7 @@ if (isset($_GET['status'])){
 												<p><small>Address: <strong><?php echo $fetch['address']?></strong></small></p>
 											</td>
 											<td>
-												<p><small>Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
+												<p><small>Loan Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
 												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
 												<!-- <p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p> -->
 												<p><small>Loan Plan: <strong>27 Days</strong></small></p>
@@ -270,7 +273,7 @@ if (isset($_GET['status'])){
 												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
 												<p><small>Total Payable: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
 												<!-- <p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
-												<p><small>Overdue Payable: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p>
+												<!-- <p><small>Overdue Payable: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p> -->
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 														echo '<p><small>Date Released: <strong>'.date("M d, Y", strtotime($fetch['date_released'])).'</strong></small></p>';
@@ -358,7 +361,7 @@ if (isset($_GET['status'])){
 													<div class="modal-body">
 														<div class="row">
 															<div class="col-md-5 col-xl-5">
-																<p>Reference No:</p>
+																<p>Loan Reference No:</p>
 																<p><strong><?php echo $fetch['ref_no']?></strong></p>
 															</div>
 															<div class="col-md-7 col-xl-7">
