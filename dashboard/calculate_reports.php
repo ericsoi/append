@@ -23,9 +23,9 @@ if(ISSET($_POST['save'])){
             $sum_amount_out =$sum_fetch[2];
             $sum_paid_amount = $sum_fetch[0];
             $total_loans= $sum_fetch[3];
-            header('Location: reports.php?sum_amount_out='.$sum_amount_out.'&sum_paid_amount='.$sum_paid_amount.'&total_loans='.$total_loans.'&startDate='.$startDate.'&endDate='.$endDate);
+            header('Location: reports.php?loan=Complete Loans&sum_amount_out='.$sum_amount_out.'&sum_paid_amount='.$sum_paid_amount.'&total_loans='.$total_loans.'&startDate='.$startDate.'&endDate='.$endDate);
         }else{
-            header('Location: reports.php?status=no records&startDate='.$startDate.'&endDate='.$endDate);
+            header('Location: reports.php?loan=Complete Loans&status=no records&startDate='.$startDate.'&endDate='.$endDate);
         }
     }
     if ($_POST["status"]=="Active Loans"){
@@ -38,9 +38,9 @@ if(ISSET($_POST['save'])){
         $sum_paid_amount = $sum_fetch[0];
         $total_loans= $sum_fetch[3];
         if ($sum_fetch[3]>0){
-            header('Location: reports.php?sum_amount_out='.$sum_amount_out.'&sum_totalAmount_out='.$sum_totalAmount_out.'&sum_paid_amount='.$sum_paid_amount.'&total_loans='.$total_loans.'&startDate='.$startDate.'&endDate='.$endDate);
+            header('Location: reports.php?loan=Active Loans&sum_amount_out='.$sum_amount_out.'&sum_totalAmount_out='.$sum_totalAmount_out.'&sum_paid_amount='.$sum_paid_amount.'&total_loans='.$total_loans.'&startDate='.$startDate.'&endDate='.$endDate);
         }else{
-            header('Location: reports.php?status=no records&startDate='.$startDate.'&endDate='.$endDate);
+            header('Location: reports.php?loan=Active Loans&status=no records&startDate='.$startDate.'&endDate='.$endDate);
         }
     }
 }

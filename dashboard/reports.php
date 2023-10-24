@@ -173,6 +173,7 @@
 									 <div class="table-responsive">
 										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <?php if(ISSET($_GET["startDate"])){?>
+                                                <div><?php echo $_GET["loan"] ?> </div><br/>
                                                 <div><b> <?php echo $_GET["startDate"] . " to " .date("Y-m-d", strtotime($_GET["endDate"] . ' -1 day')) ?></b></div>
                                                 <?php
                                                 }?>
