@@ -148,11 +148,11 @@
 									<form method="POST" action="calculate_reports.php">
 										<div class="form-group">
 											<label>From </label>
-											<input type="date" class="form-control" name="from" required="required" value="<?php echo date('Y-m-d'); ?>"/>
+											<input type="date" class="form-control" name="from" required="required" value="<?php if(ISSET($_GET["startDate"])){echo $_GET["startDate"];}else{ echo date('Y-m-d');}; ?>"/>
 										</div>
 										<div class="i-group">
 											<label>To</label>
-											<input type="date" class="form-control" name="to" required="required" value="<?php echo date('Y-m-d'); ?>"/>
+											<input type="date" class="form-control" name="to" required="required" value="<?php if(ISSET($_GET["endDate"])){echo $_GET["endDate"];}else{ echo date('Y-m-d');}; ?>"/>
 										</div>
 										<div class="i-group">
                                         <label>Select an option to continue</label>
