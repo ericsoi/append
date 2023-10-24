@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
@@ -477,33 +477,58 @@
 													</div>
 													<div class="modal-body">
 														<div class="row">
-															<div class="col-md-5 col-xl-5">
-																<p>Reference No:</p>
+															<div class="col-md-4 col-xl-4">
+																<p>Loan Reference No:</p>
 																<p><strong><?php echo $fetch['ref_no']?></strong></p>
 															</div>
-															<div class="col-md-7 col-xl-7">
+															<div class="col-md-4 col-xl-4">
 																<p>Name:</p>
 																<p><strong><?php echo $fetch['firstname']." ".substr($fetch['middlename'], 0, 1).". ".$fetch['lastname']?></strong></p>
 															</div>
+															<div class="col-md-4 col-xl-4">
+																<p>Days Paid:</p>
+																<?php
+																	$tbl_schedule_total = $db->conn->query("SELECT COUNT(*) FROM `loan_schedule` WHERE `loan_id` = '".$fetch['loan_id']."' AND `status` = '1'");
+																	$total=$tbl_schedule_total->fetch_array();
+																?>
+
+																<p><strong><?php echo $total[0]?></strong></p>
+															</div>
 														</div>
 														<hr />
+														<!-- $count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows; -->
+
 														
 														<div class="container">
 															<div class="row">
-																<div class="col-sm-6"><center>Days</center></div>
-																<div class="col-sm-6"><center>Daily Payment</center></div>
+																<div class="col-sm-4"><center>Days</center></div>
+																<div class="col-sm-3"><center>Daily Payment</center></div>
+																<div class="col-sm-3"><center>Amount Paid</center></div>
+																<div class="col-sm-2"><center>Status </center></div>
+
+
 															</div>
 															<hr />
 															<?php 
 																$tbl_schedule=$db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='".$fetch['loan_id']."'");
-																
+																$i=1;
 																while($row=$tbl_schedule->fetch_array()){
+																	
 															?>
 															<div class="row">
-																<div class="col-sm-6 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
-																<div class="col-sm-6 p-2 pl-5" style="border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
+																<div class="col-sm-4 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $i. '	'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
+																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
+																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $row['amount_paid'] ?></strong></div>
+																<div class="col-sm-2 p-2 pl-5" style="border-bottom: 1px solid black;"><strong>
+																	<?php if($row['status'] == "1") { 
+																		echo '<i class="fa fa-check" aria-hidden="true"></i>';
+																	}
+																	?> 
+																</strong>
+															</div>
 															</div>
 																<?php
+																$i++;
 																}
 															?>
 														

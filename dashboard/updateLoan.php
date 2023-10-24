@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'class.php';
 	if(ISSET($_POST['update'])){
 		$db=new db_class();
@@ -22,8 +22,10 @@
 		}else{
 			if($status==2){
 				$date_released=date("Y-m-d H:i:s");
-				for($i=1; $i<=$month; $i++){
+				for($i=0; $i<$month; $i++){
 					$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
+					
+
 					$db->save_date_sched($loan_id, $date_schedule);
 				}
 			}else{

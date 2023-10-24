@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'class.php';
 	if(ISSET($_POST['apply'])){
 		$db=new db_class();
@@ -20,7 +20,7 @@
 		$names = $fetch_borrower['firstname'] . ' ' . $fetch_borrower['middlename'];
 		$contact_no = $fetch_borrower['contact_no'];
 		
-		if(isset($_FILES['loan_form'])){
+		if (isset($_FILES['loan_form']) && $_FILES['loan_form']['error'] === 0 && $_FILES['loan_form']['size'] > 0) {
 			$file_type=explode("/",$_FILES['loan_form']['type'])[0];
 			if( $file_type=="image"){
 				if( is_dir($target_dir) === false ){
@@ -34,7 +34,7 @@
 					header("location: ../loan.php?status=error&message=Upload image files&contact_no=".$contact_no);
 				}else{
 					header("location: loan.php?status=error&message=Upload an image file");
-					return;
+					exit;
 				}
 				exit;
 			}

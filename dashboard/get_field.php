@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
@@ -37,7 +37,7 @@
 <div class="form-row">
 	<div class="form-group col-xl-6 col-md-6">
 		<p>Daily Amount: <strong>&#8369; <?php echo number_format($monthly, 2)?></strong></p>
-		<p>Penalty: <strong>&#8369; <?php echo number_format($add, 2)?></strong></p>
+		<!-- <p>Penalty: <strong>&#8369; <?php echo number_format($add, 2)?></strong></p> -->
 		<!-- <p>Payable Amount: <strong>&#8369; <?php echo number_format($monthly+$add, 2)?></strong></p> -->
 
 		<p>Payable Amount: <strong>&#8369; <?php echo $totalAmount?></strong></p>

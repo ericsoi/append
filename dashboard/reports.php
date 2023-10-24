@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set("Etc/GMT+8");
+	// date_default_timezone_set("Etc/GMT+8");
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
@@ -158,8 +158,8 @@
                                         <label>Select an option to continue</label>
 
                                             <select class="form-control" name="status">
-                                                <option class="form-control" >Complete Loans</option>
                                                 <option class="form-control" >Active Loans</option>
+                                                <option class="form-control" >Complete Loans</option>
                                             </select>
 										</div>
 										<button type="submit" class="btn btn-primary btn-block" name="save">Check</button>
