@@ -10,6 +10,11 @@
 			echo "<script type='text/javascript'>alert('Error '+'$message');</script>";
 		}
 	}
+	if (isset($_GET['updated'])){
+		$updated = $_GET['updated'];
+		echo "<script type='text/javascript'>alert('Success '+'$updated');</script>";
+	}
+	
 	?>
 <!DOCTYPE html>
 <html lang="en">
@@ -468,6 +473,7 @@
 										<!-- View Payment Schedule -->
 										<div class="modal fade" id="viewSchedule<?php echo $fetch['loan_id']?>" tabindex="-1" aria-hidden="true">
 											<div class="modal-dialog">
+												<form action='update_payments.php' method="POST">
 												<div class="modal-content">
 													<div class="modal-header bg-info">
 														<h5 class="modal-title text-white">Payment Schedule</h5>
@@ -516,13 +522,19 @@
 																	
 															?>
 															<div class="row">
-																<div class="col-sm-4 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $i. '	'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
+																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $i. '	'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $row['amount_paid'] ?></strong></div>
-																<div class="col-sm-2 p-2 pl-5" style="border-bottom: 1px solid black;"><strong>
+																<div class="col-sm-3 p-2 pl-5" style="border-bottom: 1px solid black;"><strong>
 																	<?php if($row['status'] == "1") { 
 																		echo '<i class="fa fa-check" aria-hidden="true"></i>';
-																	}
+																	}else{?>
+																		<div class="form-check form-switch">
+																			<input name="<?php echo $row['due_date'] ."name". $row['loan_id'] . "name" . $monthly;?>" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked<?php echo $row['loan_sched_id'];?>">
+																			<label class="form-check-label" for="flexSwitchCheckChecked<?php echo $row['loan_sched_id'];?>">Update Payment</label>
+																		</div>
+																		<?php
+																		}
 																	?> 
 																</strong>
 															</div>
@@ -535,9 +547,11 @@
 														</div>	
 													</div>
 													<div class="modal-footer">
+														<button class="btn btn-success" type="submit">Update</button>
 														<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
 													</div>
 												</div>
+												</form>
 											</div>
 										</div>
 										
