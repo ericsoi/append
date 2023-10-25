@@ -4,7 +4,7 @@
 	require_once'class.php';
 	$db=new db_class(); 
     $currentDate = date("Y-m-d");
-    $newDate = date("Y-m-d", strtotime($currentDate . " -1 day"));
+    $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
