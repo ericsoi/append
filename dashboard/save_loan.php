@@ -42,14 +42,31 @@
 		}else{
 			$loan_form = $target_dir."loan_form.png";
 		}
-		$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose,$loan_form,$paid_amount,$totalAmount,$date_created);		
-		include '../mail.php';
+		print_r($_POST);
+		$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` WHERE CAST(`paid_amount` AS FLOAT) < CAST(`totalAmount` AS FLOAT)");
+		if($tbl_unpaid->num_rows > 0){
+			$status="error";
+			$message="Loan application Failure, Your loan is active or pending for aproval";
+		}else{
+			$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose,$loan_form,$paid_amount,$totalAmount,$date_created);		
+			$status="applied";
+			$message="Loan application Successfull, awaiting aproval";
+			include '../mail.php';
+		}
 		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/loan.php"){
 			$contact_no=$_POST["contact_no"];
-			header("location: ../loan.php?status=applied&contact_no=".$contact_no);
+			header("location: ../loan.php?status=".$status."&message=".$message."&contact_no=".$contact_no);
 		}else{
-			header("location: loan.php?");
-			return;
+			header("location: loan.php?status=".$status."&message=".$message);
 		}
+		// $db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose,$loan_form,$paid_amount,$totalAmount,$date_created);		
+		// include '../mail.php';
+		// if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/loan.php"){
+		// 	$contact_no=$_POST["contact_no"];
+		// 	header("location: ../loan.php?status=applied&contact_no=".$contact_no);
+		// }else{
+		// 	header("location: loan.php?");
+		// 	return;
+		// }
 	}
 ?>

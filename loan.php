@@ -283,13 +283,14 @@ if (isset($_GET['status'])){
 											</td>
 											<td>
                       <?php
-													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$fetch[loan_id]'") or die($this->conn->error);
+                          $loanid = $fetch['loan_id'];
+													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loanid'") or die($this->conn->error);
 													$paid = $payment->num_rows;
 													$offset = $paid > 0 ? " offset $paid ": "";
 													
 													
 													if($fetch['status'] == 2){
-														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) DESC limit 1 $offset ")->fetch_assoc()['due_date'];
+														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$loanid' ORDER BY date(due_date) DESC limit 1")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
 														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
@@ -306,6 +307,11 @@ if (isset($_GET['status'])){
 														echo '<span class="badge badge-info">Approved</span>';
 													}else if($fetch['status']==2){
 														echo '<span class="badge badge-primary">Released</span>';
+                            if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) {
+                              echo '<div><span class="badge badge-success">Complete</span></div>';
+                            } else {
+                              echo '<div><span class="badge badge-danger">Active</span></div>';
+                            } 
 													}else if($fetch['status']==3){
 														echo '<span class="badge badge-success">Completed</span>';
 													}else if($fetch['status']==4){
@@ -329,9 +335,11 @@ if (isset($_GET['status'])){
                             $front_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_front);
                             $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
                             $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal; 
-												?>  
+												    ?>  
                               <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print loan agreement</button></a>
+                            
                             <?php
+                              
                           }  
                           ?>
 											</td>
