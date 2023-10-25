@@ -177,18 +177,18 @@
                                     <tbody>
 										<?php
 											$tbl_loan=$db->display_loan();
-											$i=1;
+											$counter=1;
 											while($fetch=$tbl_loan->fetch_array()){
 												$ref_no = $fetch['ref_no'];
 												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_fetch=$sum_payment->fetch_array();
 												$payee = $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1).".";
-												$i++;
+												$counter++;
 												
 										?>
 										
                                         <tr>
-											<td><?php echo $i;?></td>
+											<td><?php echo $counter;?></td>
 											<td>
 												<p><small>Name: <strong><?php echo $payee;?></strong></small></p>
 												<p><small>Contact: <strong><?php echo $fetch['contact_no']?></strong></small></p>
