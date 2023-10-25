@@ -183,10 +183,12 @@
 												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_fetch=$sum_payment->fetch_array();
 												$payee = $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1).".";
+												$i++;
+												
 										?>
 										
                                         <tr>
-											<td><?php echo $i++;?></td>
+											<td><?php echo $i;?></td>
 											<td>
 												<p><small>Name: <strong><?php echo $payee;?></strong></small></p>
 												<p><small>Contact: <strong><?php echo $fetch['contact_no']?></strong></small></p>
