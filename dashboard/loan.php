@@ -177,7 +177,7 @@
                                     <tbody>
 										<?php
 											$tbl_loan=$db->display_loan();
-											$counter=1;
+											$counter=0;
 											while($fetch=$tbl_loan->fetch_array()){
 												$ref_no = $fetch['ref_no'];
 												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
