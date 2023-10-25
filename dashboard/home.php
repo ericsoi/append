@@ -3,6 +3,8 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
+    $currentDate = date("Y-m-d");
+    $newDate = date("Y-m-d", strtotime($currentDate . " -1 day"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -179,7 +181,7 @@
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
 												<?php 
-													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='".date("Y-m-d")."'");
+													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
 													echo $tbl_payment->num_rows > 0 ? "&#8369; ".number_format($tbl_payment->fetch_array()['total'],2) : "&#8369; 0.00";
 												?>
 											</div>
@@ -251,7 +253,7 @@
                                                     FROM payment
                                                     INNER JOIN loan ON payment.loan_id = loan.loan_id
                                                     INNER JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id
-                                                    WHERE DATE(payment.date_created) = '".date("Y-m-d")."'");
+                                                    WHERE DATE(payment.date_created) = '$newDate'");
                                                     echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : "&#8369; 0.00";
                                                 // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
@@ -279,12 +281,13 @@
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Todays Interest-free</div>
+                                            
                                         <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
                                                 $tbl_sum_loan=$db->conn->query("SELECT 
                                                 SUM(loan.amount / loan_plan.lplan_month) as total_daily
                                                     from payment INNER JOIN loan ON payment.loan_id = loan.loan_id INNER
-                                                    JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id WHERE DATE(payment.date_created) = '".date("Y-m-d")."'");
+                                                    JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id WHERE DATE(payment.date_created) = '$newDate'");
                                                     echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['total_daily'],2) : "&#8369; 0.00";
                                                 // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
