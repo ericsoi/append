@@ -182,12 +182,13 @@
 												$ref_no = $fetch['ref_no'];
 												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_fetch=$sum_payment->fetch_array();
+												$payee = $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1).".";
 										?>
 										
                                         <tr>
 											<td><?php echo $i++;?></td>
 											<td>
-												<p><small>Name: <strong><?php echo $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1)."."?></strong></small></p>
+												<p><small>Name: <strong><?php echo $payee;?></strong></small></p>
 												<p><small>Contact: <strong><?php echo $fetch['contact_no']?></strong></small></p>
 												<p><small>Contact2: <strong><?php echo $fetch['email']?></strong></small></p>
 
@@ -216,13 +217,14 @@
 											</td>
 											<td>
 												<?php
-													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$fetch[loan_id]'") or die($this->conn->error);
+													$loanid = $fetch['loan_id'];
+													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loanid'") or die($this->conn->error);
 													$paid = $payment->num_rows;
 													$offset = $paid > 0 ? " offset $paid ": "";
 													
 													
 													if($fetch['status'] == 2){
-														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$fetch[loan_id]' ORDER BY date(due_date) DESC limit 1 $offset ")->fetch_assoc()['due_date'];
+														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$loanid' ORDER BY date(due_date) DESC limit 1")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
 														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
@@ -271,10 +273,16 @@
 												<?php
 													}else{
 												?>
+													<div>
+													<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateloan<?php echo $fetch['loan_id']?>">Edit</a>
+													<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#loanform<?php echo $fetch['loan_id']?>">View Form</a>
+													<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['loan_id']?>">Delete</a>
+
+													</div>	
 													<div class="dropdown">
-														<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 															Action
-														</button>
+														</button> -->
 														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 															<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateloan<?php echo $fetch['loan_id']?>">Edit</a>
 															<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#loanform<?php echo $fetch['loan_id']?>">View Form</a>
@@ -388,7 +396,7 @@
 															<div class="form-row">
 																<div class="form-group col-xl-6 col-md-6">
 																	<label>Purpose</label>
-																	<input name="purpose" class="form-control" style="resize:none; height:200px;" value="<?php echo $fetch['purpose']?>" required="required"/>
+																	<input name="purpose" class="form-control"  value="<?php echo $fetch['purpose']?>" required="required"/>
 																</div>
 																<div class="form-group col-xl-6 col-md-6">
 																	<button type="button" class="btn btn-primary btn-block" id="updateCalculate">Calculate Amount</button>
@@ -519,7 +527,8 @@
 
 															</div>
 															<hr />
-															<?php 
+															<?php
+																// print_r($fetch); 
 																$tbl_schedule=$db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='".$fetch['loan_id']."'");
 																$i=1;
 																while($row=$tbl_schedule->fetch_array()){
@@ -534,7 +543,7 @@
 																		echo '<i class="fa fa-check" aria-hidden="true"></i>';
 																	}else{?>
 																		<div class="form-check form-switch">
-																			<input name="<?php echo $row['due_date'] ."name". $row['loan_id'] . "name" . $monthly;?>" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked<?php echo $row['loan_sched_id'];?>">
+																			<input value = "<?php echo $row['due_date'] ."name". $row['loan_id'] . "name" . $monthly . "name".$payee;?>" name="<?php echo $row['due_date'] ."name". $row['loan_id'] . "name" . $monthly . "name".$payee;?>" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked<?php echo $row['loan_sched_id'];?>">
 																			<label class="form-check-label" for="flexSwitchCheckChecked<?php echo $row['loan_sched_id'];?>">Update Payment</label>
 																		</div>
 																		<?php
@@ -674,7 +683,7 @@
 						<div class="form-row">
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Purpose</label>
-								<input name="purpose" class="form-control" style="resize:none; height:200px;" value="Business Loan" required="required"/>
+								<input name="purpose" class="form-control" value="Business Loan" required="required"/>
 							</div>
 							<div class="form-group col-xl-6 col-md-6">
 								<button type="button" class="btn btn-primary btn-block" id="calculate">Calculate Amount</button>

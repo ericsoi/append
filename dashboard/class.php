@@ -373,6 +373,16 @@
 				return true;
 			}
 		}
+		public function save_payment1($loan_id, $payee, $payment, $penalty, $overdue, $payment_date){
+			$query=$this->conn->prepare("INSERT INTO `payment` (`loan_id`, `payee`, `pay_amount`, `penalty`, `overdue`, `date_created`) VALUES(?, ?, ?, ?, ?, ?)") or die($this->conn->error);
+			$query->bind_param("isssis", $loan_id, $payee, $payment, $penalty, $overdue, $payment_date);
+			
+			if($query->execute()){
+				// $query->close();
+				// $this->conn->close();
+				return true;
+			}
+		}
 	}
 ?>
 

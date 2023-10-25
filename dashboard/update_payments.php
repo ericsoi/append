@@ -2,13 +2,24 @@
 	require_once'class.php';
   $db=new db_class();
   if(ISSET($_POST["update_schedule"])){
+    UNSET($_POST["update_schedule"]);
+    print_r($_POST);
     foreach($_POST as $x => $val) {
-        print_r(explode('name', $x));
-        $date = explode("name",$x)[0];
-        $loan_id = explode("name",$x)[1];
-        $payment = explode("name",$x)[2];
-
+        echo "<br/>";
+        $date = explode("name",$val)[0];
+        $loan_id = explode("name",$val)[1];
+        $payment = explode("name",$val)[2];
+        $payee = explode("name",$val)[3];
+        $penalty = 0;
+        $overdue = 0;
+        $payment_date = date('Y-m-d H:i:s', strtotime($date));
+        echo $payee;
         $db->conn->query("UPDATE `loan_schedule` SET `status`='1', `amount_paid`='$payment' WHERE `loan_id`='$loan_id' AND `due_date`='$date'") or die($db->conn->error);
+        $db->save_payment1($loan_id, $payee, $payment, $penalty, $overdue, $payment_date);
+        $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.loan_id = $loan_id");
+        $sum_fetch=$sum_payment->fetch_array();
+        $db->conn->query("UPDATE `loan` SET `paid_amount`='$sum_fetch[0]' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
+
       }
       header('Location: ' . $_SERVER['HTTP_REFERER'] . '?updated=loans updated successfully');
   }
