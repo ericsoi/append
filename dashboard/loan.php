@@ -483,15 +483,15 @@
 													</div>
 													<div class="modal-body">
 														<div class="row">
-															<div class="col-md-4 col-xl-4">
+															<div class="col-md-3 col-xl-3">
 																<p>Loan Reference No:</p>
 																<p><strong><?php echo $fetch['ref_no']?></strong></p>
 															</div>
-															<div class="col-md-4 col-xl-4">
+															<div class="col-md-3 col-xl-3">
 																<p>Name:</p>
 																<p><strong><?php echo $fetch['firstname']." ".substr($fetch['middlename'], 0, 1).". ".$fetch['lastname']?></strong></p>
 															</div>
-															<div class="col-md-4 col-xl-4">
+															<div class="col-md-3 col-xl-3">
 																<p>Days Paid:</p>
 																<?php
 																	$tbl_schedule_total = $db->conn->query("SELECT COUNT(*) FROM `loan_schedule` WHERE `loan_id` = '".$fetch['loan_id']."' AND `status` = '1'");
@@ -500,6 +500,10 @@
 
 																<p><strong><?php echo $total[0]?></strong></p>
 															</div>
+															<div class="col-md-2 col-xl-2">
+																<a href="update_payments.php?reset_schedule=1&date_released=<?php echo $fetch['date_released']?>&lplan_month=<?php echo $fetch['lplan_month']?>&loan_id=<?php echo $fetch['loan_id']?>"><button type="button">Reset payments</button></a> 
+															</div>
+															<!-- <?php print_r($fetch);?> -->
 														</div>
 														<hr />
 														<!-- $count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows; -->
@@ -547,7 +551,7 @@
 														</div>	
 													</div>
 													<div class="modal-footer">
-														<button class="btn btn-success" type="submit">Update</button>
+														<button class="btn btn-success" type="submit" name="update_schedule">Update</button>
 														<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
 													</div>
 												</div>
