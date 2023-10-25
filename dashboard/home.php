@@ -231,6 +231,113 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--End of row 1-->
+                    <div class="row">
+
+                     
+                    <div class="col-xl-4 col-md-4 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Todays Profit</div>
+                                        <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                            <?php 
+                                                $tbl_sum_loan=$db->conn->query("SELECT 
+                                                        SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS todays_profit,
+                                                        SUM(paid_amount) - SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS money_less_profit
+                                                    FROM payment
+                                                    INNER JOIN loan ON payment.loan_id = loan.loan_id
+                                                    INNER JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id
+                                                    WHERE DATE(payment.date_created) = CURDATE();");
+                                                    echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : "&#8369; 0.00";
+                                                // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
+                                                
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <div class="small">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-4 col-md-4 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Todays Interest-free</div>
+                                        <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                                $tbl_sum_loan=$db->conn->query("SELECT 
+                                                SUM(loan.amount / loan_plan.lplan_month) as total_daily
+                                                    from payment INNER JOIN loan ON payment.loan_id = loan.loan_id INNER
+                                                    JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id WHERE DATE(payment.date_created) = CURDATE();");
+                                                    echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['total_daily'],2) : "&#8369; 0.00";
+                                                // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
+                                                
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-fw fas fa-coins fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <div class="small">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-4 col-md-4 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Today's Unpaid loans
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h1 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                    <?php 
+                                                        $tbl_unpaid=$db->conn->query("SELECT * from loan where NOT loan_id in (select loan_id from payment WHERE DATE(date_created) = CURDATE())");
+                                                        echo $tbl_unpaid->num_rows > 0 ? $tbl_unpaid->num_rows : "0";
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-fw fas fa-book fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small stretched-link" href="loan.php">View Loans</a>
+                                <div class="small">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End of row 2-->
             </div>
             <!-- End of Main Content -->
 
