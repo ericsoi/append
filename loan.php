@@ -263,7 +263,7 @@ if (isset($_GET['status'])){
 												<p><small>Loan Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
 												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
 												<!-- <p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p> -->
-												<p><small>Loan Plan: <strong>27 Days</strong></small></p>
+												<p><small>Loan Plan: <strong>26 Days</strong></small></p>
 
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
@@ -547,12 +547,13 @@ if (isset($_GET['status'])){
 					var monthly =(amount + (amount * (interest/100))) / months;
 					var penalty=monthly * (penalty/100);
 					var totalAmount=amount+monthly;
-					
-					
-					
+					// console.log(monthly)
+          var l_plan=$("#lplan option:selected").text();
+          var l_plan_=parseFloat(l_plan.replace(/[^0-9.]/g, ""));
+					var daily = monthly / l_plan_
 					$("#tpa").text("\u20B1 "+totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					$("#mpa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#pa").text("\u20B1 "+penalty.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#pa").text("\u20B1 "+daily.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					
 					$("#calcTable").show();
 				}

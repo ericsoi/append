@@ -196,7 +196,7 @@
 											<td>
 												<p><small>Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
 												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
-												<p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%]"?></strong> interest</small></p>
+												<p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." days[".$fetch['lplan_interest']."%]"?></strong> interest</small></p>
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
@@ -427,9 +427,9 @@
 																		<?php
 																			}else{
 																		?>
+																			<option value="2" <?php echo ($fetch['status']==2)?'selected':''?>>Released</option>
 																			<option value="0" <?php echo ($fetch['status']==0)?'selected':''?>>For Approval</option>
 																			<!-- <option value="1" <?php echo ($fetch['status']==1)?'selected':''?>>Approved</option> -->
-																			<option value="2" <?php echo ($fetch['status']==2)?'selected':''?>>Released</option>
 																			<option value="4" <?php echo ($fetch['status']==4)?'selected':''?>>Denied</option>
 																		<?php
 																			}

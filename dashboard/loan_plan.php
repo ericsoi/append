@@ -147,7 +147,7 @@
                                 <div class="card-body">
 									<form method="POST" action="save_lplan.php">
 										<div class="form-group">
-											<label>Plan(months)</label>
+											<label>Plan(Days)</label>
 											<input type="number" class="form-control" name="lplan_month" required="required"/>
 										</div>
 										<div class="i-group">
@@ -160,11 +160,10 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label>Monthly Overdue Penalty</label>
+											<!-- <label>Monthly Overdue Penalty</label> -->
 											<div class="input-group">
-												<input type="number" class="form-control" name="lplan_penalty" min="0" required="required"/>
+												<input type="hidden" class="form-control" name="lplan_penalty" min="0" value='5'/>
 												<div class="input-group-prepend">
-													<span class="input-group-text">%</span>
 												</div>
 											</div>
 										</div>
@@ -180,9 +179,9 @@
 										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
-												<th>Plan(months)</th>
+												<th>Plan(Days)</th>
 												<th>Interest(%)</th>
-												<th>Monthly Overdue Penalty(%)</th>
+												<!-- <th>Monthly Overdue Penalty(%)</th> -->
 												<th>Action</th>
 											</tr>
 										</thead>
@@ -194,7 +193,7 @@
 											<tr>
 												<td><?php echo $fetch['lplan_month']?></td>
 												<td><?php echo $fetch['lplan_interest']?></td>
-												<td><?php echo $fetch['lplan_penalty']?></td>
+												<!-- <td><?php echo $fetch['lplan_penalty']?></td> -->
 												<td>
 													<div class="dropdown">
 														<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -243,7 +242,7 @@
 															</div>
 															<div class="modal-body">
 																<div class="form-group">
-																	<label>Plan(months)</label>
+																	<label>Plan(Days)</label>
 																	<input type="text" class="form-control" value="<?php echo $fetch['lplan_month']?>" name="lplan_month" required="required"/>
 																	<input type="hidden" value="<?php echo $fetch['lplan_id']?>" name="lplan_id"/>
 																</div>
@@ -257,11 +256,11 @@
 																	</div>
 																</div>
 																<div class="form-group">
-																	<label>Monthly Overdue Penalty</label>
+																	<!-- <label>Monthly Overdue Penalty</label> -->
 																	<div class="input-group">
-																		<input type="number" class="form-control" value="<?php echo $fetch['lplan_penalty']?>" name="lplan_penalty" min="0" required="required"/>
+																		<input type="hidden" class="form-control" value="<?php echo $fetch['lplan_penalty']?>" name="lplan_penalty" min="0" required="required"/>
 																		<div class="input-group-prepend">
-																			<span class="input-group-text">%</span>
+																			<!-- <span class="input-group-text">%</span> -->
 																		</div>
 																	</div>
 																</div>
