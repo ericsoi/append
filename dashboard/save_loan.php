@@ -43,7 +43,7 @@
 			$loan_form = $target_dir."loan_form.png";
 		}
 		print_r($_POST);
-		$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` WHERE CAST(`paid_amount` AS FLOAT) < CAST(`totalAmount` AS FLOAT)");
+		$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` WHERE `borrower_id`='$borrower' AND CAST(`paid_amount` AS FLOAT) < CAST(`totalAmount` AS FLOAT)");
 		if($tbl_unpaid->num_rows > 0){
 			$status="error";
 			$message="Loan application Failure, Your loan is active or pending for aproval";

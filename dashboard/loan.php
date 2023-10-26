@@ -537,7 +537,7 @@
 																	
 															?>
 															<div class="row">
-																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $i. '	'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
+																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><?php echo $i. '.	<strong>'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $row['amount_paid'] ?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-bottom: 1px solid black;"><strong>
