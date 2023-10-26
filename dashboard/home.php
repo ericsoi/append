@@ -341,6 +341,38 @@
                     </div>
                 </div>
                 <!--End of row 2-->
+                
+                <!--End of row 3-->
+                <div class="row">
+
+                     
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Unpaid Loans</div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                           $unpaid_loan=$db->conn->query("SELECT * from loan where paid_amount = 0 AND status IS NOT NULL");
+                                           echo $unpaid_loan->num_rows > 0 ? $unpaid_loan->num_rows : "0";
+                                            
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="small">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- End of Main Content -->
 
