@@ -676,12 +676,12 @@
 								<input type="number" name="loan_amount" class="form-control" id="amount" required="required"/>
 							</div>
 						</div>
-						<div class="form-row">
+						<!-- <div class="form-row">
 							<div class="form-group col-xl-12 col-md-12">
 								<label>Upload Loan Form</label>
 								<input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form" accept="image/*"/>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-row">
 							<div class="form-group col-xl-6 col-md-6">
 								<label>Purpose</label>

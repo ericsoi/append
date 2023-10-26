@@ -179,7 +179,7 @@ if (isset($_GET['status'])){
                             }
                           ?>
                         </select>
-                        <label>Days</label>
+                        <!-- <label>Days</label> -->
                       </div>
                     <div class="col-md-6 form-group">
                       <label>Loan Amount</label>
@@ -187,16 +187,16 @@ if (isset($_GET['status'])){
 
                     </div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="form-group col-xl-12 col-md-12">
                       <label>Upload Loan Form</label>
                       <input type="file" name="loan_form" class="form-control btn-primary btn-block" id="loan_form" accept="image/*"/>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="form-group col-xl-6 col-md-6">
                       <label>Purpose</label>
-                      <input name="purpose" class="form-control" style="resize:none; height:100px;" value="Business Loan" required="required"/>
+                      <input name="purpose" class="form-control" value="Business Loan" required="required"/>
                     </div>
                     <div class="form-group col-xl-6 col-md-6">
                       <label>.</label>
