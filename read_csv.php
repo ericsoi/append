@@ -46,10 +46,13 @@ if (file_exists($csvFilePath)) {
                             First name: <?php echo $rowData[0];?><br>
                             second name: <?php echo $rowData[1];?><br>
                             Number: <?php echo $phoneNumber; ?><br>
+                            daily amount: P 500
+                            Payable amount: P 3000
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Apply Loan</button>
+                            <button type="button" class="btn btn-primary">Pay</button>
                         </div>
                     </div>
                 </div>
