@@ -84,8 +84,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="reports.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-file"></i>
                     <span>Report</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="unpaid.php">
+                    <i class="fas fa-fw fa-dollar-sign"></i>
+                    <span>Today's Unpaid Loans</span></a>
             </li>
         </ul>
         <!-- End of Sidebar -->
@@ -332,7 +337,7 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small stretched-link" href="loan.php">View Loans</a>
+                                <a class="small stretched-link" href="unpaid.php">View Loans</a>
                                 <div class="small">
                                     <i class="fa fa-angle-right"></i>
                                 </div>

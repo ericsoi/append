@@ -82,10 +82,15 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
-			<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="reports.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-file"></i>
                     <span>Report</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="unpaid.php">
+                    <i class="fas fa-fw fa-dollar-sign"></i>
+                    <span>Today's Unpaid Loans</span></a>
             </li>
         </ul>
         <!-- End of Sidebar -->

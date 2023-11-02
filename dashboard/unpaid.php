@@ -74,7 +74,7 @@
                     <i class="fas fa-fw fas fa-coins"></i>
                     <span>Payments</span></a>
             </li>
-			<li class="nav-item active">
+			<li class="nav-item">
                 <a class="nav-link" href="borrower.php">
                     <i class="fas fa-fw fas fa-book"></i>
                     <span>Borrowers</span></a>
@@ -94,12 +94,12 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Users</span></a>
             </li>
-			<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                     <i class="fas fa-fw fa-file"></i>
                     <span>Report</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="unpaid.php">
                     <i class="fas fa-fw fa-dollar-sign"></i>
                     <span>Today's Unpaid Loans</span></a>
@@ -153,9 +153,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Borrower</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Today's unpaid Loans</h1>
                     </div>
-					<button class="mb-2 btn btn-lg btn-success" href="#" data-toggle="modal" data-target="#addModal"><span class="fa fa-plus"></span> Add  Borrower</button>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -163,42 +162,37 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Firstname</th>
-                                            <th>Middlename</th>
-                                            <th>Lastname</th>
+                                            <th>Names</th>
                                             <th>Contact No</th>
 											<th>Contact No2</th>
                                             <th>Address</th>
-                                            <th>Tax ID</th>
+											<th>Date Aproved</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 										<?php
-											$tbl_borrower=$db->display_borrower();
+											// $tbl_borrower=$db->display_borrower();
+											$tbl_unpaid=$db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = CURDATE()) AND `status` IS NOT NULL");
+
 											
-											while($fetch=$tbl_borrower->fetch_array()){
+											while($fetch=$tbl_unpaid->fetch_array()){
+												$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
+												$penalty=$monthly * ($fetch['lplan_penalty']/100);
+												$totalAmount=$fetch['amount']+$monthly;
+												$totalAmount = $fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"];
 										?>
 										
                                         <tr>
-                                            <td><?php echo $fetch['firstname']?></td>
-                                            <td><?php echo $fetch['middlename']?></td>
-                                            <td><?php echo $fetch['lastname']?></td>
+                                            <td><?php echo $fetch['firstname'] . ' ' . $fetch['middlename'] . ' ' . $fetch['lastname']?></td>
                                             <td><?php echo $fetch['contact_no']?></td>
 											<td><?php echo $fetch['email']?></td>
                                             <td><?php echo $fetch['address']?></td>
-                                            <td><?php echo $fetch['tax_id']?></td>
+                                            <td><?php echo $fetch['date_released']?></td>
                                             <td>
-												<div class="dropdown">
-													<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-														Action
-													</button>
-													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateborrower<?php echo $fetch['borrower_id']?>">Edit</a>
-														<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#docsmodal<?php echo $fetch['borrower_id']?>">View Docs</a>
-														<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['borrower_id']?>">Delete</a>
-													</div>
-												</div>
+											<div><a href="payment.php?ref_no=<?php echo $fetch['ref_no']?>&total=<?php echo $totalAmount?>"> <button class="btn btn-sm btn-primary">Make payments</button></a></div>
+
+												<!-- <button type="button" class="dropdown-item bg-warning text-white">Update payment</button> -->
 											</td>
                                         </tr>
 										
@@ -372,74 +366,7 @@
 	
 	
 	<!-- Add User Modal-->
-	<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<form method="POST" action="save_borrower.php" enctype="multipart/form-data">
-				<div class="modal-content">
-					<div class="modal-header bg-primary">
-						<h5 class="modal-title text-white">Add Borrower</h5>
-						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label>Firstname</label>
-							<input name="firstname" type="text" class="form-control" <?php if(isset($_GET['firstname'])) { echo 'value="' . $_GET['firstname'] . '"'; } ?> placeholder="First Name*" required/>
 
-						</div>
-						<div class="form-group">
-							<label>Middlename</label>
-							<input name="middlename" type="text" class="form-control" <?php if(isset($_GET['middlename'])) { echo 'value="' . $_GET['middlename'] . '"'; } ?> placeholder="Middle Name*" required/>
-
-						</div>
-						<div class="form-group">
-							<label>Lastname</label>
-							<input name="lastname" type="text" class="form-control" <?php if(isset($_GET['lastname'])) { echo 'value="' . $_GET['lastname'] . '"'; } ?> placeholder="Last Name*" required/>
-
-						</div>
-						<div class="form-group">
-							<label>Contact no</label>
-							<input name="contact_no" type="text" class="form-control" <?php if(isset($_GET['phone_number'])) { echo 'value="' . $_GET['phone_number'] . '"'; } ?> placeholder="Eg.[0712345678]*" required/>
-
-						</div>
-						<div class="form-group">
-							<label>Contact2</label>
-							<input name="email" type="text" class="form-control" <?php if(isset($_GET['second_number'])) { echo 'value="' . $_GET['second_number'] . '"'; } ?> placeholder="Eg.[0712345678]*" required/>
-
-						</div>
-						<div class="form-group">
-							<label>Address</label>
-							<input name="address" type="text" class="form-control" <?php if(isset($_GET['address'])) { echo 'value="' . $_GET['address'] . '"'; } ?> placeholder="Enter Plot Name" required/>
-
-						</div>
-						
-						<div class="form-group">
-							<label>Tax ID(must be valid)</label>
-							<input name="tax_id" type="number" class="form-control" <?php if(isset($_GET['tax_id'])) { echo 'value="' . $_GET['tax_id'] . '"'; } ?> placeholder="ID number" required/>
-
-						</div>
-						<div class="col-md-6 form-group">
-							<label>Upload Id</label>
-							<input name="id_doc" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
-						</div>
-						<div class="col-md-6 form-group">
-							<label>Upload Back Id</label>
-							<input name="id_doc_back" type="file" class="form-control" placeholder="Upload Id" accept="image/*" required>
-						</div>
-						<div class="col-md-6 form-group">
-							<label>Upload KRA</label>
-							<input name="signature_doc" type="file" class="form-control" placeholder="Upload Signature" accept="image/*">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-						<button type="submit" name="save" class="btn btn-primary">Save</a>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
 	
 	
     <!-- Logout Modal-->
