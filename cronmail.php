@@ -4,7 +4,7 @@ $db=new db_class();
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 $tbl_unpaid = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = CURDATE()) AND `status` IS NOT NULL");
-$tbl_unpaid_yesterday = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(CURDATE(), INTERVAL 1 DAY)) AND `status` IS NOT NULL");
+$tbl_unpaid_yesterday = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(CURDATE(), INTERVAL 1 DAY))) AND `status` IS NOT NULL");
 
 // Check if there are rows returned from the query
 if ($tbl_unpaid->num_rows > 0) {
