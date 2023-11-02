@@ -62,7 +62,7 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     $tableHtml_yesterday .= '</table><hr>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml_yesterday = 'All loans paid yesterday';
+    $tableHtml_yesterday = 'All loans paid yesterday <hr>';
 }
 
 $date = date('Y-m-d H:i:s'); // Replace this with your date variable
