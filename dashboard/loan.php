@@ -211,10 +211,10 @@
 													$totalAmount=$fetch['amount']+$monthly;
 													$totalAmount = $fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"];
 												?>
-												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
-												<p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
-												<!-- <p><small>Total Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
-												<!-- <p><small>Overdue Payable Amount: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p> -->
+												<p><small>Amount: <strong><?php echo " ".number_format($fetch['amount'], 2)?></strong></small></p>
+												<p><small>Total Payable Amount: <strong><?php echo " ".number_format($totalAmount, 2)?></strong></small></p>
+												<!-- <p><small>Total Payable Amount: <strong><?php echo " ".number_format($monthly, 2)?></strong></small></p> -->
+												<!-- <p><small>Overdue Payable Amount: <strong><?php echo " ".number_format($penalty, 2)?></strong></small></p> -->
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 														echo '<p><small>Date Released: <strong>'.date("M d, Y", strtotime($fetch['date_released'])).'</strong></small></p>';
@@ -234,9 +234,9 @@
 														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$loanid' ORDER BY date(due_date) DESC limit 1")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
-														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
-														echo "<p><small>Amount Paid: <br /><strong>&#8369; ".$sum_fetch[0]."</strong></small></p>";
-														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
+														echo "<p><small>Daily Amount: <br /><strong> ".number_format($monthly, 2)."</strong></small></p>";
+														echo "<p><small>Amount Paid: <br /><strong> ".$sum_fetch[0]."</strong></small></p>";
+														echo "<p><small>Payable Amount: <br /><strong> ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
 													}
 												?>
 											</td>
@@ -413,15 +413,15 @@
 															<div class="row">
 																<div class="col-xl-6 col-md-6">
 																	<center><span>Total Payable Amount</span></center>
-																	<center><span id="utpa"><?php echo "&#8369; ".number_format($totalAmount, 2)?></span></center>
+																	<center><span id="utpa"><?php echo " ".number_format($totalAmount, 2)?></span></center>
 																</div>
 																<!-- <div class="col-xl-6 col-md-6">
 																	<center><span>Monthly Payable Amount</span></center>
-																	<center><span id="umpa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
+																	<center><span id="umpa"><?php echo " ".number_format($monthly, 2)?></span></center>
 																</div> -->
 																<div class="col-xl-6 col-md-6">
 																	<center><span>Daily Amount</span></center>
-																	<center><span id="upa"><?php echo "&#8369; ".number_format($monthly, 2)?></span></center>
+																	<center><span id="upa"><?php echo " ".number_format($monthly, 2)?></span></center>
 																</div>
 															</div>
 															<hr>
@@ -543,7 +543,7 @@
 															?>
 															<div class="row">
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><?php echo $i. '.	<strong>'. date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
-																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
+																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo " ".number_format($monthly, 2); ?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo $row['amount_paid'] ?></strong></div>
 																<div class="col-sm-3 p-2 pl-5" style="border-bottom: 1px solid black;"><strong>
 																	<?php if($row['status'] == "1") { 
@@ -801,9 +801,9 @@
 					var monthly = totalAmount / l_days;
 					console.log(monthly);
 					
-					$("#tpa").text("\u20B1 "+totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#mpa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#pa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#tpa").text(totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#mpa").text(monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#pa").text(monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					
 					$("#calcTable").show();
 				}

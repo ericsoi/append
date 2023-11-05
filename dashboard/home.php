@@ -187,7 +187,7 @@
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
 												<?php 
 													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
-													echo $tbl_payment->num_rows > 0 ? "&#8369; ".number_format($tbl_payment->fetch_array()['total'],2) : "&#8369; 0.00";
+													echo $tbl_payment->num_rows > 0 ? " ".number_format($tbl_payment->fetch_array()['total'],2) : " 0.00";
 												?>
 											</div>
                                         </div>
@@ -259,7 +259,7 @@
                                                     INNER JOIN loan ON payment.loan_id = loan.loan_id
                                                     INNER JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id
                                                     WHERE DATE(payment.date_created) = '$newDate'");
-                                                    echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : "&#8369; 0.00";
+                                                    echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
                                                 // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
                                             ?>
@@ -293,7 +293,7 @@
                                                 SUM(loan.amount / loan_plan.lplan_month) as total_daily
                                                     from payment INNER JOIN loan ON payment.loan_id = loan.loan_id INNER
                                                     JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id WHERE DATE(payment.date_created) = '$newDate'");
-                                                    echo $tbl_sum_loan->num_rows > 0 ? "&#8369; ".number_format($tbl_sum_loan->fetch_array()['total_daily'],2) : "&#8369; 0.00";
+                                                    echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['total_daily'],2) : " 0.00";
                                                 // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
                                             ?>

@@ -193,7 +193,7 @@
 												<td><?php echo $i++?></td>
 												<td><?php echo $fetch['ref_no']?></td>
 												<td><?php echo $fetch['payee']?></td>
-												<td><?php echo "&#8369; ".number_format($fetch['pay_amount'], 2)?></td>
+												<td><?php echo " ".number_format($fetch['pay_amount'], 2)?></td>
 												<td><?php echo $fetch['d_c']?></td>
                                                 <!-- <td><?php print_r($fetch)?></td> -->
 

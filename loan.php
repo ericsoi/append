@@ -271,10 +271,10 @@ if (isset($_GET['status'])){
 													$penalty=$monthly * ($fetch['lplan_penalty']/100);
 													$totalAmount=$fetch['totalAmount'];
 												?>
-												<p><small>Amount: <strong><?php echo "&#8369; ".number_format($fetch['amount'], 2)?></strong></small></p>
-												<p><small>Total Payable: <strong><?php echo "&#8369; ".number_format($totalAmount, 2)?></strong></small></p>
-												<!-- <p><small>Monthly Payable Amount: <strong><?php echo "&#8369; ".number_format($monthly, 2)?></strong></small></p> -->
-												<!-- <p><small>Overdue Payable: <strong><?php echo "&#8369; ".number_format($penalty, 2)?></strong></small></p> -->
+												<p><small>Amount: <strong><?php echo " ".number_format($fetch['amount'], 2)?></strong></small></p>
+												<p><small>Total Payable: <strong><?php echo " ".number_format($totalAmount, 2)?></strong></small></p>
+												<!-- <p><small>Monthly Payable Amount: <strong><?php echo " ".number_format($monthly, 2)?></strong></small></p> -->
+												<!-- <p><small>Overdue Payable: <strong><?php echo " ".number_format($penalty, 2)?></strong></small></p> -->
 												<?php
 													if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 														echo '<p><small>Date Released: <strong>'.date("M d, Y", strtotime($fetch['date_released'])).'</strong></small></p>';
@@ -294,9 +294,9 @@ if (isset($_GET['status'])){
 														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$loanid' ORDER BY date(due_date) DESC limit 1")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
-														echo "<p><small>Daily Amount: <br /><strong>&#8369; ".number_format($monthly, 2)."</strong></small></p>";
-														echo "<p><small>Amount Paid: <br /><strong>&#8369; ".$sum_fetch[0]."</strong></small></p>";
-														echo "<p><small>Payable Amount: <br /><strong>&#8369; ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
+														echo "<p><small>Daily Amount: <br /><strong> ".number_format($monthly, 2)."</strong></small></p>";
+														echo "<p><small>Amount Paid: <br /><strong> ".$sum_fetch[0]."</strong></small></p>";
+														echo "<p><small>Payable Amount: <br /><strong> ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
 													}
 												?>
 											</td>
@@ -393,7 +393,7 @@ if (isset($_GET['status'])){
 															?>
 															<div class="row">
 																<div class="col-sm-6 p-2 pl-5" style="border-right: 1px solid black; border-bottom: 1px solid black;"><strong><?php echo date("F d, Y" ,strtotime($row['due_date']));?></strong></div>
-																<div class="col-sm-6 p-2 pl-5" style="border-bottom: 1px solid black;"><strong><?php echo "&#8369; ".number_format($monthly, 2); ?></strong></div>
+																<div class="col-sm-6 p-2 pl-5" style="border-bottom: 1px solid black;"><strong><?php echo " ".number_format($monthly, 2); ?></strong></div>
 															</div>
 																<?php
 																}
@@ -560,9 +560,9 @@ if (isset($_GET['status'])){
           var l_plan=$("#lplan option:selected").text();
           var l_plan_=parseFloat(l_plan.replace(/[^0-9.]/g, ""));
 					var daily = monthly / l_plan_
-					$("#tpa").text("\u20B1 "+totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#mpa").text("\u20B1 "+monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
-					$("#pa").text("\u20B1 "+daily.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#tpa").text(totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#mpa").text(monthly.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
+					$("#pa").text(daily.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2}));
 					
 					$("#calcTable").show();
 				}

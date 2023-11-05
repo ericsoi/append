@@ -36,11 +36,11 @@
 
 <div class="form-row">
 	<div class="form-group col-xl-6 col-md-6">
-		<p>Daily Amount: <strong>&#8369; <?php echo number_format($monthly, 2)?></strong></p>
+		<p>Daily Amount: <strong><?php echo number_format($monthly, 2)?></strong></p>
 		<!-- <p>Penalty: <strong>&#8369; <?php echo number_format($add, 2)?></strong></p> -->
 		<!-- <p>Payable Amount: <strong>&#8369; <?php echo number_format($monthly+$add, 2)?></strong></p> -->
 
-		<p>Payable Amount: <strong>&#8369; <?php echo $totalAmount?></strong></p>
+		<p>Payable Amount: <strong><?php echo $totalAmount?></strong></p>
 		
 	</div>
 	<div class="form-group col-xl-6 col-md-6">
