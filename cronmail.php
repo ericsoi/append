@@ -91,12 +91,12 @@ try {
     $mail->Port       = 587;
     $mail->Host       = "smtp.gmail.com";
     $mail->Username   = "matrickcredit@gmail.com";
-    $mail->Password   = "jflmaweyiulbrccy";
+    $mail->Password   = "fwlrhrwyygboxpqi";
 
     //Recipients
     $mail->setFrom('matrickcredit@gmail.com', 'Matrick Credit');
-    $mail->addAddress('ericksoi3709@gmail.com', 'Erick');     //Add a recipient
-    $mail->addAddress('kyalomartin1990@gmail.com', 'Matrick Credit');     //Add a recipient
+    $mail->addAddress('ericksoi3709@gmail.com', 'Matrick Developer');     //Add a recipient
+    $mail->addAddress('kyalomartin1990@gmail.com', 'Matrick Admin');     //Add a recipient
 
     $mail->addReplyTo('matrickcredit@gmail.com', 'Matrick Credit');
 
