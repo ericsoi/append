@@ -4,7 +4,7 @@
 	require_once'class.php';
 	$db=new db_class(); 
     $currentDate = date("Y-m-d");
-    $newDate = date("Y-m-d", strtotime($currentDate . " -5 hours"));
+    $newDate = date("Y-m-d", strtotime($currentDate . " -6 hour"));
     
 ?>
 <!DOCTYPE html>
