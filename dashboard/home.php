@@ -185,7 +185,7 @@
                                     </div>
                                 </div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small stretched-link" href="loan.php">View Loan List</a>
+									<a class="small stretched-link" href="loan.php?date=<?php echo $currentDate?>">View Loan List</a>
 									<div class="small">
 										<i class="fa fa-angle-right"></i>
 									</div>

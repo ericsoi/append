@@ -4,6 +4,9 @@
 	require_once'class.php';
 	$db=new db_class(); 
 	$currentDate = date("Y-m-d H:m:s");
+	if(isset($_GET['date'])){
+		$currentDate = $_GET['date'];
+	}
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
     $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
 	if (isset($_GET['status'])){
