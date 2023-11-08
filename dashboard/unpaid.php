@@ -176,9 +176,10 @@
                                     <tbody>
 										<?php
 											// $tbl_borrower=$db->display_borrower();
-											$tbl_unpaid=$db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL");
+											$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` INNER JOIN `borrower` ON borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` ON loan_plan.lplan_id = loan.lplan_id WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL)");
 
-											
+																																										// $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL)");
+
 											while($fetch=$tbl_unpaid->fetch_array()){
 												$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
 												$penalty=$monthly * ($fetch['lplan_penalty']/100);
