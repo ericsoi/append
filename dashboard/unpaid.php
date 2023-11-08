@@ -3,6 +3,9 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
+	$currentDate = date("Y-m-d H:m:s");
+    // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
+    $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
 	if (isset($_GET['status'])){
 		$status = $_GET['status'];
 		$message =  $_GET['message'];
@@ -173,7 +176,7 @@
                                     <tbody>
 										<?php
 											// $tbl_borrower=$db->display_borrower();
-											$tbl_unpaid=$db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = CURDATE()) AND `status` IS NOT NULL");
+											$tbl_unpaid=$db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL");
 
 											
 											while($fetch=$tbl_unpaid->fetch_array()){
