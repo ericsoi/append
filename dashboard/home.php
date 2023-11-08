@@ -4,6 +4,9 @@
 	require_once'class.php';
 	$db=new db_class(); 
     $currentDate = date("Y-m-d H:m:s");
+    if(ISSET($_POST["mydate"])){
+        $currentDate = $_POST["mydate"];
+    }
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
     $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
 
@@ -143,10 +146,21 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                    </div>
 
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        </div>
+                        <div class="col-4 text-right ml-auto">
+                            <!-- <button class="btn btn-secondary"><?php echo date("Y-m-d")?></button> -->
+                            <form action="" method="post">
+                                <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                                    <input placeholder="Select date" type="date" name="mydate" id="example" class="form-control" value="<?php echo isset($_POST['mydate']) ? $_POST['mydate'] : date('Y-m-d'); ?>">
+                                    <input type="submit" value="Submit" class="btn btn-secondary form-control" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <!-- Content Row -->
                     <div class="row">
 
@@ -436,6 +450,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
+    <script>
+        // Data Picker Initialization
+        $('.datepicker').datepicker({
+        inline: true
+        });
+    </script>
 
 
 </body>
