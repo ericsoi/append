@@ -327,7 +327,10 @@
                                             <div class="col-auto">
                                                 <div class="h1 mb-0 mr-3 font-weight-bold text-gray-800">
                                                     <?php 
-                                                        $tbl_unpaid=$db->conn->query("SELECT * from `loan` where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 13 HOUR)) AND `status` IS NOT NULL");
+                                                        // $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 13 HOUR)) AND `status` IS NOT NULL)");
+
+                                                        $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL)");
+                                                        
                                                         echo $tbl_unpaid->num_rows > 0 ? $tbl_unpaid->num_rows : "0";
                                                     ?>
                                                 </div>
