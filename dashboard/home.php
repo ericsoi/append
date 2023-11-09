@@ -8,7 +8,8 @@
         $currentDate = $_POST["mydate"];
     }
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
-    $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
+    // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
+    $newDate = date("Y-m-d", strtotime($currentDate));
 
     // echo $newDate;
 ?>

@@ -8,7 +8,9 @@
 		$currentDate = $_GET['date'];
 	}
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
-    $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
+    // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
+	$newDate = date("Y-m-d", strtotime($currentDate));
+
 	if (isset($_GET['status'])){
 		$status = $_GET['status'];
 		$message =  $_GET['message'];
