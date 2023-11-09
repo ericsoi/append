@@ -148,10 +148,10 @@
                     <!-- Page Heading -->
 
                     <div class="row">
-                        <div class="col-6 text-left">
+                        <div class="col-6 text-left mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                         </div>
-                        <div class="col-4 text-right ml-auto">
+                        <div class="col-4 text-right ml-auto mb-4">
                             <!-- <button class="btn btn-secondary"><?php echo date("Y-m-d")?></button> -->
                             <form action="" method="post">
                                 <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
@@ -161,6 +161,7 @@
                             </form>
                         </div>
                     </div>
+                    <hr/>
                     <!-- Content Row -->
                     <div class="row">
 
