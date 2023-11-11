@@ -176,8 +176,21 @@
                                                 Active Loans</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
 												<?php 
-													$tbl_loan=$db->conn->query("SELECT * FROM `loan` WHERE `status`='2'");
-													echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
+													// $tbl_loan=$db->conn->query("SELECT * FROM `loan` WHERE `status`='2'");
+                                                    // $tbl_loan=$db->conn->query("SELECT loan.amount, loan.paid_amount, loan.totalAmount, (loan_plan.lplan_interest/100 * loan.amount) + loan.amount as paid FROM loan INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE status = 2 and loan.paid_amount < ((loan_plan.lplan_interest/100 * loan.amount) + loan.amount)");
+													$tbl_loan=$db->conn->query("SELECT 
+                                                            loan.amount, 
+                                                            loan.paid_amount, 
+                                                            loan.totalAmount, 
+                                                            CAST((loan_plan.lplan_interest/100 * loan.amount) + loan.amount AS FLOAT) AS paid
+                                                        FROM 
+                                                            loan
+                                                        INNER JOIN 
+                                                            loan_plan ON loan.lplan_id = loan_plan.lplan_id
+                                                        WHERE 
+                                                            status = 2 and 
+                                                            loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT)");
+                                                    echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
 												?>
 											</div>
                                         </div>
