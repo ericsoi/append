@@ -192,7 +192,7 @@
 												
 										?>
 										
-                                        <tr>
+										<tr <?php if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) { echo "hidden"; } ?>>
 											<td><?php echo $counter;?></td>
 											<td>
 												<p><small>Name: <strong><?php echo $payee;?></strong></small></p>
