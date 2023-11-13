@@ -3,6 +3,9 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
+    if (ISSET($_GET["message"])){
+        echo "<script>alert('". $_GET["message"]. "')</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

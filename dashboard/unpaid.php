@@ -181,7 +181,7 @@
                                     <tbody>
 										<?php
 											// $tbl_borrower=$db->display_borrower();
-											$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` INNER JOIN `borrower` ON borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` ON loan_plan.lplan_id = loan.lplan_id WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+											$tbl_unpaid=$db->conn->query("SELECT * FROM `loan` INNER JOIN `borrower` ON borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` ON loan_plan.lplan_id = loan.lplan_id WHERE loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
 
 																																										// $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate' AND `status` IS NOT NULL)");
 

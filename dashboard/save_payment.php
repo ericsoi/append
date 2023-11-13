@@ -29,17 +29,23 @@
 
 			// echo $date;
 			// echo $loan_id;
-			$db->save_payment($loan_id, $payee, $payment, $penalty, $overdue);
-			$count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows;
-			
-			if($count_pay===$month){
-				$db->conn->query("UPDATE `loan` SET `status`='3' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
+			$today_count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id' AND DATE(`date_created`) = CURDATE()")->num_rows;
+			if ($today_count_pay > 0 ){
+				header('Location: payment.php?message=Failed to save payment, todays payment for loan ' . $loan_id . ' already exists');
+			}else{
+				$db->save_payment($loan_id, $payee, $payment, $penalty, $overdue);
+				$count_pay = $db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loan_id'")->num_rows;
+				
+				if($count_pay===$month){
+					$db->conn->query("UPDATE `loan` SET `status`='3' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
+				}
+				 $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.loan_id = $loan_id");
+				 $sum_fetch=$sum_payment->fetch_array();
+				 $db->conn->query("UPDATE `loan` SET `paid_amount`='$sum_fetch[0]' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
+				 $db->conn->query("UPDATE `loan_schedule` SET `status`='1', `amount_paid`='$payment' WHERE `loan_id`='$loan_id' AND `due_date`='$date'") or die($db->conn->error);
+				 header('Location: payment.php?message=payment updated successfully');
 			}
-			 $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.loan_id = $loan_id");
-			 $sum_fetch=$sum_payment->fetch_array();
-			 $db->conn->query("UPDATE `loan` SET `paid_amount`='$sum_fetch[0]' WHERE `loan_id`='$loan_id'") or die($db->conn->error);
-			 $db->conn->query("UPDATE `loan_schedule` SET `status`='1', `amount_paid`='$payment' WHERE `loan_id`='$loan_id' AND `due_date`='$date'") or die($db->conn->error);
-			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			
 		}
 	
 	
