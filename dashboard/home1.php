@@ -11,26 +11,7 @@
     // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
     $newDate = date("Y-m-d", strtotime($currentDate));
 
-    if(ISSET($_GET['otp'])){
-        echo "<script>alert('OTP has been sent to your email')</script>";
-        echo "<script>window.location.href = 'home.php';</script>";
-    }
-
-    if(ISSET($_POST['otp_id'])){
-        if(ISSET($_SESSION['otp'])){
-            if($_POST['otp_id'] == $_SESSION['otp']){
-                $_SESSION['user_admin'] = 1;
-            }else{
-                $_SESSION['user_admin'] = 0;
-                echo "<script>alert('Incorrect OTP. regenerate and Check email')</script>";
-            }
-        }
-        else{
-            // echo "<script>alert('". $_GET["message"]. "')</script>";
-            echo "<script>alert('Generate OTP to view transactions')</script>";
-    
-        }
-    }
+    // echo $newDate;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,18 +149,8 @@
                     <!-- Page Heading -->
 
                     <div class="row">
-                        <div class="col-4 text-left mb-4">
+                        <div class="col-6 text-left mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                            <form class="col-5 text-left mb-2" action="./otp.php" method="post">
-                                <input type="submit" name="otp" value="generate otp" class="btn btn-secondary form-control" />
-                            </form>
-                            
-                        </div>
-                        <div class="col-2 text-left mb-2">
-                            <form action="" method="post">
-                                <input placeholder="Enter OTP" type="text" name="otp_id" id="otp_id" class="form-control">
-                                <input type="submit" value="Submit" class="btn btn-secondary form-control" />
-                            </form>
                         </div>
                         <div class="col-4 text-right ml-auto mb-4">
                             <!-- <button class="btn btn-secondary"><?php echo date("Y-m-d")?></button> -->
@@ -246,15 +217,10 @@
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
-												<?php if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
+												<?php 
+													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
 													echo $tbl_payment->num_rows > 0 ? " ".number_format($tbl_payment->fetch_array()['total'],2) : " 0.00";
-                                                    }else{
-                                                    }
-                                                    ?>
-                                                        
-
-                                                    
-                                                                                                           
+												?>
 											</div>
                                         </div>
                                         <div class="col-auto">
@@ -325,12 +291,8 @@
                                                     INNER JOIN loan ON payment.loan_id = loan.loan_id
                                                     INNER JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id
                                                     WHERE DATE(payment.date_created) = '$newDate'");
-                                                    $tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
-                                                     if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){
-                                                        echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
-                                                        }else{
-                                                    }
-                                                        // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
+                                                    echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
+                                                // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
                                             ?>
                                         </div>
@@ -363,13 +325,8 @@
                                                 SUM(loan.amount / loan_plan.lplan_month) as total_daily
                                                     from payment INNER JOIN loan ON payment.loan_id = loan.loan_id INNER
                                                     JOIN loan_plan ON loan_plan.lplan_id = loan.lplan_id WHERE DATE(payment.date_created) = '$newDate'");
-                                                    if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
-                                                        echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
-                                                    } else {
-                                                        
-                                                    }
-                                                    
-                                                            // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
+                                                    echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['total_daily'],2) : " 0.00";
+                                                // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
                                             ?>
                                         </div>

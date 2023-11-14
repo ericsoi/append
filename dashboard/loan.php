@@ -280,12 +280,16 @@
 												<?php
 													}else{
 												?>
+												<?php if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){	?>
 													<div>
 													<a class="dropdown-item bg-warning text-white" href="#" data-toggle="modal" data-target="#updateloan<?php echo $fetch['loan_id']?>">Edit</a>
 													<a class="dropdown-item bg-secondary text-white" href="#" data-toggle="modal" data-target="#loanform<?php echo $fetch['loan_id']?>">View Form</a>
 													<a class="dropdown-item bg-danger text-white" href="#" data-toggle="modal" data-target="#deleteborrower<?php echo $fetch['loan_id']?>">Delete</a>
 
 													</div>	
+													<?php } else {?>
+														<a class="dropdown-item bg-warning text-white" href="./otp.php?otp=on">Generate OTP to proceed</a>
+													<?php } ?>
 													<div class="dropdown">
 														<!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 															Action
