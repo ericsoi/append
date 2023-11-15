@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Bootstrap Table Example</title>
     <!-- Add Bootstrap CSS link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -27,7 +27,7 @@ if ($tbl_unpaid->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml = '<div class="table-responsive"><table class="table table-success table-bordered table-striped table-hover">';
+    $tableHtml = '<div class="container mt-5"><table class="table table-success table-bordered table-striped table-hover">';
     $tableHtml .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData as $row) {
@@ -56,7 +56,7 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml_yesterday = '<div class="table-responsive"><table class="table table-bordered table-striped">';
+    $tableHtml_yesterday = '<div class="container mt-5"><table class="table table-success table-bordered table-striped table-hover">';
     $tableHtml_yesterday .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData_yesterday as $row1) {
