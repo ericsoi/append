@@ -168,29 +168,30 @@
                     <!-- Page Heading -->
 
                     <div class="row">
-                        <div class="col-4 text-left mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                            <form class="col-5 text-left mb-2" action="./otp.php" method="post">
-                                <input type="submit" name="otp" value="generate otp" class="btn btn-secondary form-control" />
+                        <div class="col-lg-6 col-md-6 col-sm-12 text-left mb-4">
+                            <form class="mb-2" action="./otp.php" method="post">
+                                <h1 class="mb-3 h3 mb-0 text-gray-800">Dashboard</h1>
+                                <input type="submit" name="otp" value="Generate OTP" class="col-lg-6 col-md-6 btn btn-outline-primary form-control" />
                             </form>
-                            
                         </div>
-                        <div class="col-2 text-left mb-2">
+
+                        <div class="col-lg-3 col-md-6 col-sm-6 text-left mb-2">
                             <form action="" method="post">
                                 <input placeholder="Enter OTP" type="text" name="otp_id" id="otp_id" class="form-control">
-                                <input type="submit" value="Submit" class="btn btn-secondary form-control" />
+                                <input type="submit" value="Submit" class="btn btn-outline-primary form-control mt-2" />
                             </form>
                         </div>
-                        <div class="col-4 text-right ml-auto mb-4">
-                            <!-- <button class="btn btn-secondary"><?php echo date("Y-m-d")?></button> -->
+
+                        <div class="col-lg-3 col-md-12 col-sm-6 text-right mb-4">
                             <form action="" method="post">
                                 <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
                                     <input placeholder="Select date" type="date" name="mydate" id="example" class="form-control" value="<?php echo isset($_POST['mydate']) ? $_POST['mydate'] : date('Y-m-d'); ?>">
-                                    <input type="submit" value="Submit" class="btn btn-secondary form-control" />
+                                    <input type="submit" value="Submit" class="btn btn-outline-primary form-control mt-2" />
                                 </div>
                             </form>
                         </div>
                     </div>
+
                     <hr/>
                     <!-- Content Row -->
                     <div class="row">
@@ -246,10 +247,11 @@
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
-												<?php if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													$tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
+												    <?php //if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													 -->
+                                                    $tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
 													echo $tbl_payment->num_rows > 0 ? " ".number_format($tbl_payment->fetch_array()['total'],2) : " 0.00";
-                                                    }else{
-                                                    }
+                                                    // }else{
+                                                    // }
                                                     ?>
                                                         
 

@@ -17,8 +17,8 @@ if ($tbl_unpaid->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml = '<table border="1">';
-    $tableHtml .= '<tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Aproved</th></tr>';
+    $tableHtml = '<div class="table-responsive"><table class="table table-bordered table-striped">';
+    $tableHtml .= '<thead class="thead-light"><tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData as $row) {
         $tableHtml .= '<tr>';
@@ -30,10 +30,10 @@ if ($tbl_unpaid->num_rows > 0) {
         $tableHtml .= '</tr>';
     }
 
-    $tableHtml .= '</table>';
+    $tableHtml .= '</tbody></table></div>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml = 'No data found.';
+    $tableHtml = '<div class="alert alert-warning" role="alert">No data found.</div>';
 }
 
 if ($tbl_unpaid_yesterday->num_rows > 0) {
@@ -46,8 +46,8 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml_yesterday = '<table border="1">';
-    $tableHtml_yesterday .= '<tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Aproved</th></tr>';
+    $tableHtml_yesterday = '<div class="table-responsive"><table class="table table-bordered table-striped">';
+    $tableHtml_yesterday .= '<thead class="thead-light"><tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData_yesterday as $row1) {
         $tableHtml_yesterday .= '<tr>';
@@ -59,11 +59,12 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
         $tableHtml_yesterday .= '</tr>';
     }
 
-    $tableHtml_yesterday .= '</table><hr>';
+    $tableHtml_yesterday .= '</tbody></table></div><hr>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml_yesterday = 'All loans paid yesterday <hr>';
+    $tableHtml_yesterday = '<div class="alert alert-info" role="alert">All loans paid yesterday</div><hr>';
 }
+
 
 $date = date('Y-m-d H:i:s'); // Replace this with your date variable
 $humanReadableDate = date('F j, Y, g:i a', strtotime($date));
@@ -96,7 +97,7 @@ try {
     //Recipients
     $mail->setFrom('matrickcredit@gmail.com', 'Matrick Credit');
     $mail->addAddress('ericksoi3709@gmail.com', 'Matrick Developer');     //Add a recipient
-    $mail->addAddress('kyalomartin1990@gmail.com', 'Matrick Admin');     //Add a recipient
+    // $mail->addAddress('kyalomartin1990@gmail.com', 'Matrick Admin');     //Add a recipient
 
     $mail->addReplyTo('matrickcredit@gmail.com', 'Matrick Credit');
 
