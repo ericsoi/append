@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Styled Table</title>
-</head>
-<body>
-
 <?php
-require_once '/var/www/matrick/dashboard/class.php';
-$db = new db_class();
-
-// Your existing code to fetch data from the database goes here...
+require_once'/var/www/matrick/dashboard/class.php';
+$db=new db_class(); 
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+$tbl_unpaid = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN `loan_plan` on loan_plan.lplan_id = loan.lplan_id WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 13 HOUR)))
+AND `status` IS NOT NULL");$tbl_unpaid_yesterday = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 1 DAY))) AND `status` IS NOT NULL");
 
 // Check if there are rows returned from the query
 if ($tbl_unpaid->num_rows > 0) {
@@ -161,6 +155,3 @@ try {
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
-?>
-</body>
-</html>
