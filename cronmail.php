@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Bootstrap Table Example</title>
     <!-- Add Bootstrap CSS link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <?php
@@ -26,11 +28,11 @@ if ($tbl_unpaid->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml = '<div class="table-responsive"><table class="table table-bordered table-striped">';
-    $tableHtml .= '<thead class="thead-light"><tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Approved</th></tr></thead><tbody>';
+    $tableHtml = '<div class="table-responsive"><table class="table table-success table-bordered table-striped table-hover">';
+    $tableHtml .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData as $row) {
-        $tableHtml .= '<tr>';
+        $tableHtml .= '<tr scope="row">';
         $tableHtml .= '<td>' . $row['firstname'] . ' ' . $row['middlename'] .' '.$row['lastname'] . '</td>';
         $tableHtml .= '<td>' . $row['contact_no'] . '</td>';
         $tableHtml .= '<td>' . $row['email'] . '</td>';
@@ -56,10 +58,10 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
 
     // Create a table with the fetched data
     $tableHtml_yesterday = '<div class="table-responsive"><table class="table table-bordered table-striped">';
-    $tableHtml_yesterday .= '<thead class="thead-light"><tr><th>Names</th><th>Contact</th><th>Contact_2</th><th>Address</th><th>Date Approved</th></tr></thead><tbody>';
+    $tableHtml_yesterday .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
 
     foreach ($databaseData_yesterday as $row1) {
-        $tableHtml_yesterday .= '<tr>';
+        $tableHtml_yesterday .= '<tr scope="row">';
         $tableHtml_yesterday .= '<td>' . $row1['firstname'] . ' ' . $row1['middlename'] .' '.$row1['lastname'] . '</td>';
         $tableHtml_yesterday .= '<td>' . $row1['contact_no'] . '</td>';
         $tableHtml_yesterday .= '<td>' . $row1['email'] . '</td>';
