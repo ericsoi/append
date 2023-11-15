@@ -146,7 +146,7 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Unpaid Loans';
-    $mail->Body = $yesterday . '<br/>Yesterday\'s unpaid loans<br/><br/>' . $tableHtml_yesterday.'<br/><br/><br/>' .$humanReadableDate .'<br/>Today\'s Unpaid loans <br/><br/>' . $tableHtml;
+    $mail->Body = $yesterday . '<br/><b>Yesterday\'s unpaid loans</b><br/>' . $tableHtml_yesterday.'<br/><br/><br/>' .$humanReadableDate .'<br/><b>Today\'s Unpaid loans </b><br/><br/>' . $tableHtml;
     // $mail->Body    = "<b>$names</b> of phone number <b>$contact_no </b>has requested a loan of <b>$loan_amount</b> on <b>$date_created</b>";
     // $mail->AltBody = 'Test mail body from matrick.co.ke';
     $mail->send();
