@@ -17,7 +17,7 @@ if ($tbl_unpaid->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml = '<div style="margin: 20px auto; width: 100%; font-family: Arial, sans-serif;">';
     $tableHtml .= '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #dee2e6; border-radius: 0.25rem;">';
     $tableHtml .= '<thead style="background-color: #f8f9fa; color: #212529;">';
     $tableHtml .= '<tr>';
@@ -45,8 +45,8 @@ if ($tbl_unpaid->num_rows > 0) {
     $tableHtml .= '</div>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
-    $tableHtml .= '<div style="padding: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 0.25rem;">';
+    $tableHtml = '<div style="margin: 20px auto; width: 100%; font-family: Arial, sans-serif;">';
+    $tableHtml .= '<div style="padding: 20px; background-color: #f8f9fa; color: #721c24; border: 1px solid #f5c6cb; border-radius: 0.25rem;">';
     $tableHtml .= 'No data found.';
     $tableHtml .= '</div>';
     $tableHtml .= '</div>';
@@ -68,9 +68,9 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml_yesterday = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml_yesterday = '<div style="margin: 20px auto; width: 100%; font-family: Arial, sans-serif;">';
     $tableHtml_yesterday .= '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #dee2e6; border-radius: 0.25rem;">';
-    $tableHtml_yesterday .= '<thead style="background-color: #d4edda; color: #155724;">';
+    $tableHtml_yesterday .= '<thead style="background-color: #f8f9fa; color: #155724;">';
     $tableHtml_yesterday .= '<tr>';
     $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Names</th>';
     $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Contact</th>';
@@ -97,8 +97,7 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     $tableHtml_yesterday .= '</div>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml_yesterday = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
-    $tableHtml_yesterday .= '<div style="padding: 20px; background-color: #cce5ff; color: #004085; border: 1px solid #b8daff; border-radius: 0.25rem;">';
+    $tableHtml_yesterday = '<div style="margin: 20px auto; width: 100%; font-family: Arial, sans-serif;">';
     $tableHtml_yesterday .= 'All loans paid yesterday';
     $tableHtml_yesterday .= '</div>';
     $tableHtml_yesterday .= '<hr>';
