@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bootstrap Table Example</title>
-    <!-- Add Bootstrap CSS link -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Styled Table</title>
 </head>
 <body>
 
 <?php
-require_once'/var/www/matrick/dashboard/class.php';
-$db=new db_class(); 
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
-$tbl_unpaid = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN `loan_plan` on loan_plan.lplan_id = loan.lplan_id WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 13 HOUR)))
-AND `status` IS NOT NULL");$tbl_unpaid_yesterday = $db->conn->query("SELECT * from `loan` INNER JOIN `borrower` on borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` on loan_plan.lplan_id = loan.lplan_id where NOT `loan_id` in (select `loan_id` from `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 1 DAY))) AND `status` IS NOT NULL");
+require_once '/var/www/matrick/dashboard/class.php';
+$db = new db_class();
+
+// Your existing code to fetch data from the database goes here...
 
 // Check if there are rows returned from the query
 if ($tbl_unpaid->num_rows > 0) {
@@ -27,24 +23,46 @@ if ($tbl_unpaid->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml = '<div class="container mt-5"><table class="table table-success table-bordered table-striped table-hover">';
-    $tableHtml .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
+    $tableHtml = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml .= '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #dee2e6; border-radius: 0.25rem;">';
+    $tableHtml .= '<thead style="background-color: #f8f9fa; color: #212529;">';
+    $tableHtml .= '<tr>';
+    $tableHtml .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Names</th>';
+    $tableHtml .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Contact</th>';
+    $tableHtml .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Contact_2</th>';
+    $tableHtml .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Address</th>';
+    $tableHtml .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Date Approved</th>';
+    $tableHtml .= '</tr>';
+    $tableHtml .= '</thead>';
+    $tableHtml .= '<tbody>';
 
     foreach ($databaseData as $row) {
-        $tableHtml .= '<tr scope="row">';
-        $tableHtml .= '<td>' . $row['firstname'] . ' ' . $row['middlename'] .' '.$row['lastname'] . '</td>';
-        $tableHtml .= '<td>' . $row['contact_no'] . '</td>';
-        $tableHtml .= '<td>' . $row['email'] . '</td>';
-        $tableHtml .= '<td>' . $row['address'] . '</td>';
-        $tableHtml .= '<td>' . $row['date_released'] . '</td>';
+        $tableHtml .= '<tr>';
+        $tableHtml .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] . '</td>';
+        $tableHtml .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row['contact_no'] . '</td>';
+        $tableHtml .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row['email'] . '</td>';
+        $tableHtml .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row['address'] . '</td>';
+        $tableHtml .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row['date_released'] . '</td>';
         $tableHtml .= '</tr>';
     }
 
-    $tableHtml .= '</tbody></table></div>';
+    $tableHtml .= '</tbody>';
+    $tableHtml .= '</table>';
+    $tableHtml .= '</div>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml = '<div class="alert alert-warning" role="alert">No data found.</div>';
+    $tableHtml = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml .= '<div style="padding: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 0.25rem;">';
+    $tableHtml .= 'No data found.';
+    $tableHtml .= '</div>';
+    $tableHtml .= '</div>';
 }
+
+// Your existing code to create $tableHtml_yesterday goes here...
+
+// Your existing code to send the email goes here...
+
+
 
 if ($tbl_unpaid_yesterday->num_rows > 0) {
     // Initialize an empty array to store the fetched data
@@ -56,25 +74,42 @@ if ($tbl_unpaid_yesterday->num_rows > 0) {
     }
 
     // Create a table with the fetched data
-    $tableHtml_yesterday = '<div class="container mt-5"><table class="table table-success table-bordered table-striped table-hover">';
-    $tableHtml_yesterday .= '<thead class="thead-light"><tr><th scope="col">Names</th><th scope="col">Contact</th><th scope="col">Contact_2</th><th scope="col">Address</th><th scope="col">Date Approved</th></tr></thead><tbody>';
+    $tableHtml_yesterday = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml_yesterday .= '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #dee2e6; border-radius: 0.25rem;">';
+    $tableHtml_yesterday .= '<thead style="background-color: #d4edda; color: #155724;">';
+    $tableHtml_yesterday .= '<tr>';
+    $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Names</th>';
+    $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Contact</th>';
+    $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Contact_2</th>';
+    $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Address</th>';
+    $tableHtml_yesterday .= '<th style="padding: 8px; border: 1px solid #dee2e6;">Date Approved</th>';
+    $tableHtml_yesterday .= '</tr>';
+    $tableHtml_yesterday .= '</thead>';
+    $tableHtml_yesterday .= '<tbody>';
 
     foreach ($databaseData_yesterday as $row1) {
-        $tableHtml_yesterday .= '<tr scope="row">';
-        $tableHtml_yesterday .= '<td>' . $row1['firstname'] . ' ' . $row1['middlename'] .' '.$row1['lastname'] . '</td>';
-        $tableHtml_yesterday .= '<td>' . $row1['contact_no'] . '</td>';
-        $tableHtml_yesterday .= '<td>' . $row1['email'] . '</td>';
-        $tableHtml_yesterday .= '<td>' . $row1['address'] . '</td>';
-        $tableHtml_yesterday .= '<td>' . $row1['date_released'] . '</td>';
+        $tableHtml_yesterday .= '<tr>';
+        $tableHtml_yesterday .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row1['firstname'] . ' ' . $row1['middlename'] . ' ' . $row1['lastname'] . '</td>';
+        $tableHtml_yesterday .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row1['contact_no'] . '</td>';
+        $tableHtml_yesterday .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row1['email'] . '</td>';
+        $tableHtml_yesterday .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row1['address'] . '</td>';
+        $tableHtml_yesterday .= '<td style="padding: 8px; border: 1px solid #dee2e6;">' . $row1['date_released'] . '</td>';
         $tableHtml_yesterday .= '</tr>';
     }
 
-    $tableHtml_yesterday .= '</tbody></table></div><hr>';
+    $tableHtml_yesterday .= '</tbody>';
+    $tableHtml_yesterday .= '</table>';
+    $tableHtml_yesterday .= '<hr>';
+    $tableHtml_yesterday .= '</div>';
 } else {
     // Handle the case when no rows are returned from the query
-    $tableHtml_yesterday = '<div class="alert alert-info" role="alert">All loans paid yesterday</div><hr>';
+    $tableHtml_yesterday = '<div style="margin: 20px auto; max-width: 600px; font-family: Arial, sans-serif;">';
+    $tableHtml_yesterday .= '<div style="padding: 20px; background-color: #cce5ff; color: #004085; border: 1px solid #b8daff; border-radius: 0.25rem;">';
+    $tableHtml_yesterday .= 'All loans paid yesterday';
+    $tableHtml_yesterday .= '</div>';
+    $tableHtml_yesterday .= '<hr>';
+    $tableHtml_yesterday .= '</div>';
 }
-
 
 $date = date('Y-m-d H:i:s'); // Replace this with your date variable
 $humanReadableDate = date('F j, Y, g:i a', strtotime($date));
