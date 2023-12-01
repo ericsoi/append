@@ -32,7 +32,7 @@
     $total_loans= $sum_fetch[3];
 
     $remaining = $expected - $sum_paid_amount;
-    $_SESSION['user_admin'] = 1;
+    // $_SESSION['user_admin'] = 1;
     if(ISSET($_POST['otp_id'])){
         if(ISSET($_SESSION['otp'])){
             if($_POST['otp_id'] == $_SESSION['otp']){
