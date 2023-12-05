@@ -485,9 +485,13 @@
                                         Total Unpaid expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                           $expected=$db->conn->query("SELECT CAST(SUM(totalAmount / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
-                                           $result = $expected->fetch_array();
-                                           echo $result['total'];
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+                                                $expected=$db->conn->query("SELECT CAST(SUM(totalAmount / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+                                                $result = $expected->fetch_array();
+                                                echo $result['total'];
+                                            }else{
+
+                                            }
                                             
                                         ?>
                                     </div>
@@ -514,10 +518,14 @@
                                         Total Interest free expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                           $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
-                                           $expected_result = $expected->fetch_array();
-                                           echo $expected_result['total'];
-                                            
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+
+                                                $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+                                                $expected_result = $expected->fetch_array();
+                                                echo $expected_result['total'];
+                                            }else{
+
+                                            }                                            
                                         ?>
                                     </div>
                                 </div>
@@ -544,9 +552,14 @@
                                         Total profit expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                           $expected=$db->conn->query("SELECT CAST(SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '2023-12-05') AND `status` IS NOT NULL");
-                                           $result = $expected->fetch_array();
-                                           echo $result['total']; 
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+
+                                                $expected=$db->conn->query("SELECT CAST(SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '2023-12-05') AND `status` IS NOT NULL");
+                                                $result = $expected->fetch_array();
+                                                echo $result['total']; 
+                                            }else{
+                                                
+                                            }
                                         ?>
                                     </div>
                                 </div>
