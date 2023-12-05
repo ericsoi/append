@@ -485,13 +485,13 @@
                                         Total Unpaid expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+                                            // if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                 $expected=$db->conn->query("SELECT CAST(SUM(totalAmount / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
                                                 $result = $expected->fetch_array();
                                                 echo $result['total'];
-                                            }else{
+                                            // }else{
 
-                                            }
+                                            // }
                                             
                                         ?>
                                     </div>
@@ -558,7 +558,7 @@
                                                 $result = $expected->fetch_array();
                                                 echo $result['total']; 
                                             }else{
-                                                
+
                                             }
                                         ?>
                                     </div>
