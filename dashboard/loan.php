@@ -3,6 +3,10 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
+	$_SESSION['user_admin'] = 1;
+	$startDate = date("Y-m-d");
+	$endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
+	$currentDate = date("Y-m-d H:m:s");
 	if (isset($_GET['status'])){
 		$status = $_GET['status'];
 		if ($status == 'error'){
@@ -188,11 +192,15 @@
 												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
                                                 $sum_fetch=$sum_payment->fetch_array();
 												$payee = $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1).".";
+												
+												if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) { 
+													continue; 
+												}
 												$counter++;
 												
 										?>
 										
-										<tr <?php if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) { echo "hidden"; } ?>>
+										<tr <?php  ?>>
 											<td><?php echo $counter;?></td>
 											<td>
 												<p><small>Name: <strong><?php echo $payee;?></strong></small></p>

@@ -4,24 +4,24 @@
 	require_once'class.php';
 	$db=new db_class(); 
     $currentDate = date("Y-m-d H:m:s");
-    $startDate = date("Y-m-d");
-    $endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
+    // $startDate = date("Y-m-d");
     if(ISSET($_POST["mydate"])){
         $currentDate = $_POST["mydate"];
     }
-    date("Y-m-d");
+    // date("Y-m-d");
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
     // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
     $newDate = date("Y-m-d", strtotime($currentDate));
+    $endDate = date("Y-m-d", strtotime($newDate . ' +1 day'));
 
     if(ISSET($_GET['otp'])){
         echo "<script>alert('OTP has been sent to your email')</script>";
         echo "<script>window.location.href = 'home.php';</script>";
     }
-    $startDate = date("Y-m-d");
-    $endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
+    // $startDate = date("Y-m-d");
+    // $endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
     $currentDate = date("Y-m-d H:m:s");
-    $sum_payment=$db->conn->query("SELECT SUM(paid_amount), SUM(totalAmount), SUM(amount), count(*) FROM loan WHERE CAST(paid_amount AS DECIMAL) < CAST(totalAmount AS DECIMAL) AND date_released >= CAST('$startDate' AS DATE) AND date_released <= CAST('$endDate' AS DATE)");
+    $sum_payment=$db->conn->query("SELECT SUM(paid_amount), SUM(totalAmount), SUM(amount), count(*) FROM loan WHERE CAST(paid_amount AS DECIMAL) < CAST(totalAmount AS DECIMAL) AND date_released >= CAST('$newDate' AS DATE) AND date_released <= CAST('$endDate' AS DATE)");
     $sum_expected=$db->conn->query("SELECT SUM(amount + (amount * loan_plan.lplan_interest)/100)/26 from loan inner join loan_plan on loan.lplan_id = loan_plan.lplan_id where status = 2");
     $sum_expected_fetch = $sum_expected->fetch_array();
     $expected = $sum_expected_fetch[0];
@@ -434,7 +434,7 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small stretched-link" href="unpaid.php?date=<?php echo $currentDate?>">View Loans</a>
+                                <a class="small stretched-link" href="unpaid.php?date=<?php echo $newDate?>">View Loans</a>
                                 <div class="small">
                                     <i class="fa fa-angle-right"></i>
                                 </div>
@@ -445,7 +445,7 @@
                 <!--End of row 2-->
                 
                 <!--End of row 3-->
-                <div class="row">
+            <div class="row">
 
                      
                 <div class="col-xl-4 col-md-4 mb-4">
@@ -485,8 +485,68 @@
                                         Total Unpaid expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                           echo $remaining;
+                                           $expected=$db->conn->query("SELECT CAST(SUM(totalAmount / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+                                           $result = $expected->fetch_array();
+                                           echo $result['total'];
                                             
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="small">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Interest free expected</div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                           $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+                                           $expected_result = $expected->fetch_array();
+                                           echo $expected_result['total'];
+                                            
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="small">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total profit expected</div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                           $expected=$db->conn->query("SELECT CAST(SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '2023-12-05') AND `status` IS NOT NULL");
+                                           $result = $expected->fetch_array();
+                                           echo $result['total']; 
                                         ?>
                                     </div>
                                 </div>

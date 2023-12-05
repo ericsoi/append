@@ -373,6 +373,7 @@
 				return true;
 			}
 		}
+		
 		public function save_payment1($loan_id, $payee, $payment, $penalty, $overdue, $payment_date){
 			$query=$this->conn->prepare("INSERT INTO `payment` (`loan_id`, `payee`, `pay_amount`, `penalty`, `overdue`, `date_created`) VALUES(?, ?, ?, ?, ?, ?)") or die($this->conn->error);
 			$query->bind_param("isssis", $loan_id, $payee, $payment, $penalty, $overdue, $payment_date);
@@ -390,3 +391,4 @@
 
 
 
+<!-- select ref_no, loan_id, amount, paid_amount, totalAmount, loan_plan.lplan_month, loan_plan.lplan_interest from loan inner join loan_plan on loan.lplan_id=loan_plan.lplan_id where not (paid_amount = totalAmount or paid_amount>9100) and not loan_id in (select loan_id from payment where date_created = '2023-12-04'); -->

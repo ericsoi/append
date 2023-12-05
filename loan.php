@@ -211,7 +211,7 @@ if (isset($_GET['status'])){
                       <!-- <center><span>Total Payable Amount</span></center> -->
                       <!-- <center><span id="tpa"></span></center> -->
                     <!-- </div> -->
-                    <div class="col-xl-6 col-md-6">
+                    <div class="col-xl-6 col-md-6">qx9uu
                       <center><span>Total Payable Amount</span></center>
                       <center><span id="mpa"></span></center>
                     </div>
@@ -243,16 +243,16 @@ if (isset($_GET['status'])){
                                         </tr>
                                     </thead>
                                     <tbody>
-										<?php
-											// $tbl_loan=$db->display_loan();
-                      $tbl_loan=$db->get_loans($borrower_id);
-											$i=1;
-											while($fetch=$tbl_loan->fetch_array()){
-                        $ref_no = $fetch['ref_no'];
-												$sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
-                        $sum_fetch=$sum_payment->fetch_array();
-										?>
-										
+                                        <?php
+                                          // $tbl_loan=$db->display_loan();
+                                          $tbl_loan=$db->get_loans($borrower_id);
+                                          $i=1;
+                                          while($fetch=$tbl_loan->fetch_array()){
+                                            $ref_no = $fetch['ref_no'];
+                                            $sum_payment=$db->conn->query("SELECT SUM(pay_amount) FROM `payment` INNER JOIN `loan` ON payment.loan_id=loan.loan_id WHERE loan.ref_no = $ref_no");
+                                            $sum_fetch=$sum_payment->fetch_array();
+                                            
+                                        ?>
                                         <tr>
 											<td><?php echo $i++;?></td>
 											<td>

@@ -3,6 +3,9 @@ require_once'../dashboard/class.php';
 $startDate = date("Y-m-d");
 $endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
 $currentDate = date("Y-m-d H:m:s");
+echo $startDate;
+
+//2023-12-01
 
 $db=new db_class();
 $sum_payment=$db->conn->query("SELECT SUM(paid_amount), SUM(totalAmount), SUM(amount), count(*) FROM loan WHERE CAST(paid_amount AS DECIMAL) < CAST(totalAmount AS DECIMAL) AND date_released >= CAST('$startDate' AS DATE) AND date_released <= CAST('$endDate' AS DATE)");
@@ -17,5 +20,4 @@ $total_loans= $sum_fetch[3];
 
 $remaining = $expected - $sum_paid_amount;
 echo $remaining;
-
 

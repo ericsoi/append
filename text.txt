@@ -1,0 +1,4 @@
+payment_id	loan_id	payee	pay_amount	penalty	overdue	date_created	loan_id	ref_no	ltype_id	borrower_id	purpose	amount	lplan_id	status	date_released	date_created	loan_form	paid_amount	totalAmount	lplan_id	lplan_month	lplan_interest	lplan_penalty
+1	1	Soi, Erick S.	750	37.5	1	2023-11-24 21:33:17	1	42185823	1	13	Business Loan	15000	2	2	2023-11-24 21:32:46	2023-11-24 21:31:43	/var/www/matrick/uploads/loan_form/13/2023-11-24/696046/loan_form.png	750	19500	2	26	30	5
+2	2	rttt, erere r.	750	37.5	1	2023-11-24 21:38:55	2	751876	1	14	Business Loan	15000	2	2	2023-11-24 21:38:21	2023-11-24 21:38:06	/var/www/matrick/uploads/loan_form/14/2023-11-24/570839/loan_form.png	750	19500	2	26	30	5
+3	3	hjhjhj, Erick g.	300	0	0	2023-11-24 21:42:24	3	42284230	1	15	Business Loan	6000	2	2	2023-11-24 21:42:00	2023-11-24 21:41:12	/var/www/matrick/uploads/loan_form/15/2023-11-24/947194/loan_form.png	300	7800	2	26	30	5

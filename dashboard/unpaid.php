@@ -171,6 +171,7 @@
                                     <thead>
                                         <tr>
                                             <th>Names</th>
+											<th>Ref No</th>
                                             <th>Contact No</th>
 											<th>Contact No2</th>
                                             <th>Address</th>
@@ -194,7 +195,8 @@
 										
                                         <tr>
                                             <td><?php echo $fetch['firstname'] . ' ' . $fetch['middlename'] . ' ' . $fetch['lastname']?></td>
-                                            <td><?php echo $fetch['contact_no']?></td>
+											<td><?php echo $fetch['ref_no']?></td>
+											<td><?php echo $fetch['contact_no']?></td>
 											<td><?php echo $fetch['email']?></td>
                                             <td><?php echo $fetch['address']?></td>
                                             <td><?php echo $fetch['date_released']?></td>
