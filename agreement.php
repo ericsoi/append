@@ -50,7 +50,7 @@ $pdf->Ln(5);
 
 // Interest Rate
 $pdf->Cell(0, 6, 'INTEREST RATE', 0, 1);
-$pdf->Cell(0, 6, 'Both agree upon an interest rate of '.$interest.' that is to be acquired for '.$plan.' Days', 0, 1);
+$pdf->Cell(0, 6, 'Both agree upon an interest rate of '.$interest.'% that is to be acquired for '.$plan.' Days', 0, 1);
 $pdf->Ln(5);
 
 // Term of Repayment

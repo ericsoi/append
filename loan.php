@@ -346,7 +346,7 @@ if (isset($_GET['status'])){
                             $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
                             $plan = $fetch['lplan_month'];
                             $interest = $fetch['lplan_interest'];
-                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal.'&plan='.$plan.'&$interest='.$$interest; 
+                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal.'&plan='.$plan.'&interest='.$interest; 
 												    ?>  
                               <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print Request agreement</button></a>
                             
