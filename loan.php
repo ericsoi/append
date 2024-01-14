@@ -289,9 +289,7 @@ if (isset($_GET['status'])){
 											</td>
 											<td>
                       <?php
-                          $loanid = $fetch['loan_id'];
-                          echo $loanid;
-                          
+                          $loanid = $fetch['loan_id'];                          
 													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loanid'") or die($this->conn->error);
 													$paid = $payment->num_rows;
 													$offset = $paid > 0 ? " offset $paid ": "";
@@ -347,7 +345,8 @@ if (isset($_GET['status'])){
                             $front_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_front);
                             $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
                             $plan = $fetch['lplan_month'];
-                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal.'&plan='.$plan; 
+                            $interest = $fetch['lplan_interest'];
+                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal.'&plan='.$plan.'&$interest='.$$interest; 
 												    ?>  
                               <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print Request agreement</button></a>
                             
