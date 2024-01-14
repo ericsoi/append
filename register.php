@@ -66,9 +66,9 @@ if (isset($_GET['status'])){
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html#hero" class="active">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
+          <!-- <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#packages">Packages</a></li>
-          <li><a href="index.html#team">Team</a></li>
+          <li><a href="index.html#team">Team</a></li> -->
 
           <li><a href="dashboard/">Dashboard</a></li>
         </ul>
@@ -76,7 +76,7 @@ if (isset($_GET['status'])){
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav><!-- End Nav Menu -->
 
-      <a class="btn-getstarted" href="index.html#about">Get Started</a>
+      <a class="" href="index.html#about"></a>
 
     </div>
   </header><!-- End Header -->
@@ -142,7 +142,7 @@ if (isset($_GET['status'])){
                     </div>
                     <div class="col-md-4 form-group">
                       <label>Upload KRA Doc</label>
-                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload KRA" accept="image/*"/>
+                      <input name="signature_doc" type="file" class="form-control" placeholder="Upload KRA" accept="image/*" required/>
                     </div>
                   </div>
                   <div class="row">
@@ -176,60 +176,58 @@ if (isset($_GET['status'])){
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
 
-<div class="container footer-top">
-  <div class="row gy-4">
-    <div class="col-lg-5 col-md-12 footer-about">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <span>Matrick Credit</span>
-      </a>
-      <p>
-        Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Matrick Credit. Discover a partner you can trust, and let us help you achieve your financial goals.
-      </p>
-      <div class="social-links d-flex mt-4">
-        <a href=""><i class="bi bi-twitter"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span>Matrick</span>
+          </a>
+          <p>
+            Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Matrick. Discover a partner you can trust, and let us help you achieve your financial goals.
+          </p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <!-- <li><a href="#">About us</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li> -->
+          </ul>
+        </div>
+
+       
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>Embakasi Nairobi Kenya</p>
+          <!-- <p class="mt-4"><strong>Phone:</strong> <span>+254704470096</span></p>
+          <p><strong>Email:</strong> <span>matrickcredit@gmail.com</span></p> -->
+        </div>
+
       </div>
     </div>
 
-    <div class="col-lg-2 col-6 footer-links">
-      <h4>Useful Links</h4>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About us</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">Terms of service</a></li>
-        <li><a href="#">Privacy policy</a></li>
-      </ul>
+    <div class="container copyright text-center mt-4">
+      <p>&copy; <span>Copyright</span> <strong class="px-1">Matrick</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        <span class="">Designed By<a href="http://52.5.53.186" class="" target="_blank"> SoNux Technologies</a> Distributed By <a href="https://triplesolutions.co.ke/" target="_blank">Triple Solutions</a></span>
+      </div>
     </div>
 
-   
-
-    <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-      <h4>Contact Us</h4>
-      <p>Embakasi</p>
-      <p>Nairobi</p>
-      <p>Kenya</p>
-      <p class="mt-4"><strong>Phone:</strong> <span>+07123456789</span></p>
-      <p><strong>Email:</strong> <span>info@example.com</span></p>
-    </div>
-
-  </div>
-</div>
-
-<div class="container copyright text-center mt-4">
-  <p>&copy; <span>Copyright</span> <strong class="px-1">Matrick Credit</strong> <span>All Rights Reserved</span></p>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you've purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-    Designed by <a href="#">Erick Soi</a>
-  </div>
-</div>
-
-</footer><!-- End Footer -->
+  </footer><!-- End Footer -->
 
   <!-- Scroll Top Button -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

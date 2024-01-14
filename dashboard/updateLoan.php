@@ -22,12 +22,12 @@
 		}else{
 			if($status==2){
 				$date_released=date("Y-m-d H:i:s");
-				for($i=0; $i<$month; $i++){
-					$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
+				// for($i=0; $i<$month; $i++){
+				// 	$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
 					
 
-					$db->save_date_sched($loan_id, $date_schedule);
-				}
+				// 	$db->save_date_sched($loan_id, $date_schedule);
+				// }
 			}else{
 				$date_released=NULL;
 			}

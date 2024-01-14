@@ -14,10 +14,10 @@ if (isset($_GET['status'])){
     echo "<script type='text/javascript'>alert('Registration '+'$status');</script>";
   }
   if ($status == 'exists'){
-    echo "<script type='text/javascript'>alert('User '+'$status' + '. Apply Loan');</script>";
+    echo "<script type='text/javascript'>alert('User '+'$status' + '. Apply');</script>";
   }
   if ($status == 'applied'){
-    echo "<script type='text/javascript'>alert('Loan '+'$status' + '. Pending approval and disbursment');</script>";
+    echo "<script type='text/javascript'>alert('Request '+'$status' + '. Pending approval and disbursment');</script>";
   }
   if ($status == 'error'){
     $message = $_GET["message"];
@@ -32,7 +32,7 @@ if (isset($_GET['status'])){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Apply Loan</title>
+  <title>Apply</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -51,6 +51,9 @@ if (isset($_GET['status'])){
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
@@ -59,6 +62,7 @@ if (isset($_GET['status'])){
     <!-- Custom styles for this page -->
       <link href="dashboard/css/dataTables.bootstrap4.css" rel="stylesheet">
       <link href="dashboard/css/select2.css" rel="stylesheet">
+      
 
   <!-- =======================================================
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -77,7 +81,7 @@ if (isset($_GET['status'])){
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>Matrick Credit</h1>
+        <h1>Matrick Consultancies</h1>
         <span>.</span>
       </a>
 
@@ -85,9 +89,9 @@ if (isset($_GET['status'])){
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html#hero" class="active">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
+          <!-- <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#packages">Packages</a></li>
-          <li><a href="index.html#team">Team</a></li>
+          <li><a href="index.html#team">Team</a></li> -->
 
           <li><a href="dashboard/">Dashboard</a></li>
         </ul>
@@ -95,7 +99,7 @@ if (isset($_GET['status'])){
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav><!-- End Nav Menu -->
 
-      <a class="btn-getstarted" href="index.html#about">Get Started</a>
+      <a class="" href="index.html#about"></a>
 
     </div>
   </header><!-- End Header -->
@@ -109,7 +113,7 @@ if (isset($_GET['status'])){
         <div class="container">
           <ol>
             <li><a href="index.html">Home</a></li>
-            <li class="current">Loan</li>
+            <li class="current">Request</li>
           </ol>
         </div>
       </nav>
@@ -124,7 +128,7 @@ if (isset($_GET['status'])){
           <div class="col-lg-8">
             <div class="comments">
               <div class="reply-form">
-                <h4>Loan Application</h4>
+                <h4>Request Application</h4>
                 <form action=".\dashboard\save_loan.php" method="POST"  enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-6 form-group">
@@ -133,7 +137,9 @@ if (isset($_GET['status'])){
                     <input type="hidden" value="<?php echo $contact_no?>" name="contact_no"/>
                     <select name="borrower" class="form-control borrow" required="required" style="width:100%;">
                         <?php
+                            echo "123";
                               $tbl_borrower=$db->get_borrower($contact_no);
+                              print_r($tbl_borrower);
                               while($fetch=$tbl_borrower->fetch_array()){
                                 $borrower_id=$fetch['borrower_id'];
 
@@ -145,7 +151,7 @@ if (isset($_GET['status'])){
                       </select>
                     </div>
                     <div class="col-md-6 form-group">
-                      <label>Loan type</label>
+                      <label>request type</label>
                       <br />
                       <select name="ltype" class="form-control loan" required="required" style="width:100%;">
                         <?php
@@ -161,13 +167,12 @@ if (isset($_GET['status'])){
                   </div>
                   <div class="row">
                     <div class="col-md-6 form-group">
-                        <label>Loan Plan</label>
+                        <label>Request Plan</label>
                         <select name="lplan" class="form-control" required="required" id="lplan">
                             <!-- <option value="">Please select an option</option> -->
                           <?php
                             $tbl_lplan=$db->display_lplan();
                             while($fetch=$tbl_lplan->fetch_array()){
-                              print_r($fetch);
 							  $plan = $fetch['lplan_month'];
 							  $fetch['lplan_month'] =1;
                           ?>
@@ -183,7 +188,7 @@ if (isset($_GET['status'])){
                         <!-- <label>Days</label> -->
                       </div>
                     <div class="col-md-6 form-group">
-                      <label>Loan Amount</label>
+                      <label>Request Amount</label>
                       <input type="number" name="loan_amount" class="form-control" id="amount" required="required"/>
 
                     </div>
@@ -197,7 +202,7 @@ if (isset($_GET['status'])){
                   <div class="row">
                     <div class="form-group col-xl-6 col-md-6">
                       <label>Purpose</label>
-                      <input name="purpose" class="form-control" value="Business Loan" required="required"/>
+                      <input name="purpose" class="form-control" value="Business Request" required="required"/>
                     </div>
                     <div class="form-group col-xl-6 col-md-6">
                       <label>.</label>
@@ -211,12 +216,12 @@ if (isset($_GET['status'])){
                       <!-- <center><span>Total Payable Amount</span></center> -->
                       <!-- <center><span id="tpa"></span></center> -->
                     <!-- </div> -->
-                    <div class="col-xl-6 col-md-6">qx9uu
+                    <div class="col-xl-6 col-md-6">
                       <center><span>Total Payable Amount</span></center>
                       <center><span id="mpa"></span></center>
                     </div>
                     <div class="col-xl-6 col-md-6">
-                      <center><span>Penalty Amount</span></center>
+                      <center><span>Daily Payment</span></center>
                       <center><span id="pa"></span></center>
                     </div>
                   </div>
@@ -224,8 +229,8 @@ if (isset($_GET['status'])){
 
                   <div class="text-center">
                     <button type="submit" name="apply" class="btn btn-primary">Apply</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">Check my loans</button>
-
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">Check my Requests</button>
+                          
                   </div>
                   <div class="row">
                     <div class="collapse collapse-horizontal" id="collapseWidthExample"> 
@@ -236,8 +241,8 @@ if (isset($_GET['status'])){
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Borrower</th>
-                                            <th>Loan Detail</th>
+                                            <th>Requester</th>
+                                            <th>Request Detail</th>
                                             <th>Payment Detail</th>
                                             <th>Status</th>
                                         </tr>
@@ -261,10 +266,10 @@ if (isset($_GET['status'])){
 												<p><small>Address: <strong><?php echo $fetch['address']?></strong></small></p>
 											</td>
 											<td>
-												<p><small>Loan Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
-												<p><small>Loan Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
-												<!-- <p><small>Loan Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p> -->
-												<p><small>Loan Plan: <strong>26 Days</strong></small></p>
+												<p><small>Request Reference no: <strong><?php echo $fetch['ref_no']?></strong></small></p>
+												<p><small>Request Type: <strong><?php echo $fetch['ltype_name']?></strong></small></p>
+												<!-- <p><small>Request Plan: <strong><?php echo $fetch['lplan_month']." months[".$fetch['lplan_interest']."%, ".$fetch['lplan_penalty']."%]"?></strong> interest, penalty</small></p> -->
+												<p><small>Request Plan: <strong>26 Days</strong></small></p>
 
 												<?php
 													$monthly =($fetch['amount'] + ($fetch['amount'] * ($fetch['lplan_interest']/100))) / $fetch['lplan_month'];
@@ -285,19 +290,21 @@ if (isset($_GET['status'])){
 											<td>
                       <?php
                           $loanid = $fetch['loan_id'];
+                          echo $loanid;
+                          
 													$payment=$db->conn->query("SELECT * FROM `payment` WHERE `loan_id`='$loanid'") or die($this->conn->error);
 													$paid = $payment->num_rows;
 													$offset = $paid > 0 ? " offset $paid ": "";
 													
 													
-													if($fetch['status'] == 2){
+													// if($fetch['status'] == 2){
 														$next = $db->conn->query("SELECT * FROM `loan_schedule` WHERE `loan_id`='$loanid' ORDER BY date(due_date) DESC limit 1")->fetch_assoc()['due_date'];
 														$add = (date('Ymd',strtotime($next)) < date("Ymd") ) ?  $penalty : 0;
 														echo "<p><small>Due Payment Date: <br /><strong>".date('F d, Y',strtotime($next))."</strong></small></p>";
 														echo "<p><small>Daily Amount: <br /><strong> ".number_format($monthly, 2)."</strong></small></p>";
 														echo "<p><small>Amount Paid: <br /><strong> ".$sum_fetch[0]."</strong></small></p>";
 														echo "<p><small>Payable Amount: <br /><strong> ".$fetch['lplan_interest']/100 * $fetch["amount"] + $fetch["amount"]."</strong></small></p>";
-													}
+													// }
 												?>
 											</td>
 											<td>
@@ -319,14 +326,18 @@ if (isset($_GET['status'])){
 														echo '<span class="badge badge-danger">Denied</span>';
 													}
 													
-                          if($fetch['status'] == 2){
+                          if($fetch['status'] == 2 || $fetch['status'] == 0){
                             // print_r($fetch);
                             $names= $fetch['firstname'] . ' ' . $fetch['middlename'] . ' ' .$fetch['lastname'];
                             $idno= $fetch['tax_id'];
                             $plot_name= $fetch['address'];
                             $phone_no= $fetch['contact_no'];
-                            $date= date("M d, Y", strtotime($fetch['date_released']));
-                            $due=date('F d, Y',strtotime($next));
+                            if (!$fetch['date_released']) {
+                                $date = date('d, F, Y'); // Get the current date
+                            } else {
+                                $date = date("d, F, Y", strtotime($fetch['date_released']));
+                            }
+                            $due=date('d, F, Y',strtotime($next));
                             $agreement= number_format($totalAmount, 2);
                             $daily= number_format($monthly, 2);
                             $principal= number_format($fetch['amount'], 2);
@@ -335,9 +346,10 @@ if (isset($_GET['status'])){
                             $signature_doc = $fetch['signature_doc'];
                             $front_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_front);
                             $back_id = str_replace($_SERVER['DOCUMENT_ROOT'].'/', '', $id_back);
-                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal; 
+                            $plan = $fetch['lplan_month'];
+                            $search_string = '?front_id='.$front_id.'&back_id='.$back_id.'&names='.$names.'&idno='.$idno.'&due='.$due.'&plot_name='.$plot_name.'&phone_no='.$phone_no.'&date='.$date.'&agreement='.$agreement.'&daily='.$daily.'&principal='.$principal.'&plan='.$plan; 
 												    ?>  
-                              <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print loan agreement</button></a>
+                              <br/><br/><a href="agreement.php<?php echo $search_string?>"><button class="badge badge-success" type="button">print Request agreement</button></a>
                             
                             <?php
                               
@@ -370,7 +382,7 @@ if (isset($_GET['status'])){
 													<div class="modal-body">
 														<div class="row">
 															<div class="col-md-5 col-xl-5">
-																<p>Loan Reference No:</p>
+																<p>Request Reference No:</p>
 																<p><strong><?php echo $fetch['ref_no']?></strong></p>
 															</div>
 															<div class="col-md-7 col-xl-7">
@@ -443,60 +455,58 @@ if (isset($_GET['status'])){
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
 
-<div class="container footer-top">
-  <div class="row gy-4">
-    <div class="col-lg-5 col-md-12 footer-about">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <span>Matrick Credit</span>
-      </a>
-      <p>
-        Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Matrick Credit. Discover a partner you can trust, and let us help you achieve your financial goals.
-      </p>
-      <div class="social-links d-flex mt-4">
-        <a href=""><i class="bi bi-twitter"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span>Matrick</span>
+          </a>
+          <p>
+            Your financial well-being is our top priority. Join the thousands of satisfied customers who have already experienced the difference with Matrick. Discover a partner you can trust, and let us help you achieve your financial goals.
+          </p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <!-- <li><a href="#">About us</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li> -->
+          </ul>
+        </div>
+
+       
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>Embakasi Nairobi Kenya</p>
+          <!-- <p class="mt-4"><strong>Phone:</strong> <span>+254704470096</span></p>
+          <p><strong>Email:</strong> <span>matrickcredit@gmail.com</span></p> -->
+        </div>
+
       </div>
     </div>
 
-    <div class="col-lg-2 col-6 footer-links">
-      <h4>Useful Links</h4>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About us</a></li>
-        <li><a href="#">Products</a></li>
-        <li><a href="#">Terms of service</a></li>
-        <li><a href="#">Privacy policy</a></li>
-      </ul>
+    <div class="container copyright text-center mt-4">
+      <p>&copy; <span>Copyright</span> <strong class="px-1">Matrick</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        <span class="">Designed By<a href="http://52.5.53.186" class="" target="_blank"> SoNux Technologies</a> Distributed By <a href="https://triplesolutions.co.ke/" target="_blank">Triple Solutions</a></span>
+      </div>
     </div>
 
-   
-
-    <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-      <h4>Contact Us</h4>
-      <p>Embakasi</p>
-      <p>Nairobi</p>
-      <p>Kenya</p>
-      <p class="mt-4"><strong>Phone:</strong> <span>+07123456789</span></p>
-      <p><strong>Email:</strong> <span>info@example.com</span></p>
-    </div>
-
-  </div>
-</div>
-
-<div class="container copyright text-center mt-4">
-  <p>&copy; <span>Copyright</span> <strong class="px-1">Matrick Credit</strong> <span>All Rights Reserved</span></p>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you've purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-    Designed by <a href="#">Erick Soi</a>
-  </div>
-</div>
-
-</footer><!-- End Footer -->
+  </footer><!-- End Footer -->
 
   <!-- Scroll Top Button -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -509,6 +519,12 @@ if (isset($_GET['status'])){
     <div></div>
   </div>
 
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="dashboard/js/jquery.easing.js"></script>
+  <script src="dashboard/js/select2.js"></script>
+  
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -517,12 +533,11 @@ if (isset($_GET['status'])){
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> -->
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-  <script src="dashboard/js/jquery.easing.js"></script>
-  <script src="dashboard/js/select2.js"></script>
+
+
   <script>
 		
 		$(document).ready(function() {
@@ -541,7 +556,7 @@ if (isset($_GET['status'])){
 			
 			$("#calculate").click(function(){
 				if($("#lplan").val() == "" || $("#amount").val() == ""){
-					alert("Please enter a Loan Plan or Amount to Calculate")
+					alert("Please enter a Request Plan or Amount to Calculate")
 				}else{
 					var lplan=$("#lplan option:selected").attr("name");
 					var months=parseFloat(lplan.split('months')[0]);
@@ -557,6 +572,9 @@ if (isset($_GET['status'])){
 					var penalty=monthly * (penalty/100);
 					var totalAmount=amount+monthly;
 					// console.log(monthly)
+          console.log(amount)
+          console.log(interest)
+          console.log(months)
           var l_plan=$("#lplan option:selected").text();
           var l_plan_=parseFloat(l_plan.replace(/[^0-9.]/g, ""));
 					var daily = monthly / l_plan_
@@ -572,7 +590,7 @@ if (isset($_GET['status'])){
 			
 			$("#updateCalculate").click(function(){
 				if($("#ulplan").val() == "" || $("#uamount").val() == ""){
-					alert("Please enter a Loan Plan or Amount to Calculate")
+					alert("Please enter a Request Plan or Amount to Calculate")
 				}else{
 					var lplan=$("#ulplan option:selected").text();
 					var months=parseFloat(lplan.split('months')[0]);
@@ -583,7 +601,9 @@ if (isset($_GET['status'])){
 					var penalty=parseFloat(findpenalty.replace(/[^0-9.]/g, ""));
 					
 					var amount=parseFloat($("#uamount").val());
-					
+					console.log(amount)
+          console.log(interest)
+          console.log(months)
 					var monthly =(amount + (amount * (interest/100))) / months;
 					var penalty=monthly * (penalty/100);
 					var totalAmount=amount+monthly;

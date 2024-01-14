@@ -52,6 +52,7 @@
 			$message="Loan application Failure, Your loan is active or pending for aproval";
 		}else{
 			$db->save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose,$loan_form,$paid_amount,$totalAmount,$date_created);		
+			
 			$status="applied";
 			$message="Loan application Successfull, awaiting aproval";
 			include '../mail.php';

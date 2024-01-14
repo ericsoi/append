@@ -237,6 +237,22 @@
 			}
 		}
 		
+		public function save_date_sched($loan_id, $date_schedule){
+			$query=$this->conn->prepare("INSERT INTO `loan_schedule` (`loan_id`, `due_date`) VALUES(?, ?)") or die($this->conn->error);
+			$query->bind_param("is", $loan_id, $date_schedule);
+			
+			if($query->execute()){
+				return true;
+			}
+		}
+		
+		public function check_lplan($lplan){
+			$query=$this->conn->prepare("SELECT * FROM `loan_plan` WHERE `lplan_id`='$lplan'") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		/* Loan Function */
 		
 		public function save_loan($borrower,$ltype,$lplan,$loan_amount,$purpose, $loan_form, $paid_amount,$totalAmount, $date_created){
@@ -259,10 +275,27 @@
 			$query->bind_param("siisiissss", $ref_no, $ltype, $borrower, $purpose, $loan_amount, $lplan,$loan_form, $paid_amount, $totalAmount, $date_created);
 			
 			if($query->execute()){
+				$query_loan=$this->conn->prepare("SELECT loan_id FROM `loan` where `ref_no`='$ref_no'") or die($this->conn->error);
+				if($query_loan->execute()){
+					$loan_result = $query_loan->get_result();
+					if ($loan_result->num_rows > 0) {
+						$row = $loan_result->fetch_assoc();
+						$loan_id = $row['loan_id'];
+						$lplan_month_query=$this->check_lplan($lplan);
+						$result_row = $lplan_month_query->fetch_assoc();
+						$lplan_month = $result_row['lplan_month'];
+						for($i=0; $i<$lplan_month; $i++){
+							$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
+							$this->save_date_sched($loan_id, $date_schedule);
+						}
+					}
+					$query_loan->close();
+				}
 				$query->close();
 				$this->conn->close();
 				return true;
 			}
+
 		}
 		
 		public function display_loan(){
@@ -331,24 +364,11 @@
 		// 	}
 		// }
 		
-		public function check_lplan($lplan){
-			$query=$this->conn->prepare("SELECT * FROM `loan_plan` WHERE `lplan_id`='$lplan'") or die($this->conn->error);
-			if($query->execute()){
-				$result = $query->get_result();
-				return $result;
-			}
-		}
+
 		
 		/* Loan Schedule Function */
 		
-		public function save_date_sched($loan_id, $date_schedule){
-			$query=$this->conn->prepare("INSERT INTO `loan_schedule` (`loan_id`, `due_date`) VALUES(?, ?)") or die($this->conn->error);
-			$query->bind_param("is", $loan_id, $date_schedule);
-			
-			if($query->execute()){
-				return true;
-			}
-		}
+
 		
 		/* Payment Function */
 		
