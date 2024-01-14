@@ -13,6 +13,7 @@ if(isset($_GET["names"])){
     $front_id=$_GET['front_id'];
     $back_id=$_GET['back_id'];
     $plan=$_GET['plan'];
+    $interest=$_GET['interest'];
     }
 class PDF extends FPDF {
     function Header() {
