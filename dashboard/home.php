@@ -11,6 +11,7 @@
     // date("Y-m-d");
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
     // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
+    $currentDate = date("Y-m-d H:m:s");
     $newDate = date("Y-m-d", strtotime($currentDate));
     $endDate = date("Y-m-d", strtotime($newDate . ' +1 day'));
 
