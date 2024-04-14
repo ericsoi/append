@@ -348,7 +348,7 @@
                                                      if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){
                                                         echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
 						     }else{
-							     echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
+							    //  echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
                                                     }
                                                         // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
@@ -386,7 +386,7 @@
                                                     if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                         echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
                                                     } else {
-                                                                                                                echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
+                                                                                                                // echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
 
                                                     }
                                                     
@@ -460,7 +460,9 @@
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
                                            $unpaid_loan=$db->conn->query("SELECT * from loan where paid_amount = 0 AND status IS NOT NULL");
-                                           echo $unpaid_loan->num_rows > 0 ? $unpaid_loan->num_rows : "0";
+                                           if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+                                                echo $unpaid_loan->num_rows > 0 ? $unpaid_loan->num_rows : "0";
+                                           }
                                             
                                         ?>
                                     </div>
@@ -525,12 +527,9 @@
                                                 $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
                                                 $expected_result = $expected->fetch_array();
                                                 echo $expected_result['total'];
-					    }else{
-						    $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
+					    }
 
-						$expected_result = $expected->fetch_array();
-                                                echo $expected_result['total'];
-                                            }                                            
+                                                                                      
                                         ?>
                                     </div>
                                 </div>
@@ -563,9 +562,7 @@
                                                 $result = $expected->fetch_array();
                                                 echo $result['total']; 
                                             }else{
-$expected=$db->conn->query("SELECT CAST(SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '2023-12-05') AND `status` IS NOT NULL");
-                                                $result = $expected->fetch_array();
-                                                echo $result['total'];
+
                                             }
                                         ?>
                                     </div>
