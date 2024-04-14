@@ -3,6 +3,7 @@ include '/var/www/matrick/dashboard/class.php';
 $db=new db_class(); 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
+$currentDate = date("Y-m-d H:m:s");
 $newDate = date("Y-m-d", strtotime($currentDate));
 $tbl_unpaid=$db->conn->query("SELECT * FROM `loan` INNER JOIN `borrower` ON borrower.borrower_id = loan.borrower_id INNER JOIN  `loan_plan` ON loan_plan.lplan_id = loan.lplan_id WHERE loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
 
