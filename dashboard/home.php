@@ -347,7 +347,8 @@
                                                     $tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE date(date_created)='$newDate'");
                                                      if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){
                                                         echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
-                                                        }else{
+						     }else{
+							     echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
                                                     }
                                                         // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
@@ -385,7 +386,8 @@
                                                     if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                         echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
                                                     } else {
-                                                        
+                                                                                                                echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
+
                                                     }
                                                     
                                                             // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
@@ -523,8 +525,11 @@
                                                 $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
                                                 $expected_result = $expected->fetch_array();
                                                 echo $expected_result['total'];
-                                            }else{
+					    }else{
+						    $expected=$db->conn->query("SELECT CAST(SUM(amount / loan_plan.lplan_month) AS FLOAT) as total   FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
 
+						$expected_result = $expected->fetch_array();
+                                                echo $expected_result['total'];
                                             }                                            
                                         ?>
                                     </div>
@@ -558,7 +563,9 @@
                                                 $result = $expected->fetch_array();
                                                 echo $result['total']; 
                                             }else{
-
+$expected=$db->conn->query("SELECT CAST(SUM((loan.totalAmount - loan.amount) / loan_plan.lplan_month) AS FLOAT) as total  FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '2023-12-05') AND `status` IS NOT NULL");
+                                                $result = $expected->fetch_array();
+                                                echo $result['total'];
                                             }
                                         ?>
                                     </div>
