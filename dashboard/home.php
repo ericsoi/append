@@ -38,8 +38,8 @@
     // $_SESSION['user_admin'] = 1;
     if(ISSET($_POST['otp_id'])){
         if(ISSET($_SESSION['otp'])){
-            // if($_POST['otp_id'] == $_SESSION['otp']){
-            if($_POST['otp_id'] == 1){
+            if($_POST['otp_id'] == $_SESSION['otp']){
+            // if($_POST['otp_id'] == 1){
                 $_SESSION['user_admin'] = 1;
             }else{
                 $_SESSION['user_admin'] = 0;
