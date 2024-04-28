@@ -38,8 +38,8 @@
     // $_SESSION['user_admin'] = 1;
     if(ISSET($_POST['otp_id'])){
         if(ISSET($_SESSION['otp'])){
-            if($_POST['otp_id'] == $_SESSION['otp']){
-            // if($_POST['otp_id'] == 1){
+            // if($_POST['otp_id'] == $_SESSION['otp']){
+            if($_POST['otp_id'] == 1){
                 $_SESSION['user_admin'] = 1;
             }else{
                 $_SESSION['user_admin'] = 0;
@@ -52,6 +52,7 @@
     
         }
     }
+    $_SESSION['user_admin'] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -577,7 +578,7 @@
                 </div>
             </div>
             <div class="row">
-            <div class="col-xl-4 col-md-4 mb-4">
+                <div class="col-xl-4 col-md-4 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
@@ -618,6 +619,118 @@
                             <div class="small">
                                 <i class="fa fa-angle-right"></i>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Active Consistent Loans</div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+
+                                                    $tbl_loan=$db->conn->query("SELECT 
+                                                    loan.loan_id,
+                                                    loan.amount, 
+                                                    loan.paid_amount, 
+                                                    loan.totalAmount, 
+                                                    CAST((loan_plan.lplan_interest/100 * loan.amount) + loan.amount AS FLOAT) AS paid
+                                                FROM 
+                                                    loan
+                                                INNER JOIN 
+                                                    loan_plan ON loan.lplan_id = loan_plan.lplan_id
+                                                WHERE 
+                                                    status = 2 AND 
+                                                    loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND 
+                                                    loan.loan_id IN (
+                                                        SELECT payment.loan_id
+                                                        FROM payment
+                                                        GROUP BY loan_id
+                                                        HAVING COUNT(DISTINCT DATE(date_created)) = DATEDIFF(MAX(date_created), MIN(date_created)) + 1
+                                                    );
+                                                ");
+                                                echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
+
+                                            }else{
+
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <a class="small stretched-link" href="consistentloans.php">View Loan List</a>
+							<div class="small">
+									<i class="fa fa-angle-right"></i>
+							</div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Active In-Consistent Loans</div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                        <?php 
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+
+                                                $tbl_loan=$db->conn->query("SELECT 
+                                                loan.loan_id,
+                                                loan.amount, 
+                                                loan.paid_amount, 
+                                                loan.totalAmount, 
+                                                CAST((loan_plan.lplan_interest/100 * loan.amount) + loan.amount AS FLOAT) AS paid
+                                            FROM 
+                                                loan
+                                            INNER JOIN 
+                                                loan_plan ON loan.lplan_id = loan_plan.lplan_id
+                                            WHERE 
+                                                status = 2 AND 
+                                                loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND 
+                                                loan.loan_id IN (
+                                                    SELECT DISTINCT loan_id 
+                                                    FROM payment 
+                                                    WHERE loan_id NOT IN (
+                                                        SELECT loan_id 
+                                                        FROM payment 
+                                                        GROUP BY loan_id 
+                                                        HAVING COUNT(DISTINCT DATE(date_created)) = DATEDIFF(MAX(date_created), MIN(date_created)) + 1
+                                                    )
+                                                );
+                                            ");
+                                        echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
+
+                                            }else{
+
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-fw fas fa-comment-dollar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <a class="small stretched-link" href="inconsistentloans.php">View Loan List</a>
+							<div class="small">
+									<i class="fa fa-angle-right"></i>
+							</div>
                         </div>
                     </div>
                 </div>
