@@ -11,7 +11,7 @@
     // date("Y-m-d");
     // $newDate = date("Y-m-d", strtotime($currentDate . " +0 day"));
     // $newDate = date("Y-m-d", strtotime($currentDate . "-13 hour"));
-    $currentDate = date("Y-m-d H:m:s");
+    // $currentDate = date("Y-m-d H:m:s");
     $newDate = date("Y-m-d", strtotime($currentDate));
     $endDate = date("Y-m-d", strtotime($newDate . ' +1 day'));
     $mydate = isset($_POST['mydate']) ? date('Y-m-d', strtotime($_POST['mydate'])) : date('Y-m-d');
@@ -23,7 +23,7 @@
     }
     // $startDate = date("Y-m-d");
     // $endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
-    $currentDate = date("Y-m-d H:m:s");
+    // $currentDate = date("Y-m-d H:m:s");
     $sum_payment=$db->conn->query("SELECT SUM(paid_amount), SUM(totalAmount), SUM(amount), count(*) FROM loan WHERE CAST(paid_amount AS DECIMAL) < CAST(totalAmount AS DECIMAL) AND date_released >= CAST('$newDate' AS DATE) AND date_released <= CAST('$endDate' AS DATE)");
     $sum_expected=$db->conn->query("SELECT SUM(amount + (amount * loan_plan.lplan_interest)/100)/26 from loan inner join loan_plan on loan.lplan_id = loan_plan.lplan_id where status = 2");
     $sum_expected_fetch = $sum_expected->fetch_array();
@@ -231,18 +231,19 @@
 												<?php 
 													// $tbl_loan=$db->conn->query("SELECT * FROM `loan` WHERE `status`='2'");
                                                     // $tbl_loan=$db->conn->query("SELECT loan.amount, loan.paid_amount, loan.totalAmount, (loan_plan.lplan_interest/100 * loan.amount) + loan.amount as paid FROM loan INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE status = 2 and loan.paid_amount < ((loan_plan.lplan_interest/100 * loan.amount) + loan.amount)");
-													$tbl_loan=$db->conn->query("SELECT 
-                                                            loan.amount, 
-                                                            loan.paid_amount, 
-                                                            loan.totalAmount, 
-                                                            CAST((loan_plan.lplan_interest/100 * loan.amount) + loan.amount AS FLOAT) AS paid
-                                                        FROM 
-                                                            loan
-                                                        INNER JOIN 
-                                                            loan_plan ON loan.lplan_id = loan_plan.lplan_id
-                                                        WHERE 
-                                                            status = 2 and 
-                                                            loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT)");
+													// $tbl_loan=$db->conn->query("SELECT 
+                                                    //         loan.amount, 
+                                                    //         loan.paid_amount, 
+                                                    //         loan.totalAmount, 
+                                                    //         CAST((loan_plan.lplan_interest/100 * loan.amount) + loan.amount AS FLOAT) AS paid
+                                                    //     FROM 
+                                                    //         loan
+                                                    //     INNER JOIN 
+                                                    //         loan_plan ON loan.lplan_id = loan_plan.lplan_id
+                                                    //     WHERE 
+                                                    //         status = 2 and 
+                                                    //         loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT)");
+                                                    $tbl_loan=$db->conn->query("SELECT * FROM loan  WHERE NOT status IS NULL AND CAST(`paid_amount` AS FLOAT) < CAST(`totalAmount` AS FLOAT) AND borrower_id IN(SELECT borrower_id FROM borrower);");
                                                     echo $tbl_loan->num_rows > 0 ? $tbl_loan->num_rows : "0";
 												?>
 											</div>
@@ -271,7 +272,7 @@
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
 												    <?php //if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													 -->
-                                                    $tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE DATE(date_created)=DATE('$mydate')");
+                                                    $tbl_payment=$db->conn->query("SELECT SUM(CAST(pay_amount AS FLOAT)) as total FROM `payment` WHERE DATE(date_created)=DATE('$mydate')");
 													echo $tbl_payment->num_rows > 0 ? " ".number_format($tbl_payment->fetch_array()['total'],2) : " 0.00";
                                                     // }else{
                                                     // }
@@ -425,8 +426,8 @@
                                                     <?php 
                                                         // $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` WHERE NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = DATE(DATE_SUB(NOW(), INTERVAL 13 HOUR)) AND `status` IS NOT NULL)");
 
-                                                        $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = '$newDate') AND `status` IS NOT NULL");
-                                                        
+                                                        // $tbl_unpaid = $db->conn->query("SELECT * FROM `loan` INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id WHERE  loan.paid_amount < CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) AND NOT `loan_id` IN (SELECT `loan_id` FROM `payment` WHERE DATE(`date_created`) = DATE('$newDate')) AND `status` IS NOT NULL");
+                                                        $tbl_unpaid = $db->conn->query("SELECT * FROM loan  WHERE NOT status IS NULL AND CAST(`paid_amount` AS FLOAT) < CAST(`totalAmount` AS FLOAT) and NOT loan_id in (SELECT loan_id FROM payment WHERE DATE(date_created) = DATE('$currentDate')) AND borrower_id IN(SELECT borrower_id FROM borrower)");
                                                         echo $tbl_unpaid->num_rows > 0 ? $tbl_unpaid->num_rows : "0";
                                                     ?>
                                                 </div>
@@ -462,7 +463,7 @@
                                         Total Unpaid Loans</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                           $unpaid_loan=$db->conn->query("SELECT * from loan where paid_amount = 0 AND status IS NOT NULL");
+                                           $unpaid_loan=$db->conn->query("SELECT * from loan where CAST(`paid_amount` AS FLOAT) = 0 AND status IS NOT NULL");
                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                 echo $unpaid_loan->num_rows > 0 ? $unpaid_loan->num_rows : "0";
                                            }
@@ -493,17 +494,19 @@
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
                                             // if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
-                                                $expected = $db->conn->query("SELECT CAST(SUM(totalAmount / loan_plan.lplan_month) AS FLOAT) as total  
+                                                $expected = $db->conn->query("SELECT CAST(SUM(totalAmount / CAST(loan_plan.lplan_month AS FLOAT)) AS FLOAT) AS total  
                                                 FROM `loan` 
                                                 INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id 
-                                                WHERE loan.paid_amount <= CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) 
+                                                WHERE CAST(loan.`paid_amount` AS FLOAT) <= 
+                                                      CAST(((CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) + CAST(loan.amount AS FLOAT)) AS FLOAT)
                                                 AND `status` IS NOT NULL 
                                                 AND NOT loan.loan_id IN (
                                                     SELECT loan.loan_id
                                                     FROM loan 
                                                     WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
                                                     AND NOT loan.loan_id IN (SELECT loan_id FROM payment WHERE DATE(`date_created`) = DATE($mydate))
-                                                )"
+                                                )
+                                                "
                                                 );
                                                 // $result = $expected->fetch_array();
                                                 // echo $result['total'];
@@ -542,19 +545,22 @@
                                             if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
 
                                                 $expected1=$db->conn->query("SELECT 
-                                                SUM((loan.amount - loan_plan.lplan_interest / 100 * loan.amount) / loan_plan.lplan_month) AS days_interest_free
-                                                    FROM 
-                                                        loan 
-                                                    INNER JOIN 
-                                                        loan_plan ON loan_plan.lplan_id = loan.lplan_id
-                                                    WHERE loan.paid_amount <= CAST(((loan_plan.lplan_interest/100 * loan.amount) + loan.amount) AS FLOAT) 
-                                                    AND `status` IS NOT NULL 
-                                                    AND NOT loan.loan_id IN (
-                                                        SELECT loan.loan_id
-                                                        FROM loan 
-                                                        WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
+                                                SUM((CAST(loan.amount AS FLOAT) - CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) / CAST(loan_plan.lplan_month AS FLOAT)) AS days_interest_free
+                                            FROM 
+                                                loan 
+                                            INNER JOIN 
+                                                loan_plan ON loan_plan.lplan_id = loan.lplan_id
+                                            WHERE 
+                                                CAST(loan.paid_amount AS FLOAT) <= 
+                                                CAST(((CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) + CAST(loan.amount AS FLOAT)) AS FLOAT) 
+                                                AND `status` IS NOT NULL 
+                                                AND NOT loan.loan_id IN (
+                                                    SELECT loan.loan_id
+                                                    FROM loan 
+                                                    WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
                                                     AND NOT loan.loan_id IN (SELECT loan_id FROM payment WHERE DATE(`date_created`) = DATE($mydate))
-                                                )"
+                                                )
+                                            "
                                                 );
                                                         
                                                 // $expected_result = $expected->fetch_array();
@@ -590,16 +596,17 @@
                                             if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
 
                                                 $expected=$db->conn->query("SELECT 
-                                                    SUM((loan_plan.lplan_interest / 100 * loan.amount) / loan_plan.lplan_month) AS total
-                                                    FROM 
-                                                        loan 
-                                                    INNER JOIN 
-                                                        loan_plan ON loan_plan.lplan_id = loan.lplan_id 
-                                                    WHERE NOT loan.loan_id IN (
-                                                        SELECT loan.loan_id
-                                                        FROM loan 
-                                                        WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
-                                                    )"
+                                                SUM((CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) / CAST(loan_plan.lplan_month AS FLOAT)) AS total
+                                            FROM 
+                                                loan 
+                                            INNER JOIN 
+                                                loan_plan ON loan_plan.lplan_id = loan.lplan_id 
+                                            WHERE NOT loan.loan_id IN (
+                                                SELECT loan.loan_id
+                                                FROM loan 
+                                                WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
+                                            )
+                                            "
                                                 );
 
                                                 echo $expected->num_rows > 0 ? " " . number_format($expected->fetch_array()['total'], 2) : " 0.00";

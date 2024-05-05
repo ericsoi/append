@@ -196,9 +196,9 @@
                                                 $sum_fetch=$sum_payment->fetch_array();
 												$payee = $fetch['lastname'].", ".$fetch['firstname']." ".substr($fetch['middlename'], 0, 1).".";
 												
-												if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) { 
-													continue; 
-												}
+												// if (floatval($sum_fetch[0]) >= floatval($fetch['lplan_interest'] / 100 * $fetch["amount"] + $fetch["amount"])) { 
+												// 	continue; 
+												// }
 												$counter++;
 												
 										?>

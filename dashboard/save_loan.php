@@ -55,7 +55,7 @@
 			
 			$status="applied";
 			$message="Loan application Successfull, awaiting aproval";
-			include '../mail.php';
+			// include '../mail.php';
 		}
 		if(parse_url($_SERVER['HTTP_REFERER'])['path'] == "/loan.php"){
 			$contact_no=$_POST["contact_no"];
