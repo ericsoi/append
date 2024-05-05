@@ -169,8 +169,7 @@
                     </div>
 					<button class="mb-2 btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#addModal"><span class="fa fa-plus"></span> Create new Loan Application</button>
                     <!-- DataTales Example -->
-					<button class="mb-2 btn btn-lg btn-success" onclick="window.location.href = 'active.php';"><span class="fa fa-plus"></span> Active Loans</button>
-					<button class="mb-2 btn btn-lg btn-danger" onclick="window.location.href = 'overdue.php';"><span class="fa fa-plus"></span> Overdue Loans</button>
+					<button class="mb-2 btn btn-lg btn-success" onclick="window.location.href = 'loan.php';"><span class="fa fa-plus"></span> Back</button>
 
 					<div class="card shadow mb-4">
                         <div class="card-body">
@@ -188,7 +187,7 @@
                                     </thead>
                                     <tbody>
 										<?php
-											$tbl_loan=$db->display_loan();
+											$tbl_loan=$db->get_active();
 											$counter=0;
 											while($fetch=$tbl_loan->fetch_array()){
 												$ref_no = $fetch['ref_no'];

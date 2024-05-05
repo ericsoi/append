@@ -20,23 +20,21 @@
 		if (preg_match('/[1-9]/', $fetch['date_released'])){ 
 			$date_released=$fetch['date_released'];
 		}else{
-			if($status==2){
+			// if($status==2){
+				$db->conn->query("DELETE FROM `loan_schedule` WHERE `loan_id`='$loan_id'") or die($db->conn->error);
 				$date_released=date("Y-m-d H:i:s");
-				// for($i=0; $i<$month; $i++){
-				// 	$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
-					
+				for($i=0; $i<$month; $i++){
+					$date_schedule=date("Y-m-d", strtotime("+".$i."day"));
+					// echo $date_schedule;
 
-				// 	$db->save_date_sched($loan_id, $date_schedule);
-				// }
-			}else{
-				$date_released=NULL;
-			}
+					// echo "<br/>";
+					$db->save_date_sched($loan_id, $date_schedule);
+				}
+			// }else{
+			// 	$date_released=NULL;
+			// }
 		}
-		
-		
 		$db->update_loan($loan_id, $borrower, $ltype, $lplan, $loan_amount, $purpose, $status, $date_released);
-		
-		
 		echo"<script>alert('Update Loan successfully')</script>";
 		echo"<script>window.location='loan.php'</script>";
 	}

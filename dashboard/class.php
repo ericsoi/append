@@ -312,6 +312,22 @@
 				return $result;
 			}
 		}
+
+		public function get_overdue(){
+			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE DATEDIFF(CURDATE(), date_released) > 26") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+
+		public function get_active(){
+			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE DATEDIFF(CURDATE(), date_released) <= 26") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function get_loans($borrower_id){
 			$query=$this->conn->prepare("SELECT * FROM `loan` INNER JOIN `borrower` ON loan.borrower_id=borrower.borrower_id INNER JOIN `loan_type` ON loan.ltype_id=loan_type.ltype_id INNER JOIN `loan_plan` ON loan.lplan_id=loan_plan.lplan_id WHERE loan.borrower_id='$borrower_id'") or die($this->conn->error);
 			if($query->execute()){
