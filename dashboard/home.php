@@ -595,25 +595,42 @@
                                         <?php 
                                             if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
 
-                                                $expected=$db->conn->query("SELECT 
-                                                SUM((CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) / CAST(loan_plan.lplan_month AS FLOAT)) AS total
-                                            FROM 
-                                                loan 
-                                            INNER JOIN 
-                                                loan_plan ON loan_plan.lplan_id = loan.lplan_id 
-                                            WHERE NOT loan.loan_id IN (
-                                                SELECT loan.loan_id
-                                                FROM loan 
-                                                WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
-                                            )
-                                            "
-                                                );
+                                            //     $expected=$db->conn->query("SELECT 
+                                            //     SUM((CAST(loan_plan.lplan_interest AS FLOAT) / 100 * CAST(loan.amount AS FLOAT)) / CAST(loan_plan.lplan_month AS FLOAT)) AS total
+                                            // FROM 
+                                            //     loan 
+                                            // INNER JOIN 
+                                            //     loan_plan ON loan_plan.lplan_id = loan.lplan_id 
+                                            // WHERE NOT loan.loan_id IN (
+                                            //     SELECT loan.loan_id
+                                            //     FROM loan 
+                                            //     WHERE CAST(loan.paid_amount AS FLOAT) >= CAST(totalAmount AS FLOAT)
+                                            // )
+                                            // "
+                                            //     );
 
-                                                echo $expected->num_rows > 0 ? " " . number_format($expected->fetch_array()['total'], 2) : " 0.00";
-
-                                            }else{
-
+                                            $expected = $db->conn->query("SELECT SUM(calculated_interest) AS total_interest
+                                            FROM (
+                                                SELECT
+                                                    loan.amount,
+                                                    loan_plan.lplan_interest,
+                                                    (loan_plan.lplan_interest / 100 * loan.amount) / loan_plan.lplan_month AS calculated_interest
+                                                FROM
+                                                    loan
+                                                INNER JOIN
+                                                    loan_plan ON loan.lplan_id = loan_plan.lplan_id
+                                                WHERE
+                                                    CAST(paid_amount AS FLOAT) < CAST(totalAmount AS FLOAT)
+                                                    AND borrower_id IN (SELECT borrower_id FROM borrower)
+                                            ) AS subquery");
+                                            if ($expected) {
+                                                $result = $expected->fetch_assoc();
+                                                $total_interest = isset($result['total_interest']) ? $result['total_interest'] : 0.00;
+                                                echo number_format($total_interest, 2);
+                                            } else {
+                                                // Handle the case where the query fails
                                             }
+                                        }
                                         ?>
                                     </div>
                                 </div>
