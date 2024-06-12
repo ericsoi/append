@@ -38,8 +38,8 @@
     // $_SESSION['user_admin'] = 1;
     if(ISSET($_POST['otp_id'])){
         if(ISSET($_SESSION['otp'])){
-            // if($_POST['otp_id'] == $_SESSION['otp']){
-            if($_POST['otp_id'] == 1){
+            if($_POST['otp_id'] == $_SESSION['otp']){
+            // if($_POST['otp_id'] == 1){
                 $_SESSION['user_admin'] = 1;
             }else{
                 $_SESSION['user_admin'] = 0;
@@ -52,7 +52,7 @@
     
         }
     }
-    $_SESSION['user_admin'] = 1;
+    // $_SESSION['user_admin'] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -271,11 +271,11 @@
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Payments Today</div>
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
-												    <?php //if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													 -->
+												    <?php if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){													 
                                                     $tbl_payment=$db->conn->query("SELECT SUM(CAST(pay_amount AS FLOAT)) as total FROM `payment` WHERE DATE(date_created)=DATE('$mydate')");
 													echo $tbl_payment->num_rows > 0 ? " ".number_format($tbl_payment->fetch_array()['total'],2) : " 0.00";
-                                                    // }else{
-                                                    // }
+                                                    }else{
+                                                    }
                                                     ?>                                                                                                        
 											</div>
                                         </div>
@@ -350,10 +350,8 @@
                                                     $tbl_payment=$db->conn->query("SELECT sum(pay_amount) as total FROM `payment` WHERE DATE(date_created)=DATE('$mydate')");
                                                      if(ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1){
                                                         echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
-						     }else{
-							    //  echo $tbl_sum_loan->num_rows > 0 ? " ".number_format($tbl_sum_loan->fetch_array()['todays_profit'],2) : " 0.00";
+						                            }else{
                                                     }
-                                                        // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
                                                 
                                             ?>
                                         </div>
@@ -390,12 +388,7 @@
                                                     if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                         echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
                                                     } else {
-                                                                                                                // echo $tbl_sum_loan->num_rows > 0 ? " " . number_format($tbl_sum_loan->fetch_array()['total_daily'], 2) : " 0.00";
-
                                                     }
-                                                    
-                                                            // echo $tbl_sum_loan->num_rows > 0 ? $tbl_sum_loan->num_rows : "0";
-                                                
                                             ?>
                                         </div>
                                     </div>
@@ -493,7 +486,7 @@
                                         Total Unpaid expected</div>
                                     <div class="h1 mb-0 font-weight-bold text-gray-800">
                                         <?php 
-                                            // if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
+                                            if (ISSET($_SESSION['user_admin']) && $_SESSION['user_admin'] == 1) {
                                                 $expected = $db->conn->query("SELECT CAST(SUM(totalAmount / CAST(loan_plan.lplan_month AS FLOAT)) AS FLOAT) AS total  
                                                 FROM `loan` 
                                                 INNER JOIN loan_plan ON loan.lplan_id = loan_plan.lplan_id 
@@ -508,14 +501,12 @@
                                                 )
                                                 "
                                                 );
-                                                // $result = $expected->fetch_array();
-                                                // echo $result['total'];
+                                                
                                                 echo $expected->num_rows > 0 ? " " . number_format($expected->fetch_array()['total'], 2) : " 0.00";
 
-                                                // echo $mydate;
-                                            // }else{
+                                            }else{
 
-                                            // }
+                                            }
                                             
                                         ?>
                                     </div>
@@ -620,7 +611,7 @@
                                                 INNER JOIN
                                                     loan_plan ON loan.lplan_id = loan_plan.lplan_id
                                                 WHERE
-                                                    CAST(paid_amount AS FLOAT) < CAST(totalAmount AS FLOAT)
+                                                    CAST(paid_amount AS FLOAT) < CAST(totalAmount AS FLOAT) AND status = 2
                                                     AND borrower_id IN (SELECT borrower_id FROM borrower)
                                             ) AS subquery");
                                             if ($expected) {
