@@ -3,7 +3,7 @@
 	require_once'session.php';
 	require_once'class.php';
 	$db=new db_class(); 
-	$_SESSION['user_admin'] = 1;
+	// $_SESSION['user_admin'] = 1;
 	$startDate = date("Y-m-d");
 	$endDate = date("Y-m-d", strtotime($startDate . ' +1 day'));
 	$currentDate = date("Y-m-d H:m:s");
