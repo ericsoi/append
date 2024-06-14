@@ -1,4 +1,6 @@
 <?php
+	$randomSleepTime = rand(5, 70);
+	sleep($randomSleepTime);
 	session_start();
 	if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
 		// print_r(parse_url($_SERVER['HTTP_REFERER'])['path']);
